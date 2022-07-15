@@ -6,47 +6,58 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/15 16:38:12 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/15 18:04:16 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char *ft_init_variable_name_env(char *str, int pos_separator)
+{
+	char *variable_name;
+	
+	if(pos_separator != 0)
+	{
+		variable_name = (char *)malloc(sizeof(char) * pos_separator + 1);
+		if(variable_name)
+			variable_name = ft_strncpy(variable_name, str, pos_separator);
+		else
+			return (NULL);
+	}
+	else
+	{
+		variable_name = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
+		if(variable_name)
+			variable_name = ft_strcpy(variable_name, str);
+		else
+			return (NULL);
+	}
+	return (variable_name);
+}
 
-
+char *ft_init_variable_value_env(char *str, int pos_separator)
+{
+	char *variable_value;
+	
+	if(pos_separator == 0 )
+		return (NULL);
+	str += pos_separator;
+	variable_value = malloc(sizeof(char) * ft_strlen(str) + 1);
+	if(variable_value)
+		variable_value = ft_strcpy(variable_value, str);
+	else
+		return (NULL);
+	return (variable_value);
+}
 
 void	ft_split_variable_env(char *str, t_env	**lst_env)
 {
 	t_env	*new;
-	int pos_separator;
 
-	new = NULL;
-	pos_separator = ft_char_set(str, '=') + 1;
-	new = ft_lst_env_new();
+	new = ft_lst_env_new(str);
 	if(new)
 	{
-		if(pos_separator != 0)
-		{
-			new->variable_name = malloc(sizeof(char) * pos_separator + 1);
-			if(new->variable_name)
-				new->variable_name = ft_strncpy(new->variable_name, str, pos_separator);
-			else
-				new->variable_name = NULL;
-			str += pos_separator;
-			new->variable_value = malloc(sizeof(char) * ft_strlen(str) + 1);
-			if(new->variable_value)
-				new->variable_value = ft_strcpy(new->variable_value, str);
-			else
-				new->variable_value = NULL;
-			ft_lst_env_add_back(lst_env,new);
-		}
-		else
-		{
-			new->variable_name = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
-			new->variable_name = ft_strcpy(new->variable_name, str);
-			new->variable_value = NULL;
-			ft_lst_env_add_back(lst_env,new);
-		}
+		ft_lst_env_add_back(lst_env,new);
 	}
 }
 
@@ -60,7 +71,7 @@ t_env	*ft_init_env(char **env)
 	if(!env[0])
 	{
 		
-		//env[0] = ft_strjoin("OLDPWD=",ft_get_pwd());
+		ft_split_variable_env(NULL,&lst);
 		//env[1] = "";
 	}
 	while (env[i])
@@ -80,15 +91,26 @@ int main(int argc, char **argv, char **env)
 	t_env	*lst2;
 	
 	lst = NULL;
-	lst2 = NULL;
+	//lst2 = NULL;
 	lst = ft_init_env(env);
+	
 	lst2 = lst;
 	while (lst2)
 	{
+		/*
 		if(lst2->variable_name)
-			printf("%s\n",lst2->variable_name);
+			printf("%s",lst2->variable_name);
+		else 
+			printf("(NULL)\n");
+		*/
+		if(lst2->variable_value)
+			printf("%s\n",lst2->variable_value);
+		else
+			printf("(NULL)\n");
+		
 		lst2 = lst2->next;
 	}
+	
 	if(lst)
 		ft_lst_env_free(lst);
 	

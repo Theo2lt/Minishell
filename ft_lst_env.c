@@ -6,22 +6,24 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/15 05:01:32 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/15 17:10:06 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-t_env	*ft_lst_env_new(void)
+t_env	*ft_lst_env_new(char *str)
 {
 	t_env	*new;
-
+	int pos_separator;
+	
+	pos_separator = ft_char_set(str, '=') + 1;
 	new = (t_env*)malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
-	new->variable_name = NULL;
-	new->variable_value = NULL;
+	new->variable_name = ft_init_variable_name_env(str, pos_separator);
+	new->variable_value = ft_init_variable_value_env(str, pos_separator);
 	new->next = NULL;
 	return (new);
 }

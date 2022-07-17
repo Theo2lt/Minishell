@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/15 18:04:16 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/17 15:50:47 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,24 @@
 char *ft_init_variable_name_env(char *str, int pos_separator)
 {
 	char *variable_name;
-	
-	if(pos_separator != 0)
+
+	variable_name = NULL;
+
+	if (pos_separator != 0)
 	{
-		variable_name = (char *)malloc(sizeof(char) * pos_separator + 1);
-		if(variable_name)
-			variable_name = ft_strncpy(variable_name, str, pos_separator);
-		else
+		variable_name = (char *)malloc(sizeof(char) * (pos_separator + 2));
+		if (!variable_name)
 			return (NULL);
+		ft_memset(variable_name, '\0', pos_separator + 2);
+		variable_name = ft_strncpy(variable_name, str, pos_separator + 1);
 	}
 	else
 	{
-		variable_name = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
-		if(variable_name)
-			variable_name = ft_strcpy(variable_name, str);
-		else
+		variable_name = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
+		if (!variable_name)
 			return (NULL);
+		ft_memset(variable_name, '\0', ft_strlen(str) + 1);
+		variable_name = ft_strcpy(variable_name, str);
 	}
 	return (variable_name);
 }
@@ -38,105 +40,118 @@ char *ft_init_variable_name_env(char *str, int pos_separator)
 char *ft_init_variable_value_env(char *str, int pos_separator)
 {
 	char *variable_value;
-	
-	if(pos_separator == 0 )
+
+	if (pos_separator == 0)
 		return (NULL);
-	str += pos_separator;
-	variable_value = malloc(sizeof(char) * ft_strlen(str) + 1);
-	if(variable_value)
+	str += pos_separator + 1;
+	variable_value = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (variable_value)
 		variable_value = ft_strcpy(variable_value, str);
 	else
 		return (NULL);
 	return (variable_value);
 }
 
-void	ft_split_variable_env(char *str, t_env	**lst_env)
+void ft_add_variable_env(char *str, t_env **lst_env)
 {
-	t_env	*new;
-
+	t_env *new;
 	new = ft_lst_env_new(str);
-	if(new)
-	{
-		ft_lst_env_add_back(lst_env,new);
-	}
+	if (new)
+		ft_lst_env_add_back(lst_env, new);
 }
 
-t_env	*ft_init_env(char **env)
+t_env *ft_init_env(char **env)
 {
-	t_env	*lst;
-	int		i;
+	t_env *lst;
+	int i;
 
 	lst = NULL;
 	i = 0;
-	if(!env[0])
+
+	if (!env[0])
 	{
-		
-		ft_split_variable_env(NULL,&lst);
-		//env[1] = "";
+		ft_add_variable_env("OLDPWD=", &lst);
+		ft_add_variable_env("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", &lst);
+		ft_add_variable_env("HOME=/home", &lst);
 	}
 	while (env[i])
 	{
-		ft_split_variable_env(env[i],&lst);
+		// printf("DEBUG : %s\n",env[i]);
+		ft_add_variable_env(env[i], &lst);
 		i++;
 	}
+
+	/*
+	ft_split_variable_env(NULL,&lst);
+	ft_split_variable_env("BB = B",&lst);
+	ft_split_variable_env("AA = B",&lst);
+	*/
 	return (lst);
+}
+
+char **ft_readline(void)
+{
+	char *cmd;
+	char **cmd_arg;
+
+	cmd_arg = NULL;
+	cmd = NULL;
+	cmd = readline("BOSH$ ");
+	if (cmd)
+	{
+		cmd_arg = ft_split(cmd, ' ');
+		add_history(cmd);
+		free(cmd);
+		return (cmd_arg);
+	}
+
+	return (NULL);
+}
+
+void ft_exit(t_env *lst)
+{
+	if (lst)
+		ft_lst_env_free(lst);
+	exit(0);
 }
 
 int main(int argc, char **argv, char **env)
 {
-	(void) argc;
-	(void) argv;
-	(void) env;
-	t_env	*lst;
-	t_env	*lst2;
+	(void)argc;
+	(void)argv;
+	(void)env;
+
+	t_env *lst;
+	char **cmd;
+	cmd = NULL;
 	
-	lst = NULL;
-	//lst2 = NULL;
 	lst = ft_init_env(env);
-	
-	lst2 = lst;
-	while (lst2)
+	while (1)
 	{
-		/*
-		if(lst2->variable_name)
-			printf("%s",lst2->variable_name);
-		else 
-			printf("(NULL)\n");
-		*/
-		if(lst2->variable_value)
-			printf("%s\n",lst2->variable_value);
-		else
-			printf("(NULL)\n");
-		
-		lst2 = lst2->next;
+		cmd = ft_readline();
+		if (ft_strcmp(cmd[0], "echo") == 0)
+			ft_exec_echo(cmd);
+
+		if (ft_strcmp(cmd[0], "cd") == 0)
+			ft_exec_cd(cmd,lst);
+
+		if (ft_strcmp(cmd[0], "pwd") == 0)
+			ft_exec_pwd();
+
+		if (ft_strcmp(cmd[0], "export") == 0)
+			ft_exec_export(cmd[1],&lst);
+
+		if (ft_strcmp(cmd[0], "env") == 0)
+			ft_exec_env(lst);
+
+		if (ft_strcmp(cmd[0], "exit") == 0)
+		{
+			cmd = ft_free_tab(cmd);
+			rl_clear_history();
+			ft_exit(lst);
+		}
+		cmd = ft_free_tab(cmd);
 	}
-	
-	if(lst)
-		ft_lst_env_free(lst);
-	
-	/*
-	if(!env[0])
-		printf("NULL\n");
-	env[0] = "OLDPWD=/";
-	printf("%s\n",env[0]);
-	
-	ft_exec_pwd();
-	ft_exec_cd("/home");
-	ft_exec_pwd();
-	ft_exec_cd("-");
-	ft_exec_pwd();
-	ft_exec_cd("-");
-	ft_exec_pwd();
-	if(ft_strcmp(argv[1], "echo") == 0)
-		ft_exec_echo(argv);
-		
-	if(ft_strcmp(argv[1], "cd") == 0)
-		ft_exec_cd(argv[2]);
-		
-	if(ft_strcmp(argv[1], "pwd") == 0)
-		ft_exec_pwd();
-	ft_exec_pwd();
-	printf("la : %s\n",env[0]);
-	*/
+
 	return (0);
 }

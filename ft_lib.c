@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 23:30:15 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/15 04:52:16 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/17 00:10:40 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,23 @@ char	*ft_strncpy(char *dst, char *src, int len)
 	return (dst);
 }
 
-// a supprimer 
+void	*ft_memset(void *str, int c, int n)
+{
+	int			i;
+	unsigned char	*str2;
+
+	str2 = (unsigned char *)str;
+	i = 0;
+	while (n > i)
+	{
+		str2[i] = c;
+		i++;
+	}
+	return (str2);
+}
+
+
+// pour splite
 char	*ft_strdup(char *s1)
 {
 	char	*str;
@@ -67,16 +83,61 @@ char	*ft_strdup(char *s1)
 	return (str);
 }
 
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s != '\0')
+	{
+		if ((unsigned char)*s == (unsigned char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (c == '\0')
+		return ((char *)s);
+	return (NULL);
+}
+
+char	*ft_substr(char const *s, int start, int len)
+{
+	int	i;
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	if (len >= ft_strlen(s) - start)
+		str = malloc(sizeof(char) * (ft_strlen(s) - start + 1));
+	else
+		str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[start] && i < len && start <= ft_strlen(s))
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+ /////// | ///////
+ 
 int	ft_char_set(char *str, char c)
 {
 	int	i;
 	
 	i = 0;
-	while (str[i] && str[i] != c)
-		i++;
 	if(!str)
 		return(0);
-	return (i);
+	while (str[i])
+	{
+		if(str[i] == c)
+			return(i);
+		i++;
+	}
+	return (0);
 }
 
 char	*ft_strjoin(char  *s1,char  *s2)
@@ -127,3 +188,16 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (0);
 }
+
+int	ft_strncmp(const char *str1, const char *str2, int n)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (str1[i] == str2[i] && (i < n - 1) && str1[i] && str2[i])
+		i++;
+	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+}
+

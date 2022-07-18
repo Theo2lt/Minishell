@@ -6,74 +6,26 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/17 05:02:15 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/18 03:56:27 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*ft_lst_getenv(char *str, t_env *lst)
-{
-	while (lst)
-	{
-		if(ft_char_set(lst->variable_name,'=') != 0)
-			if (ft_strncmp(lst->variable_name, str, ft_strlen(lst->variable_name) - 1) == 0)
-				return (lst);
-		lst = lst->next;
-	}
-	return (NULL);
-}
 
-t_env	*ft_lst_getexport(char *str, t_env *lst)
-{
-	while (lst)
-	{
-		if(ft_char_set(lst->variable_name,'=') == 0)
-			if (ft_strncmp(lst->variable_name, str, ft_strlen(lst->variable_name)) == 0)
-				return (lst);
-		lst = lst->next;
-	}
-	return (NULL);
-}
-
-void	ft_lst_setenv(char *str, t_env **lst)
-{
-	t_env *tmp;
-	int pos_separator;
-	
-	if(ft_lst_getenv(str, *lst))
-	{   
-		tmp = ft_lst_getenv(str, *lst);
-		free(tmp->variable_value);
-		tmp->variable_value = ft_init_variable_value_env(str, ft_char_set(str, '='));
-	}
-	else if (ft_lst_getexport(str, *lst))
-	{
-		tmp = ft_lst_getexport(str, *lst);
-		free(tmp->variable_name);
-		pos_separator = ft_char_set(str, '=');
-		tmp->variable_name = ft_init_variable_name_env(str, pos_separator);
-		tmp->variable_value = ft_init_variable_value_env(str, ft_char_set(str, '='));
-	}
-	else
-		ft_add_variable_env(str, lst);
-}
-
-
-t_env	*ft_lst_env_new(char *str)
+/// BASIC LST ENV //
+t_env	*ft_lst_env_new(char *name, char *value, int init_value)
 {
 	t_env	*new;
-	int pos_separator;
 	
-	if(!str)
+	if(!name)
 		return(NULL);
-	pos_separator = ft_char_set(str, '=');
 	new = (t_env*)malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
-	
-	new->variable_value = ft_init_variable_value_env(str, pos_separator);
-	new->variable_name = ft_init_variable_name_env(str, pos_separator);
+	new->variable_value = ft_init_variable_env(value);
+	new->variable_name = ft_init_variable_env(name);
+	new->init_value = init_value;
 	new->next = NULL;
 	return (new);
 }
@@ -116,4 +68,53 @@ void	ft_lst_env_free(t_env *lst)
 			free(lst2->variable_value);
 		free(lst2);
 	}
+}
+
+/// RECHERCHE ET MODIFICATION //
+t_env	*ft_lst_getenv(char *name, t_env *lst)
+{
+	while (lst)
+	{
+		if(lst->init_value != 0)
+			if (ft_strncmp(lst->variable_name, name, ft_strlen(lst->variable_name)) == 0)
+				return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
+t_env	*ft_lst_getexport(char *name, t_env *lst)
+{
+	while (lst)
+	{
+		if(lst->init_value == 0)
+			if (ft_strncmp(lst->variable_name, name, ft_strlen(lst->variable_name)) == 0)
+				return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
+void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
+{
+	t_env *tmp;
+	
+	if(ft_lst_getenv(name, *lst))
+	{   
+		tmp = ft_lst_getenv(name, *lst);
+		free(tmp->variable_value);
+		tmp->variable_value = ft_init_variable_env(value);
+		printf("ici : %s \n",tmp->variable_name);
+	}
+	else if (ft_lst_getexport(name, *lst))
+	{
+		tmp = ft_lst_getexport(name, *lst);
+		if(init_value == 1)
+			tmp->init_value = 1;
+		free(tmp->variable_name);
+		tmp->variable_name = ft_init_variable_env(name);
+		tmp->variable_value = ft_init_variable_env(value);
+	}
+	else
+		ft_add_variable_env(name,value,init_value,lst);
 }

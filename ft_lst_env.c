@@ -6,14 +6,17 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/18 03:56:27 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/21 05:40:02 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-/// BASIC LST ENV //
+/// PREND *name, char *value, int init_value en PARAMETRE 
+/// CREER une nouvelle node
+/// RETURN node si ok sinon NULL
+
 t_env	*ft_lst_env_new(char *name, char *value, int init_value)
 {
 	t_env	*new;
@@ -30,6 +33,9 @@ t_env	*ft_lst_env_new(char *name, char *value, int init_value)
 	return (new);
 }
 
+/// PREND lst environement en PARAMETRE
+/// RETURN dernier maillon de la chaine 
+
 t_env	*ft_lst_env_last(t_env *lst)
 {
 	while (lst)
@@ -41,6 +47,8 @@ t_env	*ft_lst_env_last(t_env *lst)
 	return (lst);
 }
 
+/// PREND t_env **alst, t_env *new
+/// AJOUTE le nouveau noeud a la fin de lst
 void	ft_lst_env_add_back(t_env **alst, t_env *new)
 {
 	t_env	*last;
@@ -53,6 +61,10 @@ void	ft_lst_env_add_back(t_env **alst, t_env *new)
 	else
 		*alst = new;
 }
+
+
+/// PREND lst environement en PARAMETRE 
+/// SUPPRIME ET FREE les différents maillon de la chaine
 
 void	ft_lst_env_free(t_env *lst)
 {
@@ -70,7 +82,8 @@ void	ft_lst_env_free(t_env *lst)
 	}
 }
 
-/// RECHERCHE ET MODIFICATION //
+/// PREND *name et lst environement en PARAMETRE 
+/// RETURN un node de lst si "name = lst->name" et init_value = 0
 t_env	*ft_lst_getenv(char *name, t_env *lst)
 {
 	while (lst)
@@ -99,12 +112,14 @@ void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 {
 	t_env *tmp;
 	
-	if(ft_lst_getenv(name, *lst))
+	if(ft_lst_getenv(name, *lst) )
 	{   
-		tmp = ft_lst_getenv(name, *lst);
-		free(tmp->variable_value);
-		tmp->variable_value = ft_init_variable_env(value);
-		printf("ici : %s \n",tmp->variable_name);
+		if(init_value == 1)
+		{
+			tmp = ft_lst_getenv(name, *lst);
+			free(tmp->variable_value);
+			tmp->variable_value = ft_init_variable_env(value);
+		}
 	}
 	else if (ft_lst_getexport(name, *lst))
 	{

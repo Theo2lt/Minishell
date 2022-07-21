@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/18 04:08:11 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/21 05:43:46 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void ft_add_variable_env(char *name ,char *value, int init_value, t_env **lst_en
 	new = ft_lst_env_new(name,value,init_value);
 	if (new)
 		ft_lst_env_add_back(lst_env, new);
+
 }
 
 t_env *ft_init_env(char **env)
@@ -41,16 +42,9 @@ t_env *ft_init_env(char **env)
 
 	lst = NULL;
 	i = 0;
-
-	if (!env[0])
+	
+	while (env && env[i])
 	{
-		ft_add_variable_env("PATH","/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",1, &lst);
-		ft_add_variable_env("HOME","/home",1, &lst);
-		ft_add_variable_env("OLDPWD","/",1, &lst);
-	}
-	while (env[i])
-	{
-		// printf("DEBUG : %s\n",env[i]);
 		ft_parsing_setenv(env[i], &lst);
 		i++;
 	}
@@ -65,7 +59,7 @@ char **ft_readline(void)
 	cmd_arg = NULL;
 	cmd = NULL;
 	cmd = readline("BOSH$> ");
-	if (cmd)
+	if (cmd[0])
 	{
 		cmd_arg = ft_split(cmd, ' ');
 		add_history(cmd);
@@ -89,44 +83,46 @@ int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	(void)env;
 
 	t_env *lst;
 	char **cmd;
-	cmd = NULL;
 	
+	cmd = NULL;
 	lst = ft_init_env(env);
 	while (1)
 	{
 		cmd = ft_readline();
-		if (ft_strcmp(cmd[0], "echo") == 0)
-			ft_exec_echo(cmd);
-
-		if (ft_strcmp(cmd[0], "cd") == 0)
-			ft_exec_cd(cmd,lst);
-
-		if (ft_strcmp(cmd[0], "pwd") == 0)
-			ft_exec_pwd();
-
-		if (ft_strcmp(cmd[0], "export") == 0)
-			ft_exec_export(cmd[1],&lst);
-
-		if (ft_strcmp(cmd[0], "env") == 0)
-			ft_exec_env(lst);
-			
-		if (ft_strcmp(cmd[0], "unset") == 0)
-			ft_exec_unset(cmd[1],&lst);
-		
-		if (ft_strcmp(cmd[0], "b") == 0)
-			ft_BUG(lst);
-		if (ft_strcmp(cmd[0], "exit") == 0)
+		if(cmd)
 		{
-			cmd = ft_free_tab(cmd);
-			rl_clear_history();
-			ft_exit(lst);
-		}
-		cmd = ft_free_tab(cmd);
-	}
+			if (ft_strcmp(cmd[0], "echo") == 0)
+				ft_exec_echo(cmd);
+	
+			if (ft_strcmp(cmd[0], "cd") == 0)
+				ft_exec_cd(cmd,&lst);
+	
+			if (ft_strcmp(cmd[0], "pwd") == 0)
+				ft_exec_pwd();
+	
+			if (ft_strcmp(cmd[0], "export") == 0)
+				ft_exec_export(cmd,&lst);
+	
+			if (ft_strcmp(cmd[0], "env") == 0)
+				ft_exec_env(lst);
 
+			if (ft_strcmp(cmd[0], "unset") == 0)
+				ft_exec_unset(cmd,&lst);
+
+			if (ft_strcmp(cmd[0], "b") == 0)
+				ft_lst_env_BUG(lst);
+
+			if (ft_strcmp(cmd[0], "exit") == 0)
+			{
+				cmd = ft_free_tab(cmd);
+				rl_clear_history();
+				ft_exit(lst);
+			}
+			cmd = ft_free_tab(cmd);
+		}
+	}
 	return (0);
 }

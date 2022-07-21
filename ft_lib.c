@@ -6,11 +6,24 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 23:30:15 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/17 00:10:40 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/21 02:25:21 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+int	ft_tablen(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (!tab[i])
+		return (i);
+	while (tab[i])
+		i++;
+	return (i);
+}
 
 int	ft_strlen(const char *s)
 {
@@ -129,7 +142,7 @@ int	ft_char_set(char *str, char c)
 	int	i;
 	
 	i = 0;
-	if(!str)
+	if(!str[0])
 		return(0);
 	while (str[i])
 	{
@@ -196,6 +209,10 @@ int	ft_strncmp(const char *str1, const char *str2, int n)
 	i = 0;
 	if (n == 0)
 		return (0);
+	if (!str2)
+		return (str1[i]);
+	if (!str1)
+		return (-str2[i]);
 	while (str1[i] == str2[i] && (i < n - 1) && str1[i] && str2[i])
 		i++;
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);

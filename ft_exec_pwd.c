@@ -6,12 +6,14 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:37:14 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/18 03:46:06 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/21 05:48:26 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
+
+/// AFFICHE PWD 
+/// RETURN 0 si OK sinon 1
 
 int ft_exec_pwd(void)
 {
@@ -28,6 +30,8 @@ int ft_exec_pwd(void)
 	return (0);
 }
 
+/// RETURN char *pwd sinon null
+/// AFFICHE si error perror("getcwd");
 char *ft_get_pwd(void)
 {
 	char *pwd;

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:39:22 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/22 01:28:35 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/22 17:56:51 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,26 @@ while (waitpid(-1, &status, NULL))
 #include <readline/readline.h>
 #include <readline/history.h>
 
-//// STUCT ENV //////
+//// STRUCT ENV //////
 typedef struct s_env
 {
-	int  init_value;
 	char *variable_name;
 	char *variable_value;
-
+	int  init_value;
 	struct s_env *next;
 } t_env;
+
+/// STRUCT DEFAULT ////
+typedef struct s_def
+{
+	char *variable_name;
+	char *variable_value;
+	int  init_value;
+	struct s_env *next;
+	int val;
+	int val1;
+	int val2;
+} t_def;
 
 /// FONCTION BUILTINS ///
 int ft_exec_pwd(void);

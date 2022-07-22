@@ -6,10 +6,9 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 19:31:07 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/13 05:34:07 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/22 17:59:21 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 t_list	*ft_lstnew(void *content)
 {
@@ -22,4 +21,3 @@ t_list	*ft_lstnew(void *content)
 	p->content = content;
 	return (p);
 }
-

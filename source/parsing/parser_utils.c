@@ -6,21 +6,28 @@
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:15 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/21 23:44:17 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/22 17:44:15 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Minishell.h"
 
+char	*puterror(char *str)
+{
+	ft_putstr_fd(str, 2);
+	return (NULL);
+}
+
 char	*ft_parser_pipe_utils(char *str, int stop)
 {
-	if (!str || !stop)
+	if (!str)
 		return (NULL);
-	while (*str == ' ')
+	while (stop && *str && *str == ' ')
 		str++;
 	if (!*str)
-		return (NULL);
-	if (*str == '|')
-		return (NULL);
+		return (puterror(
+				"bash: syntax error near unexpected token `newline'\n"));
+	if (*str == '|' || !stop)
+		return (puterror("bash: syntax error near unexpected token `|'\n"));
 	return (str);
 }
 
@@ -34,17 +41,21 @@ char	*ft_parser_chevron_utils(char *str, char c)
 	while (*str && *str == ' ')
 		str++;
 	if (!*str)
-		return (NULL);
+		return (puterror(
+				"bash: syntax error near unexpected token `newline'\n"));
 	if (*str == '|')
-		return (NULL);
+		return (puterror(
+				"bash: syntax error near unexpected token `|'\n"));
 	if ((*str == '<' || *str == '>') && str > tmp)
-		return (NULL);
+		return (puterror("bash: syntax error near unexpected token `< >'\n"));
 	if ((*str == '<' || *str == '>') && str == tmp)
 	{
 		if (*str != c)
-			return (NULL);
+			return (puterror(
+					"bash: syntax error near unexpected token `< >'\n"));
 		if (*(str + 1) && (*(str + 1) == '<' || *(str + 1) == '>'))
-			return (NULL);
+			return (puterror(
+					"bash: syntax error near unexpected token `< >'\n"));
 	}
 	return (str);
 }

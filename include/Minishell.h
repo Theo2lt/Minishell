@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/22 01:43:18 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/23 18:10:06 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,26 @@
 # include <readline/history.h> 
 # include "libft.h"
 
+/// STRUCT GARBANGE COLECTORE// 
+
 //// STUCT ENV //////
 typedef struct s_env
 {
-	int				init_value;
-	char			*variable_name;
-	char			*variable_value;
-	struct s_env	*next;
+	int							init_value;
+	char						*variable_name;
+	char						*variable_value;
+	struct s_env				*next;
 }	t_env;
 
 //// STRUCT DEFAULT //// 
+typedef struct s_def
+{
+	int					value;
+	char				*content;
+	char				*content1;
+	struct s_def		*next;
+	char				*contente;
+}	t_def;
 
 //// FONCTION PARSING ////
 void	ft_converte_quotes(char *str);

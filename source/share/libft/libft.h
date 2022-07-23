@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 23:57:30 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/22 02:45:47 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/23 17:57:13 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_strncmp(const char *str1, const char *str2, int n);
 int		ft_strcmp(char *s1, char *s2);
-char    *ft_strcpy(char *dst, char *src);
+char	*ft_strcpy(char *dst, char *src);
 
 int		ft_tablen(char **tab);
 char	*ft_strdup(const char *s1);
@@ -81,7 +81,7 @@ int		ft_lstsize(t_list *lst);
 
 void	ft_free(void *p);
 int		ft_free_tab(void **tabs);
-char   	**ft_free_tab2(char **tab);
+char	**ft_free_tab2(char **tab);
 void	*ft_tabs(int size, int len);
 void	**ft_tabs2(int size1, int len1, int size2, int len2);
 #endif

@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 18:20:23 by engooh            #+#    #+#             */
-/*   Updated: 2021/11/30 17:22:31 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/23 23:26:55 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, int start, int len)
 {
-	size_t	i;
+	int	i;
 	char	*p;
 
 	if (!s)

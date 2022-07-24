@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/22 18:00:56 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/24 03:32:19 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,14 @@ void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 	}
 	else
 		ft_add_variable_env(name,value,init_value,lst);
+}
+
+int	ft_lstsize_env(t_env *lst)
+{
+	int	l;
+
+	l = 0;
+	while (lst && ++l)
+		lst = lst->next;
+	return (l);
 }

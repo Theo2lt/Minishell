@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: engooh <engooh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tliot <tliot@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/07/22 17:03:44 by engooh           ###   ########.fr        #
+#    Updated: 2022/07/24 06:43:05 by tliot            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,19 @@ INC = -I ./include
 #                               SOURCE FILES                                   # 
 #                                                                              #
 ################################################################################
-SRC =	./source/parsing/parser.c \
-	./source/parsing/parser_utils.c\
-	./source/main/main.c
+SRC =	./source/main/main.c\
+		./source/builtins/ft_exec_cd.c\
+		./source/builtins/ft_exec_echo.c\
+		./source/builtins/ft_exec_env.c\
+		./source/builtins/ft_exec_export.c\
+		./source/builtins/ft_exec_pwd.c\
+		./source/builtins/ft_exec_unsetpath.c\
+		./source/builtins/ft_manage_builtins.c\
+		./source/excution/FT_BUG.c\
+		./source/excution/ft_path.c\
+		./source/environement/env.c\
+		./source/environement/ft_lst_env.c
+		
 		
 ################################################################################
 #                                                                              #

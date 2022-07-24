@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:44:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/22 18:45:57 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/24 02:30:44 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 		init_value = 1;
 	split = ft_split(cmd,'=');
 	ft_lst_setenv(split[0],split[1],init_value,lst);
-	ft_free_tab((void **)split);	
+	ft_free_tab2(split);
 }

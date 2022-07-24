@@ -1,2 +1,1 @@
-source/parsing/parser.o: source/parsing/parser.c include/Minishell.h \
- include/libft.h
+source/parsing/parser.o: source/parsing/parser.c include/Minishell.h

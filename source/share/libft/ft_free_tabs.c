@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tabs.c                                     :+:      :+:    :+:   */
+/*   ft_free_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,17 +12,17 @@
 
 #include "libft.h"
 
-int	ft_free_tab(void **tabs)
+int	ft_free_tab(void **tab)
 {
 	int	i;
 
-	if (!tabs)
+	if (!tab)
 		return (0);
 	i = -1;
-	while (tabs[++i])
-		free(tabs[i]);
-	free(tabs[i]);
-	free(tabs);
+	while (tab[++i])
+		free(tab[i]);
+	free(tab[i]);
+	free(tab);
 	return (1);
 }
 
@@ -31,11 +31,12 @@ char   **ft_free_tab2(char **tab)
     int    i;
 
     i = 0;
-    while (tab[i])
+    while (tab && tab[i])
     {
         free(tab[i]);
         i++;
     }
-    free(tab);
+    if(tab)
+        free(tab);
     return (NULL);
 }

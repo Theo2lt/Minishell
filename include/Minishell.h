@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/23 18:10:06 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/26 16:36:00 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ void	ft_putchar(char c, int fd);
 void	ft_putstr(char *s, int fd);
 
 // FONCTION LST_ENV ///
+void	ft_print_env(t_env *env, int i);
+void	ft_push_env(t_env *lst, char *str);
+void	ft_converte_tab_list(char **tab, t_env **lst, void (f)(t_env *lst, char *str));
 void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst);
 void	ft_lst_env_add_back(t_env **alst, t_env *new);
 void	ft_lst_env_free(t_env *lst);

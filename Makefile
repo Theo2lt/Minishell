@@ -6,7 +6,7 @@
 #    By: engooh <engooh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/07/26 16:01:28 by engooh           ###   ########.fr        #
+#    Updated: 2022/07/27 20:23:59 by engooh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ INC = -I ./include
 SRC =	./source/parsing/parser.c \
 	./source/parsing/parser_utils.c\
 	./source/parsing/expende.c\
+	./source/parsing/env.c\
 	./source/main/main.c
 		
 ################################################################################

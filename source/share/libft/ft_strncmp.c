@@ -6,12 +6,12 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 00:55:52 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/22 02:29:18 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/27 20:15:26 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 
-/*
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	unsigned int	i;
@@ -27,9 +27,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	return (p1[i] - p2[i]);
 }
-*/
 
-int	ft_strncmp(const char *str1, const char *str2, int n)
+int	ft_strncmp2(const char *str1, const char *str2, int n)
 {
 	int	i;
 
@@ -45,6 +44,7 @@ int	ft_strncmp(const char *str1, const char *str2, int n)
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }
 
+/*
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
@@ -62,4 +62,4 @@ int	ft_strcmp(char *s1, char *s2)
 			return (s1[i] - s2[i]);
 	}
 	return (0);
-}
+}*/

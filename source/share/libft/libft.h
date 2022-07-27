@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 23:57:30 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/23 17:57:13 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/27 20:15:12 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
-int		ft_strncmp(const char *str1, const char *str2, int n);
-int		ft_strcmp(char *s1, char *s2);
 char	*ft_strcpy(char *dst, char *src);
 
 int		ft_tablen(char **tab);
@@ -68,6 +66,9 @@ char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *nptr);
 int		ft_char_set(char *str, char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp2(const char *str1, const char *str2, int n);
+int		ft_strcmp(char *s1, char *s2);
 
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);

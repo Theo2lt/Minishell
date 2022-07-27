@@ -5,61 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/22 17:49:47 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/26 16:42:23 by engooh           ###   ########.fr       */
+/*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
+/*   Updated: 2022/07/27 21:24:57 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-t_env	*ft_lst_new(void)
+char	*ft_replace(char *str, char *node, int i, int j)
 {
-	t_env	*p;
+	char	*new;
+	char	*tmp;
 
-	p = malloc(sizeof(t_env));
-	if (!p)
-		return (NULL);
-	p->next = NULL;
-	return (p);
+	new = ft_substr(str, 0, i - 1);
+	if (node)
+		new = ft_strjoin(new, node);
+	new = ft_strjoin(new, str + j);
+	free(str);
+	return (new);
 }
 
-void	ft_push_env(t_env *lst, char *str)
+char	*ft_expende(t_env *env, char *str, int start, int end)
 {
-	char	*s;
+	char	*tmp;
+	char	*content;
 
-	if (!lst)
-		return ;
+	content = ft_getenv(env, str + start, end - start);
+	if (content)
+		tmp = ft_replace(str, content, start, end);
+	if (!content)
+		tmp = ft_replace(str, NULL, start, end);
+	printf("CONTENT DE L'EXPNDE == %s\n", content);
+	return (tmp);
+}
+
+char	*ft_parse_expende(char *str, t_env *env)
+{
+	int	i;
+	int	j;
+
 	if (!str)
+		return (NULL);
+	i = -1;
+	while (str[++i])
 	{
-		lst->variable_name = NULL;
-		lst->variable_value = NULL;
-		return ;
-	}
-	s = ft_strchr(str, '=');
-	lst->variable_name = ft_substr(str, 0, s - str);
-	lst->variable_value = ft_substr(s + 1, 0, ft_strlen(s));
-}
-
-void	ft_print_env(t_env *env, int i)
-{
-	if (env)
-	{
-		if (env->next)
+		if (str[i] == '$' && str[i + 1] && (str[i + 1] == '_'
+				|| ft_isalpha(str[i + 1])))
 		{
-			ft_print_env(env->next, i + 1);
-			printf("nbr node %d - curente node %p - next node %p\nname node %s - value node %s - \n\n", i, env, env->next, env->variable_name, env->variable_value);
+			j = i + 1;
+			while (str[j] && (ft_isalnum(str[i]) || str[j] == '_'))
+				j++;
+			str = ft_expende(env, str, i + 1, j);
+			i--;
+		}
+		else if (str[i] == '$' && str[i + 1] && ft_isdigit(str[i + 1]))
+		{
+			str = ft_expende(env, str, i + 1, i + 2);
+			i--;
 		}
 	}
-}
-
-void	ft_converte_tab_list(char **tab, t_env **lst,
-		void (f)(t_env *lst, char *str))
-{
-	if (tab && *tab)
-	{
-		if (!*lst)
-			*lst = ft_lst_new();
-		f(*lst, *tab);
-		ft_converte_tab_list(tab + 1, &((*lst)->next), f);
-	}
+	return (str);
 }

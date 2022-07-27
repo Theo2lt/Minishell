@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:39:22 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/22 17:56:51 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 01:12:00 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ while (waitpid(-1, &status, NULL))
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
 
 //// STRUCT ENV //////
 typedef struct s_env

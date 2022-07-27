@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/27 21:24:57 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 01:09:52 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*ft_replace(char *str, char *node, int i, int j)
 {
 	char	*new;
-	char	*tmp;
 
 	new = ft_substr(str, 0, i - 1);
 	if (node)
@@ -35,7 +34,6 @@ char	*ft_expende(t_env *env, char *str, int start, int end)
 		tmp = ft_replace(str, content, start, end);
 	if (!content)
 		tmp = ft_replace(str, NULL, start, end);
-	printf("CONTENT DE L'EXPNDE == %s\n", content);
 	return (tmp);
 }
 
@@ -53,16 +51,26 @@ char	*ft_parse_expende(char *str, t_env *env)
 				|| ft_isalpha(str[i + 1])))
 		{
 			j = i + 1;
-			while (str[j] && (ft_isalnum(str[i]) || str[j] == '_'))
+			while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 				j++;
-			str = ft_expende(env, str, i + 1, j);
-			i--;
+			if (i + 1)
+				str = ft_expende(env, str, i + 1, j);
+			if (i)
+				i = i - 1;
+			else 
+				i = i;
+			printf("ICI1 %d %s\n", i, str);
 		}
 		else if (str[i] == '$' && str[i + 1] && ft_isdigit(str[i + 1]))
 		{
 			str = ft_expende(env, str, i + 1, i + 2);
-			i--;
+			if (i)
+				i = i - 1;
+			else 
+				i = i;
+			printf("ICI %d %s\n", i, str);
 		}
+		printf("debug %c\n", str[i]);
 	}
 	return (str);
 }

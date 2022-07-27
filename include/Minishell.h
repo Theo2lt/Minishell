@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/27 20:33:47 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 01:15:02 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@
 # include "libft.h"
 
 /// STRUCT GARBANGE COLECTORE// 
+
+/// STRUCT EXEC //// 
+typedef struct s_exec
+{
+	int		pid;
+	int		bultins;
+	int		infile;
+	int		outfile;
+	char	*args;
+	char	*path_cmd;
+	char	*tabs_exeve[2];
+}	t_exec;
 
 //// STUCT ENV //////
 typedef struct s_env
@@ -46,7 +58,10 @@ void	ft_converte_quotes(char *str);
 char	*ft_parser_pipe_utils(char *str, int stop);
 char	*ft_parser_chevron_utils(char *str, char c);
 int		ft_parser_quote_chevron_pipe(char *str);
-int		parser(char *str);
+char	*parser(char *str, t_env *env);
+
+/// FONCTION EXPANDE ////
+char	*ft_parse_expende(char *str, t_env *env);
 
 /// FONCTION BUILTINS ///
 int		ft_exec_pwd(void);
@@ -69,7 +84,8 @@ char	*ft_getenv(t_env *env, char *str, int len);
 void	ft_print_env(t_env *env, int i);
 void	ft_push_env(t_env *lst, char *str);
 void	ft_delete_env(t_env *lst, char *str);
-void	ft_converte_tab_list(char **tab, t_env **lst, void (f)(t_env *lst, char *str));
+void	ft_converte_tab_list(char **tab, t_env **lst,
+			void (f)(t_env *lst, char *str));
 void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst);
 void	ft_lst_env_add_back(t_env **alst, t_env *new);
 void	ft_lst_env_free(t_env *lst);

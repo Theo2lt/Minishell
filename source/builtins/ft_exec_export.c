@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:44:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/27 23:31:02 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/28 01:02:47 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_exec_export(char **cmd, t_env **lst)
 	return (0);
 }
 
-int	ft_parsing_export_unset(char *str)
+int	ft_parsing_export(char *str)
 {
 	char	*tmp;
 
@@ -58,7 +58,7 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 	char	**split;
 
 	init_value = 0;
-	if (!ft_parsing_export_unset(cmd))
+	if (!ft_parsing_export(cmd))
 	{
 		ft_putstr_fd("bash: export: ", 2);
 		ft_putstr_fd(cmd, 2);

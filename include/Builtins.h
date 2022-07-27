@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 00:54:39 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/27 00:57:50 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/28 01:02:16 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ void ft_exec_unset(char **name, t_env **lst);
 int	ft_is_built(char **cmd);
 int ft_manage_builting(char **cmd, t_env **lst);
 void ft_exit(t_env *lst);
+
+/// PARSING EXPORT UNSET ///
 
 #endif

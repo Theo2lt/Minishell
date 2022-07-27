@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:39:22 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/27 05:03:34 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/28 00:49:21 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void *ft_memset(void *str, int c, int n);
 /// SPLIT ///
 char **ft_split(char const *s, char c);
 char **ft_free_tab2(char **tab);
+
 
 
 #endif

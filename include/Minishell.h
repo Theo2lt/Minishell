@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 01:25:06 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 01:26:35 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 /// STRUCT EXEC //// 
 typedef struct s_exec
 {
-	int		pid;
-	int		bultins;
-	int		infile;
-	int		outfile;
-	char	*args;
-	char	*path_cmd;
-	char	**tabs_exeve;
+	int				pid;
+	int				bultins;
+	int				infile;
+	int				outfile;
+	char			*args;
+	char			*path_cmd;
+	char			**tabs_exeve;
+	struct s_exec	*next;
 }	t_exec;
 
 //// STUCT ENV //////

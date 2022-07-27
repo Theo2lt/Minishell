@@ -123,9 +123,12 @@ char **ft_recreate_env(t_env *lst)
 		return(NULL);
 	i = 0;
 	while (lst)
-	{
-		env[i] = ft_joint_3str(lst->variable_name, "=", lst->variable_value);
-		i++;
+	{   
+		if(lst->init_value == 1)
+		{
+			env[i] = ft_joint_3str(lst->variable_name, "=", lst->variable_value);
+			i++;
+		}
 		lst = lst->next;
 	}
 	env[i] = '\0';

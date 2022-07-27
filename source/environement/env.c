@@ -6,26 +6,29 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 18:24:44 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/24 06:42:20 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/27 20:33:42 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
+/// Malloc str && copy la valeur de tmp && return str
 char	*ft_init_variable_env(char *tmp)
 {
-	char	*variable_name;
+	char	*str;
 
 	if(!tmp)
 		return (NULL);
-	variable_name = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + 1));
-	if (!variable_name)
+	str = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + 1));
+	if (!str)
 		return (NULL);
-	ft_memset(variable_name, '\0', ft_strlen(tmp) + 1);
-	variable_name = ft_strcpy(variable_name, tmp);	
-	return (variable_name);
+	ft_memset(str, '\0', ft_strlen(tmp) + 1);
+	str = ft_strcpy(str, tmp);	
+	return (str);
 }
 
+
+/// Ajoute un nouveau node initialisé a la fin de lst. 
 void ft_add_variable_env(char *name ,char *value, int init_value, t_env **lst_env)
 {
 	t_env *new;
@@ -34,6 +37,7 @@ void ft_add_variable_env(char *name ,char *value, int init_value, t_env **lst_en
 		ft_lst_env_add_back(lst_env, new);
 }
 
+/// initialise lst_env depuis l'environement d'origine ///
 t_env *ft_init_env(char **env)
 {
 	t_env *lst;

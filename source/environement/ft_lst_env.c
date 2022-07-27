@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/24 03:32:19 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/27 20:37:25 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ void	ft_lst_env_free(t_env *lst)
 }
 
 /// PREND *name et lst environement en PARAMETRE 
-/// RETURN un node de lst si "name = lst->name" et init_value = 0
+/// RETURN un node de lst si "name = lst->name" et init_value == 1
 t_env	*ft_lst_getenv(char *name, t_env *lst)
 {
 	while (lst)
 	{
-		if(lst->init_value != 0)
+		if(lst->init_value == 1)
 			if (ft_strncmp(lst->variable_name, name, ft_strlen(lst->variable_name)) == 0)
 				return (lst);
 		lst = lst->next;
@@ -96,6 +96,8 @@ t_env	*ft_lst_getenv(char *name, t_env *lst)
 	return (NULL);
 }
 
+/// PREND *name et lst environement en PARAMETRE 
+/// RETURN un node de lst si "name = lst->name" et init_value == 0 
 t_env	*ft_lst_getexport(char *name, t_env *lst)
 {
 	while (lst)
@@ -108,6 +110,8 @@ t_env	*ft_lst_getexport(char *name, t_env *lst)
 	return (NULL);
 }
 
+//// Modifie ou crée un node selon l'existance du name dans lst
+/// Mofifie ou crée une valeur relier au name et modifie l'etat d'initialisation
 void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 {
 	t_env *tmp;
@@ -134,6 +138,7 @@ void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 		ft_add_variable_env(name,value,init_value,lst);
 }
 
+/// Returne la taille de lst
 int	ft_lstsize_env(t_env *lst)
 {
 	int	l;

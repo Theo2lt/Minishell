@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:38:20 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/22 02:20:59 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/27 23:22:43 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	/// PARSING A FINIR /// avec multi -nnnnnn , voir comportement de bash.
 int ft_exec_echo(char **cmd)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!cmd || !cmd[i])

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/24 06:36:02 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/27 04:44:31 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,24 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 
 	t_env *lst;
+	pid_t   pid;
 	char **cmd;
-	char *exepath;
 	cmd = NULL;
+
 	lst = ft_init_env(env);
-	
-	/// TEST ENV CHAR ** ///
-	cmd = ft_recreate_env(lst);
-	if(cmd)
-		cmd = ft_free_tab2(cmd);
-	////// FIN DE TEST CHAR ** //////
 	while (1)
 	{
 		cmd = ft_readline();
 		if(cmd)
 		{
-			ft_manage_builting(cmd,&lst);
-			exepath = ft_path_exec(lst,cmd);
-			printf("exec : %s\n",exepath);
-			
+			if(!ft_manage_builting(cmd,&lst))
+			{
+				pid = fork();
+				if(pid == 0)
+					ft_exec(lst,cmd);
+				waitpid(pid, NULL, 0);
+			}
 			cmd = ft_free_tab2(cmd);
-			if (exepath)
-				free(exepath);
 		}
 	}
 	return (0);

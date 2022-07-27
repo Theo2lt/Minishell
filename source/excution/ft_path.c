@@ -89,7 +89,6 @@ char *ft_joint_3str(char *str, char *str2, char *str3)
 	int j;
 	
 	len_dest = ft_strlen(str) + ft_strlen(str2) + ft_strlen(str3) + 1;
-	printf("DEBUG : %s|%s|%s __ len : %d\n",str,str2,str3,len_dest);
 	dest = malloc(sizeof(char) * (len_dest));
 	if(!dest)
 		return(NULL);

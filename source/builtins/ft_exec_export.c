@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:44:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/24 02:30:44 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/27 05:24:11 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,28 @@ int	ft_exec_export(char **cmd, t_env **lst)
 	return (0);
 }
 
+int ft_parsing_export_unset(char *str)
+{
+	char *tmp;
+	tmp = str;
+	
+	if(*tmp == '_' || ft_isalpha(*tmp))
+	{
+		tmp++;
+		while (*tmp)
+		{
+			if(*tmp == '=')
+				break;
+			if((*tmp == '_' || ft_isalnum(*tmp)))
+				tmp++;
+			else
+				return (0);
+		}
+		return (1);
+	}
+	return (0);
+	
+}
 ////// PARSING A FINIR !!! //////
 void	ft_parsing_setenv(char *cmd, t_env **lst)
 {
@@ -35,9 +57,18 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 	char	**split;
 	
 	init_value = 0;
-	if(ft_char_set(cmd,'=') != 0)
-		init_value = 1;
-	split = ft_split(cmd,'=');
-	ft_lst_setenv(split[0],split[1],init_value,lst);
-	ft_free_tab2(split);
+	if(!ft_parsing_export_unset(cmd))
+	{
+		ft_putstr_fd("bash: export: ",2);
+		ft_putstr_fd(cmd,2);
+		ft_putstr_fd(" :invalid\n",2);
+	}
+	else
+	{
+		if(ft_char_set(cmd,'=') != 0)
+			init_value = 1;
+		split = ft_split(cmd,'=');
+		ft_lst_setenv(split[0],split[1],init_value,lst);
+		ft_free_tab2(split);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:39:14 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/22 02:21:03 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/27 02:30:59 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ int ft_exec_env(t_env *lst)
 	while (lst)
 	{
 		if (lst->init_value == 1)
-			printf("%s=%s\n", lst->variable_name, lst->variable_value);
+		{
+			if(lst->variable_value)
+				printf("%s=%s\n", lst->variable_name, lst->variable_value);
+			if(!lst->variable_value)
+				printf("%s=\n", lst->variable_name);
+		}
 		lst = lst->next;
 	}
 	return (0);

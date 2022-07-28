@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 06:23:45 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 06:36:10 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ char	*ft_replace(char *str, char *node, int i, int j)
 
 	new = ft_substr(str, 0, i - 1);
 	if (node)
+	{
 		new = ft_strjoin(new, node);
+		new = ft_strjoin(new, str + j);
+		free(str);
+		return (new);
+	}
 	new = ft_strjoin(new, str + j);
-	//free(str);
+	free(str);
 	return (new);
 }
 

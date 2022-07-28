@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:51:40 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 00:01:53 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 06:24:47 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_getenv(t_env *env, char *str, int len)
 		return (env->variable_value);
 	else if (env && env->next)
 		return (ft_getenv(env->next, str, len));
-	return (NULL); 
+	return (NULL);
 }
 
 t_env	*ft_lst_new(void)

@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 01:26:35 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 04:24:51 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_def
 void	ft_converte_quotes(char *str);
 char	*ft_parser_pipe_utils(char *str, int stop);
 char	*ft_parser_chevron_utils(char *str, char c);
-int		ft_parser_quote_chevron_pipe(char *str);
+char	*ft_parser_quote_chevron_pipe(char *str);
 char	*parser(char *str, t_env *env);
 
 /// FONCTION EXPANDE ////

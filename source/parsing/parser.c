@@ -6,7 +6,7 @@
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 00:07:17 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 04:33:08 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Minishell.h"
@@ -61,16 +61,15 @@ int	ft_parser_chevron_and_pipe(char *str)
 	return (1);
 }
 
-int	ft_parser_quote_chevron_pipe(char *str)
+char	*ft_parser_quote_chevron_pipe(char *str)
 {
 	if (!ft_parser_quote(str) && printf("ko quote\n"))
-		return (0);
+		return (NULL);
 	ft_converte_quotes(str);
 	printf("test in == %s\n", str);
 	if (!ft_parser_chevron_and_pipe(str))
-		return (0);
-	ft_converte_quotes(str);
-	return (1);
+		return (NULL);
+	return (str);
 }
 
 char	*parser(char *str, t_env *env)
@@ -80,6 +79,7 @@ char	*parser(char *str, t_env *env)
 	if (!ft_parser_quote_chevron_pipe(str))
 		return (NULL);
 	str = ft_parse_expende(str, env);
+	ft_converte_quotes(str);
 	printf("test out == %s\n", str);
 	return (str);
 }

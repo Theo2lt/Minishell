@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:39:22 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/28 00:49:21 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/28 05:36:40 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ while (waitpid(-1, &status, NULL))
 /// STRUCT CMD ///
 typedef struct s_cmd
 {
+	int             pid;
 	char            **cmd_arg;
 	int             infile;
 	int             outfile;
 	int             isbuiltin;
-	int             pid;
 	struct s_cmd    *next;
 } t_cmd;
 

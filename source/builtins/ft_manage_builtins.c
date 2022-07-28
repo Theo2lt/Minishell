@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 23:31:17 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/27 23:32:13 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/28 06:17:32 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,27 @@ int	ft_is_builting(char *cmd)
 		return (0);
 }
 
-int	ft_manage_builting(char **cmd, t_env **lst)
+int	ft_manage_builting(char **cmd, t_minishell *minishell)
 {
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_exec_echo(cmd);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
-		ft_exec_cd(cmd, lst);
+		ft_exec_cd(cmd, &(minishell->env_lst));
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		ft_exec_pwd();
 	else if (ft_strcmp(cmd[0], "export") == 0)
-		ft_exec_export(cmd, lst);
+		ft_exec_export(cmd, &(minishell->env_lst));
 	else if (ft_strcmp(cmd[0], "env") == 0)
-		ft_exec_env(*lst);
+		ft_exec_env(minishell->env_lst);
 	else if (ft_strcmp(cmd[0], "unset") == 0)
-		ft_exec_unset(cmd, lst);
+		ft_exec_unset(cmd, &(minishell->env_lst));
 	else if (ft_strcmp(cmd[0], "b") == 0)
-		ft_lst_env_BUG(*lst);
+		ft_lst_env_BUG(minishell->env_lst);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 	{
 		cmd = ft_free_tab2(cmd);
 		rl_clear_history();
-		ft_exit(*lst);
+		ft_exit(minishell);
 	}
 	else
 		return (0);

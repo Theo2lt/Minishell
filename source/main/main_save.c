@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/28 23:12:25 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/27 04:44:31 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,54 +33,34 @@ char **ft_readline(void)
 	return (NULL);
 }
 
-void ft_exit(t_minishell *mini)
+void ft_exit(t_env *lst)
 {
-	if (mini->env_lst)
-		ft_lst_env_free(mini->env_lst);
-	free(mini);
+	if (lst)
+		ft_lst_env_free(lst);
 	exit(0);
-}
-
-t_minishell *ft_init_mini(char **env)
-{
-	t_minishell *mini;
-	
-	mini = (t_minishell *) malloc(sizeof(t_minishell *));
-	mini->env_lst = ft_init_env(env);
-	mini->cmd_lst = NULL;
-	return(mini);
 }
 
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	t_minishell *minishell;
 
-	minishell = ft_init_mini(env);
+	t_env *lst;
 	pid_t   pid;
 	char **cmd;
 	cmd = NULL;
-	
-	
-	ft_putstr_fd("\n\n       __  __   ___   _  _   ___   ___   _  _   ___   _      _     \n",2);
-	ft_putstr_fd("      |  \\/  | |_ _| | \\| | | __| / __| | || | | __| | |    | |    \n",2);
-	ft_putstr_fd("      | |\\/| |  | |  | .` | | _|  \\__ \\ | __ | | _|  | |__  | |__  \n",2);
-	ft_putstr_fd("      |_|  |_| |___| |_|\\_| |___| |___/ |_||_| |___| |____| |____| \n",2);
-	ft_putstr_fd("                                                                    \n",2);
-	ft_putstr_fd("                           by engooh & tliot                        \n\n\n",2);
 
-
+	lst = ft_init_env(env);
 	while (1)
 	{
 		cmd = ft_readline();
 		if(cmd)
 		{
-			if(!ft_manage_builting(cmd,minishell))
+			if(!ft_manage_builting(cmd,&lst))
 			{
 				pid = fork();
 				if(pid == 0)
-					ft_exec(minishell->env_lst,cmd);
+					ft_exec(lst,cmd);
 				waitpid(pid, NULL, 0);
 			}
 			cmd = ft_free_tab2(cmd);

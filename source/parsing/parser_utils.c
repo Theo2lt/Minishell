@@ -6,7 +6,7 @@
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:15 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/27 23:55:02 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/29 22:50:39 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Minishell.h"
@@ -81,7 +81,7 @@ char	*ft_check_expend(char *str, char c)
 	return (tmp);
 }
 
-void	ft_converte_quotes(char *str)
+void	ft_converte_quotes(char *str, int signe)
 {
 	char	c;
 
@@ -97,7 +97,10 @@ void	ft_converte_quotes(char *str)
 				str = ft_check_expend(str, c);
 				if (*str && *str == c)
 					break ;
-				*str = -1 * *str;
+				if (signe < 0 && *str > 0)
+					*str = -1 * *str;
+				if (signe > 0 && *str < 0)
+					*str = -1 * *str;
 				str++;
 			}
 		}

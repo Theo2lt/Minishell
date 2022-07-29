@@ -6,10 +6,10 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 00:55:52 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/27 20:15:26 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:01:59 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include <stdio.h>
 #include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)

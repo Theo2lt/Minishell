@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:51:40 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 06:24:47 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:07:35 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	ft_print_env(t_env *env, int i)
 
 char	*ft_getenv(t_env *env, char *str, int len)
 {
-	if (env && !ft_strncmp(str, env->variable_name, len))
+	if (env && !ft_strncmp(env->variable_name, str, len)
+		&& ft_strlen(env->variable_name) == (size_t)len)
 		return (env->variable_value);
 	else if (env && env->next)
 		return (ft_getenv(env->next, str, len));

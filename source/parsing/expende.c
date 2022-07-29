@@ -6,10 +6,9 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 06:36:10 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 20:10:02 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "Minishell.h"
 
 char	*ft_replace(char *str, char *node, int i, int j)
@@ -21,11 +20,11 @@ char	*ft_replace(char *str, char *node, int i, int j)
 	{
 		new = ft_strjoin(new, node);
 		new = ft_strjoin(new, str + j);
-		free(str);
+		printf("replace1 %s  str[%c]\n", new, str[j]);
 		return (new);
 	}
 	new = ft_strjoin(new, str + j);
-	free(str);
+	printf("replace2 %s str[%c]\n", new, str[j]);
 	return (new);
 }
 

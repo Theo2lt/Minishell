@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 04:31:26 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/28 19:59:07 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	printf("ok\n");
 	env = NULL;
 	ft_converte_tab_list(envp, &env, ft_push_env);
 	//ft_print_env(env, 0);
@@ -27,12 +28,7 @@ int	main(int ac, char **av, char **envp)
 		input = readline("minishell> ");
 		add_history(input);
 		if (parser(input, env))
-		{
-			printf("input 1 %s\n", input);
-			input = ft_parse_expende(input, env);
-			printf("input 2 %s\n", input);
-			//free(input);
-		}
+			free(input);
 	}
 	ft_converte_tab_list(envp, &env, ft_delete_env);
 	return (0);

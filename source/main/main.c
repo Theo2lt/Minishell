@@ -6,13 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/28 23:12:25 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/29 02:48:48 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
-
-
 
 char **ft_readline(void)
 {
@@ -37,6 +35,8 @@ void ft_exit(t_minishell *mini)
 {
 	if (mini->env_lst)
 		ft_lst_env_free(mini->env_lst);
+	if (mini->cmd_lst)
+		ft_sim_cmd_lst_free(mini->cmd_lst);
 	free(mini);
 	exit(0);
 }
@@ -45,9 +45,9 @@ t_minishell *ft_init_mini(char **env)
 {
 	t_minishell *mini;
 	
-	mini = (t_minishell *) malloc(sizeof(t_minishell *));
+	mini = malloc(sizeof(*mini));
 	mini->env_lst = ft_init_env(env);
-	mini->cmd_lst = NULL;
+	mini->cmd_lst = ft_init_sim_cmd();
 	return(mini);
 }
 
@@ -57,12 +57,6 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	t_minishell *minishell;
 
-	minishell = ft_init_mini(env);
-	pid_t   pid;
-	char **cmd;
-	cmd = NULL;
-	
-	
 	ft_putstr_fd("\n\n       __  __   ___   _  _   ___   ___   _  _   ___   _      _     \n",2);
 	ft_putstr_fd("      |  \\/  | |_ _| | \\| | | __| / __| | || | | __| | |    | |    \n",2);
 	ft_putstr_fd("      | |\\/| |  | |  | .` | | _|  \\__ \\ | __ | | _|  | |__  | |__  \n",2);
@@ -70,21 +64,12 @@ int main(int argc, char **argv, char **env)
 	ft_putstr_fd("                                                                    \n",2);
 	ft_putstr_fd("                           by engooh & tliot                        \n\n\n",2);
 
+	//memset(&minishell[0], 0, sizeof(t_minishell));
+	minishell = ft_init_mini(env);
+	ft_sim_cmds_lst_BUG(minishell->cmd_lst);
 
-	while (1)
-	{
-		cmd = ft_readline();
-		if(cmd)
-		{
-			if(!ft_manage_builting(cmd,minishell))
-			{
-				pid = fork();
-				if(pid == 0)
-					ft_exec(minishell->env_lst,cmd);
-				waitpid(pid, NULL, 0);
-			}
-			cmd = ft_free_tab2(cmd);
-		}
-	}
+
+
+	ft_exit(minishell);
 	return (0);
 }

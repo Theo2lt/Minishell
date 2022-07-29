@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:39:22 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/28 06:14:29 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/29 01:55:19 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_cmd
 {
 	pid_t             pid;
 	char            **cmd_arg;
-	int             infile;
-	int             outfile;
+	int             in_fd;
+	int             out_fd;
 	int             isbuiltin;
 	struct s_cmd    *next;
 } t_cmd;
@@ -95,6 +95,7 @@ char **ft_recreate_env(t_env *lst);
 
 ////// DEBUG /////
 void    ft_lst_env_BUG(t_env *lst);
+void    ft_sim_cmds_lst_BUG(t_cmd *lst);
 
 /// FONCTION BUILTINS ///
 int ft_exec_pwd(void);
@@ -104,18 +105,31 @@ char *ft_get_pwd(void);
 int ft_exec_env(t_env *lst);
 int ft_exec_export(char **cmd, t_env **lst);
 void ft_exec_unset(char **name, t_env **lst);
-int	ft_is_built(char **cmd);
+int	ft_is_builting(char *cmd);
 int ft_manage_builting(char **cmd, t_minishell *minishell);
 void ft_exit(t_minishell *mini);
 
 /// PARSING EXPORT UNSET ///
 
+
+/// SIMULATION PARSING ///
+int     ft_fd_infile(char *name_infile);
+int     ft_fd_outfile(char *name_outfile);
+t_cmd	*ft_sim_cmd_new(char **cmd_args, char *name_infile ,char *name_outfile);
+void	ft_sim_cmd_add(char **cmd_args, char *name_infile ,char *name_outfile, t_cmd **lst_cmd);
+t_cmd	*ft_sim_cmd_lst_last(t_cmd *lst);
+void	ft_sim_cmd_lst_add_back(t_cmd **alst, t_cmd *new);
+int	    ft_sim_cmd_lst_size(t_cmd *lst);
+void	ft_sim_cmd_lst_free(t_cmd *lst);
+t_cmd	*ft_init_sim_cmd();
+char    **ft_pars_cmd_cmdarg_sim();
+
 	/// EXECUTION ///
 char	*ft_path_exec(t_env *lst, char **cmd_arg);
-char **ft_recreate_env(t_env *lst);
+char    **ft_recreate_env(t_env *lst);
 void	ft_exec(t_env *lst ,char **cmd_arg);
 
-///// ERROR///
+/////    ERROR   ///
 void ft_put_err(char *cmd, char *arg, char *strerrno);
 
 /// FONCTION LIB //

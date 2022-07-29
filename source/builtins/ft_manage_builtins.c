@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 23:31:17 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/28 06:17:32 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/29 02:22:43 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_is_builting(char *cmd)
 {
+	if(!cmd)
+		return (0);
 	if (!ft_strcmp(cmd, "cd")
 		|| !ft_strcmp(cmd, "export")
 		|| !ft_strcmp(cmd, "unset")

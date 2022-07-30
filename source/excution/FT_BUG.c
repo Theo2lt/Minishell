@@ -30,10 +30,10 @@ void ft_sim_cmds_lst_BUG(t_cmd *lst)
 		if(!lst->cmd_arg)
 			printf("addr : %p | CMD_ARG (NULL) \n", lst->cmd_arg);
 		else
-			printf("addr : %p |    CMD_ARG %s\n", lst->cmd_arg[0], lst->cmd_arg[0]);
-		printf("addr : %p |     in_fd %d\n", &lst->in_fd, lst->in_fd);
-		printf("addr : %p |    out_fd %d\n", &lst->out_fd, lst->out_fd);
-		printf("addr : %p | isbuiltin %d\n", &lst->isbuiltin, lst->isbuiltin);
+			printf("addr : %p |    CMD_ARG : %s\n", lst->cmd_arg[0], lst->cmd_arg[0]);
+		printf("addr : %p |     in_fd : %d\n", &lst->in_fd, lst->in_fd);
+		printf("addr : %p |    out_fd : %d\n", &lst->out_fd, lst->out_fd);
+		printf("addr : %p | isbuiltin : %d\n", &lst->isbuiltin, lst->isbuiltin);
 		printf("addr : %p | lst->next\n", lst->next);
 		printf("---------------------------------\n");
 		lst = lst->next;

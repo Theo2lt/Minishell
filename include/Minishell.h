@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:39:22 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/29 01:55:19 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/30 00:18:41 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,13 @@ void	ft_sim_cmd_lst_free(t_cmd *lst);
 t_cmd	*ft_init_sim_cmd();
 char    **ft_pars_cmd_cmdarg_sim();
 
-	/// EXECUTION ///
+		/// EXECUTION ///
+void    ft_execution(t_minishell *minishell);
 char	*ft_path_exec(t_env *lst, char **cmd_arg);
 char    **ft_recreate_env(t_env *lst);
-void	ft_exec(t_env *lst ,char **cmd_arg);
+void	ft_exec(t_minishell *minishell, t_cmd *cmd_lst);
+void    ft_close_in_out_file(t_cmd *cmd_lst);
+void	ft_childs(t_minishell *minishell, t_cmd *cmd_lst);
 
 /////    ERROR   ///
 void ft_put_err(char *cmd, char *arg, char *strerrno);

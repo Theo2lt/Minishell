@@ -48,13 +48,21 @@ char    *ft_return_path_value(t_env *lst)
 // VERIFIE pour chaque path si la concatenation avec  cmd_arg[0] est acces
 // RETURN char* si OK sinon NULL
 
+
+
+
+
+
+
+
 char	*ft_path_exec(t_env *lst, char **cmd_arg)
 {
 	char	*path;
 	char    **paths;
 	int		i;
 
-	path = NULL;
+	if(!cmd_arg)
+		return (NULL);
 	paths = ft_split(ft_return_path_value(lst),':');
 	i = 0;
 	if (paths)
@@ -74,7 +82,7 @@ char	*ft_path_exec(t_env *lst, char **cmd_arg)
 	paths = ft_free_tab2(paths);
 	if (access(cmd_arg[0], X_OK) == 0)
 		return (ft_strjoin(cmd_arg[0],""));
-	return (NULL);
+	return (ft_strjoin(cmd_arg[0],""));
 }
 
 // PREND 3 str en parametre

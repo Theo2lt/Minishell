@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 01:29:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/29 06:09:30 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/30 05:25:02 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,22 @@ char **ft_pars_cmd_cmdarg_sim()
 t_cmd	*ft_init_sim_cmd()
 {
     t_cmd *cmds;
+    char *rep;
+    rep = " ";
     cmds = NULL;
-    ft_sim_cmd_add(ft_pars_cmd_cmdarg_sim(),"filea","fileb", &cmds);
-    ft_sim_cmd_add(ft_pars_cmd_cmdarg_sim(),"filea","fileb", &cmds);
-    ft_sim_cmd_add(ft_pars_cmd_cmdarg_sim(),NULL,NULL, &cmds);
-    ft_sim_cmd_add(ft_pars_cmd_cmdarg_sim(),"filea","fileb", &cmds);
+    int i;
+
+    i = 0;
+    while (i < 1000)
+    {
+        ft_sim_cmd_add(ft_split(rep,' '),"filea","fileb", &cmds);
+        ft_sim_cmd_add(ft_split(rep,' '),"filea",NULL, &cmds);
+        ft_sim_cmd_add(ft_split(rep,' '),NULL,NULL, &cmds);
+        ft_sim_cmd_add(ft_split(rep,' '),NULL,"fileb", &cmds);
+        ft_sim_cmd_add(ft_split(rep,' '),NULL,"filec", &cmds);
+        i++;
+    }
+    
+
     return (cmds);
 }

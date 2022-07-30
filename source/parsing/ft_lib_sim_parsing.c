@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 00:35:07 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/29 06:10:02 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/30 05:06:50 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int ft_fd_infile(char *name_infile)
 	fd = open(name_infile, O_RDONLY);
 	if(fd == -1)
 	{
-		ft_putstr_fd("ERROR FILEIN",2);
+		ft_putstr_fd("ERROR FILEIN \n",2);
 		ft_put_err(NULL, name_infile, strerror(errno));
-		return (0);
+		return (-1);
 	}
 	return(fd);
 }
@@ -36,9 +36,9 @@ int ft_fd_outfile(char *name_outfile)
 	fd = open(name_outfile,O_CREAT | O_RDWR | O_TRUNC, 0000644);
 	if(fd == -1)
 	{
-		ft_putstr_fd("ERROR FILEOUT",2);
+		ft_putstr_fd("ERROR FILEOUT \n",2);
 		ft_put_err(NULL, name_outfile, strerror(errno));
-		return (1);
+		return (-1);
 	}
 	return(fd);
 }
@@ -60,6 +60,7 @@ t_cmd	*ft_sim_cmd_new(char **cmd_args, char *name_infile ,char *name_outfile)
 	else
 		new->isbuiltin = 0;
 	new->next = NULL;
+	printf("fd : %d,%d \n", new->in_fd, new->out_fd);
 	return (new);
 }
 
@@ -125,6 +126,10 @@ void	ft_sim_cmd_lst_free(t_cmd *lst)
 		lst = lst->next;
 		if (lst2->cmd_arg)
 			lst2->cmd_arg = ft_free_tab2(lst2->cmd_arg);
+		if(lst2->in_fd > 2)
+			close(lst2->in_fd);
+		if(lst2->out_fd > 2)
+			close(lst2->out_fd);
 		free(lst2);
 	}
 }

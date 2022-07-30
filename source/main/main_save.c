@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/29 00:31:08 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/29 07:09:13 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_minishell *ft_init_mini(char **env)
 {
 	t_minishell *mini;
 	
-	mini = (t_minishell *) malloc(sizeof(t_minishell *));
+	mini = (t_minishell *) malloc(sizeof(*mini));
 	mini->env_lst = ft_init_env(env);
 	mini->cmd_lst = NULL;
 	return(mini);

@@ -48,13 +48,6 @@ char    *ft_return_path_value(t_env *lst)
 // VERIFIE pour chaque path si la concatenation avec  cmd_arg[0] est acces
 // RETURN char* si OK sinon NULL
 
-
-
-
-
-
-
-
 char	*ft_path_exec(t_env *lst, char **cmd_arg)
 {
 	char	*path;

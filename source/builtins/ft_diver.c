@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_diver.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/06 13:07:34 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/06 13:11:25 by engooh           ###   ########.fr       */
+/*   Created: 2022/07/30 06:55:49 by tliot             #+#    #+#             */
+/*   Updated: 2022/07/30 07:00:28 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _XOPEN_SOURCE_EXTENDED 1
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
+#include "Minishell.h"
 
-int	main(void)
+char *ft_joint_free_S1_S2(char *str1, char *str2)
 {
-	printf("res = %d", ttyslot());
-	return (0);
-}
+    char *str_join;
 
+    str_join = NULL;
+    str_join = ft_strjoin(str1, str2);
+    if(str1)
+        free(str1);
+    if(str2)
+        free(str2);
+
+    return (str_join);
+}

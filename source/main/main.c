@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/30 00:24:08 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/30 23:18:03 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv, char **env)
 	ft_execution(minishell);
 
 	ft_wait_all_pid(minishell->cmd_lst);
-	//ft_sim_cmds_lst_BUG(minishell->cmd_lst);
+	ft_sim_cmds_lst_BUG(minishell->cmd_lst);
 	ft_put_siganture();
 
 	ft_exit(minishell);

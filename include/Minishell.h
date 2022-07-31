@@ -6,34 +6,13 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:39:22 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/30 00:18:41 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/31 00:28:36 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-/*
-typedef struct s_token
-{
-	char *cmd;
-	t_list *args;
-	char    **bin; //bin = cmd + arguments
-	t_redir *redirection;
-	void    *next;
-}
-
-while (token)
-{
-	fork()
-		if (token->redir != NULL)
-			make_redir();
-		execution();
-	token = token->next;
-}
-
-while (waitpid(-1, &status, NULL))
-*/
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -50,7 +29,8 @@ while (waitpid(-1, &status, NULL))
 /// STRUCT CMD ///
 typedef struct s_cmd
 {
-	pid_t             pid;
+	int             num_cmd;
+	pid_t           pid;
 	char            **cmd_arg;
 	int             in_fd;
 	int             out_fd;
@@ -109,14 +89,14 @@ int	ft_is_builting(char *cmd);
 int ft_manage_builting(char **cmd, t_minishell *minishell);
 void ft_exit(t_minishell *mini);
 
-/// PARSING EXPORT UNSET ///
-
+/// AUTRE ///
+char *ft_joint_free_S1_S2(char *str1, char *str2);
 
 /// SIMULATION PARSING ///
 int     ft_fd_infile(char *name_infile);
 int     ft_fd_outfile(char *name_outfile);
-t_cmd	*ft_sim_cmd_new(char **cmd_args, char *name_infile ,char *name_outfile);
-void	ft_sim_cmd_add(char **cmd_args, char *name_infile ,char *name_outfile, t_cmd **lst_cmd);
+t_cmd	*ft_sim_cmd_new(char **cmd_args, char *name_infile ,char *name_outfile,int num_cmd);
+void	ft_sim_cmd_add(char **cmd_args, char *name_infile ,char *name_outfile, int num_cmd,t_cmd **lst_cmd);
 t_cmd	*ft_sim_cmd_lst_last(t_cmd *lst);
 void	ft_sim_cmd_lst_add_back(t_cmd **alst, t_cmd *new);
 int	    ft_sim_cmd_lst_size(t_cmd *lst);
@@ -133,7 +113,7 @@ void    ft_close_in_out_file(t_cmd *cmd_lst);
 void	ft_childs(t_minishell *minishell, t_cmd *cmd_lst);
 
 /////    ERROR   ///
-void ft_put_err(char *cmd, char *arg, char *strerrno);
+void ft_put_err_cd(char *cmd, char *arg, char *strerrno);
 
 /// FONCTION LIB //
 int ft_strlen(const char *s);

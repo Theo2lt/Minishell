@@ -25,7 +25,7 @@ void ft_sim_cmds_lst_BUG(t_cmd *lst)
 		//int i;
 		//i = 0;
         printf("\n---------------------------------\n");
-        printf(" < &NOEUD > addr : %p \n",lst);
+        printf("         NUM CMD %d \n",lst->num_cmd);
         printf("---------------------------------\n");
 		if(!lst->cmd_arg)
 			printf("addr : %p | CMD_ARG (NULL) \n", lst->cmd_arg);

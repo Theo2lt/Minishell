@@ -12,7 +12,6 @@ void    ft_execution(t_minishell *minishell)
 		cmd_tmp->pid = fork();
 		if (cmd_tmp->pid == 0)
 			ft_childs(minishell, cmd_tmp);
-		
 		cmd_tmp = cmd_tmp->next;
 	}
 }
@@ -32,6 +31,10 @@ void	ft_childs(t_minishell *minishell, t_cmd *cmd_lst)
 {
 	if (cmd_lst->in_fd == -1 || cmd_lst->out_fd == -1)
 		ft_exit(minishell);
+	if (cmd_lst->in_fd > 2)
+		dup2(cmd_lst->in_fd,0);
+	if (cmd_lst->out_fd > 2)
+		dup2(cmd_lst->out_fd,1);
 	ft_exec(minishell ,cmd_lst);
 }
 

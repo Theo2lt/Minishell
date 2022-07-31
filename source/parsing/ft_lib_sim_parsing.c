@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 00:35:07 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/30 05:06:50 by tliot            ###   ########.fr       */
+/*   Updated: 2022/07/31 00:30:36 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int ft_fd_infile(char *name_infile)
 	if(fd == -1)
 	{
 		ft_putstr_fd("ERROR FILEIN \n",2);
-		ft_put_err(NULL, name_infile, strerror(errno));
+		ft_put_err_cd(NULL, name_infile, strerror(errno));
 		return (-1);
 	}
 	return(fd);
@@ -37,20 +37,21 @@ int ft_fd_outfile(char *name_outfile)
 	if(fd == -1)
 	{
 		ft_putstr_fd("ERROR FILEOUT \n",2);
-		ft_put_err(NULL, name_outfile, strerror(errno));
+		ft_put_err_cd(NULL, name_outfile, strerror(errno));
 		return (-1);
 	}
 	return(fd);
 }
 
 
-t_cmd	*ft_sim_cmd_new(char **cmd_args, char *name_infile ,char *name_outfile)
+t_cmd	*ft_sim_cmd_new(char **cmd_args, char *name_infile ,char *name_outfile,int num_cmd)
 {
 	t_cmd	*new;
 
 	new = (t_cmd *) malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
+	new->num_cmd = num_cmd;
     new->pid = -1;
 	new->cmd_arg = cmd_args;
 	new->in_fd = ft_fd_infile(name_infile);
@@ -65,11 +66,11 @@ t_cmd	*ft_sim_cmd_new(char **cmd_args, char *name_infile ,char *name_outfile)
 }
 
 /// Ajoute un nouveau node initialisé a la fin de lst. 
-void	ft_sim_cmd_add(char **cmd_args, char *name_infile ,char *name_outfile, t_cmd **lst_cmd)
+void	ft_sim_cmd_add(char **cmd_args, char *name_infile ,char *name_outfile, int num_cmd, t_cmd **lst_cmd)
 {
 	t_cmd	*new;
 
-	new = ft_sim_cmd_new(cmd_args, name_infile , name_outfile);
+	new = ft_sim_cmd_new(cmd_args, name_infile , name_outfile, num_cmd);
 	if (new)
 		ft_sim_cmd_lst_add_back(lst_cmd, new);
 }

@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 05:49:51 by engooh           ###   ########.fr       */
+/*   Created: 2022/07/30 20:15:37 by engooh            #+#    #+#             */
+/*   Updated: 2022/07/30 21:07:21 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stdio.h>
 
-#include "Minishell.h"
-
-int	main(int ac, char **av, char **envp)
+int	print(int *str)
 {
-	t_env	*env;
-	char	*input;
+	int	i;
 
-	(void)ac;
-	(void)av;
-	printf("ok\n");
-	env = NULL;
-	ft_converte_tab_list(envp, &env, ft_push_env);
-	//ft_print_env(env, 0);
-	while (42)
+	i = 0;
+	while (str[i * sizeof(char)])
 	{
-		input = readline("minishell> ");
-		add_history(input);
-		if (parser(input, env))
-			free(input);
+		printf("%c ", str[i]);
+		i++;
 	}
-	ft_converte_tab_list(envp, &env, ft_delete_env);
+	printf("%c ", str[1]);
+	printf("%c", str[2]);
+	//printf("%c ", str[2]);
+	//printf("%c ", str[3]);
+	//printf("%c ", str[5]);
+	/*
+	while (*str)
+		printf("%c\n", (char)*(str++));
+		*/
+	return (0);
+}
+
+int	main(void)
+{
+	print((int *)"hello");
 	return (0);
 }

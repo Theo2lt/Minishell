@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/29 18:04:52 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/31 17:45:57 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ void	ft_converte_quotes(char *str);
 char	*ft_parser_pipe_utils(char *str, int stop);
 char	*ft_parser_chevron_utils(char *str, char c);
 char	*ft_parser_quote_chevron_pipe(char *str);
+char	*parser2(char *str, t_env *env);
 char	*parser(char *str, t_env *env);
 
 /// FONCTION EXPANDE ////
-char	*ft_parse_expende(char *str, t_env *env);
+char	*parser_expende(char *str, t_env *env);
 
 /// FONCTION BUILTINS ///
 int		ft_exec_pwd(void);
@@ -81,6 +82,7 @@ void	ft_putchar(char c, int fd);
 void	ft_putstr(char *s, int fd);
 
 // FONCTION LST_ENV ///
+char	*ft_get_env(t_env *env, int *str, int len);
 char	*ft_getenv(t_env *env, char *str, int len);
 void	ft_print_env(t_env *env, int i);
 void	ft_push_env(t_env *lst, char *str);

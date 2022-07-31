@@ -6,12 +6,12 @@
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/28 04:33:08 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/31 17:49:28 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Minishell.h"
 
-int	ft_parser_quote(char *str)
+/*int	ft_parser_quote(char *str)
 {
 	int	single_quote;
 	int	double_quote;
@@ -44,8 +44,7 @@ int	ft_parser_chevron_and_pipe(char *str)
 	if (!str)
 		return (0);
 	stop = 0;
-	while (*str)
-	{
+	while (*str) {
 		if (*str != ' ' && *str != '<' && *str != '>' && *str != '|')
 			stop = 1;
 		else if (stop && (*str == '<' || *str == '>'))
@@ -81,5 +80,143 @@ char	*parser(char *str, t_env *env)
 	str = ft_parse_expende(str, env);
 	ft_converte_quotes(str);
 	printf("test out == %s\n", str);
+	return (str);
+}
+*/
+
+char	*check_expende(char *str, int mode)
+{
+	if (!str)
+		return (NULL);
+	if (str && !*str)
+		return (str);
+	if (!mode && *str == '$' && ++str)
+		while (*str && (ft_isalnum(*str) || *str == '_'))
+			str++;
+	else if (mode && *str == '$' && ++str)
+		if (*str && (ft_isalpha(*str) || *str == '_'))
+			while (*str && (ft_isalnum(*str) || *str == '_'))
+				str++;
+	if (*str == '$')
+		return (check_expende(str, mode));
+	return (str);
+}
+
+void	ft_converte_str(char *str, int signe)
+{
+	int	c;	
+
+	while (str && *str)
+	{
+		if (*str == '\'' || *str == '"')
+		{
+			c = *str++;
+			while (*str && *str != c)
+			{
+				if (c == '"')
+					str = check_expende(str, 0);
+				if (*str && *str != c && *str > 0 && signe < 0)
+					*str *= -1;
+				if (*str && *str != c && *str < 0 && signe > 0)
+					*str *= -1;
+				if (*str && *str != c)
+					str++;
+			}
+		}
+		if (*str)
+			str++;
+	}
+}
+
+int	parser_quote(char *str)
+{
+	int	single_quote;
+	int	double_quote;
+
+	if (!str)
+		return (0);
+	single_quote = 0;
+	double_quote = 1;
+	while (*str)
+	{
+		if (*str == '"' && !double_quote && !single_quote)
+			double_quote = 1;
+		else if (*str == '"' && double_quote && !single_quote)
+			double_quote = 0;
+		else if (*str == '\'' && !single_quote && double_quote)
+			single_quote = 1;
+		else if (*str == '\'' && single_quote && double_quote)
+			single_quote = 0;
+		str++;
+	}
+	if (single_quote == double_quote)
+		return (0);
+	return (1);
+}
+
+char	*parser_chevron_pipe_utils(char *str, int c)
+{
+	char	*tmp;
+
+	if (!str)
+		return (NULL);
+	tmp = str;
+	while (*tmp && *tmp == ' ')
+		tmp++;
+	if (!*tmp)
+		return (NULL);
+	if (c == '|' && *tmp == c)
+		return (NULL);
+	if ((c == '<' || c == '>')
+		&& (*tmp == '<' || *tmp == '>' || *tmp == '|') && tmp - str)
+		return (NULL);
+	if ((c == '<' || c == '>')
+		&& (*tmp == '<' || *tmp == '>' || *tmp == '|') && c != *tmp)
+		return (NULL);
+	if ((c == '<' || c == '>') && (*tmp == '<' || *tmp == '>') && c == *tmp)
+		if (tmp[1] == '<' || tmp[1] == '>' || tmp[1] == '|')
+			return (NULL);
+	if (*tmp == '<' || *tmp == '>')
+		return (parser_chevron_pipe_utils(tmp + 1, *tmp));
+	return (tmp);
+}
+
+int	parser_chevron_pipe(char *str)
+{
+	int	espace;
+
+	espace = 1;
+	while (str && *str)
+	{
+		if (*str != '|' && *str != '<' && *str != '>' && *str != ' ' && espace)
+			espace = 0;
+		if (*str == '<' || *str == '>' || *str == '|')
+		{
+			if (*str == '|' && espace && printf("KO sytanxe\n"))
+				return (0);
+			str = parser_chevron_pipe_utils(str + 1, *str);
+			if (!str)
+				printf("KO syntaxe\n");
+		}
+		if (str && *str)
+			str++;
+	}
+	return (1);
+}
+
+char	*parser(char *str, t_env *env)
+{
+	(void)env;
+	if (!parser_quote(str))
+		return (NULL);
+	ft_converte_str(str, -1);
+	printf("str in == %s\n", str);
+	if (!parser_chevron_pipe(str))
+		return (NULL);
+	str = parser_expende(str, env);
+	if (!str)
+		return (NULL);
+	ft_converte_str(str, 1);
+	printf("str out == %s\n", str);
 	return (str);
 }

@@ -6,23 +6,24 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/07/31 17:45:57 by engooh           ###   ########.fr       */
-=======
+/*   Updated: 2022/07/31 18:02:43 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:48:33 by engooh           ###   ########.fr       */
->>>>>>> 650e81247cc84a1761bd5e7eef3a0df5323f8416
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHEL_H
+
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h> 
-# include "libft.h"
+# include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include "libft.h"
 
 /// STRUCT GARBANGE COLECTORE// 
 
@@ -92,13 +93,13 @@ void	ft_print_env(t_env *env, int i);
 void	ft_push_env(t_env *lst, char *str);
 void	ft_delete_env(t_env *lst, char *str);
 void	ft_converte_tab_list(char **tab, t_env **lst,
-			void (f)(t_env *lst, char *str));
+		void (f)(t_env *lst, char *str));
 void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst);
 void	ft_lst_env_add_back(t_env **alst, t_env *new);
 void	ft_lst_env_free(t_env *lst);
 char	*ft_init_variable_env(char *tmp);
 void	ft_add_variable_env(char *name, char *value, int init_value,
-			t_env **lst_env);
+		t_env **lst_env);
 t_env	*ft_lst_env_new(char *name, char *value, int init_value);
 t_env	*ft_lst_env_last(t_env *lst);
 t_env	*ft_lst_getenv(char *str, t_env *lst);

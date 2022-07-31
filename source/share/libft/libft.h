@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 23:57:30 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 17:15:06 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/31 17:54:17 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
-size_t	ft_strlen2(int *s);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
@@ -72,8 +71,6 @@ int		ft_strncmp2(const char *s1, int *s2, size_t n);
 int		ft_strcmp(char *s1, char *s2);
 int		*ft_substr_int(char const *s, unsigned int start, size_t len);
 int		print_int(int *s);
-int		*ft_substr2(int *s, unsigned int start, size_t len);
-int		*ft_strjoin2(int *s1, int *s2);
 
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);

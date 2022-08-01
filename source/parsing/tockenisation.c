@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/01 07:11:24 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/01 22:52:13 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,28 @@ int	set_outfile(char *str, t_exec *exec, int mode)
 }
 */
 
-char *set_arg(char *str, t_exec *exec)
+char	*set_tocken(char *start, t_exec *exec)
 {
+	char	*tmp;
+	char	*res;
+
 	(void)exec;
-	if (*str == '\'' || *str == '"')
-		str++;
-	while (*str && !ft_strchr("\"'<>| ", *str))
-		printf("%c", *(str++));
-		//*str++;
-	if (*str && (*str == '\'' || *str == '"'))
-		if (str[1] && !ft_strchr("<>| ", str[1]))
-			return (set_arg(str + 1, exec));
-	return (str);
+	if (*start == '\'' || *start == '"')
+		start++;
+	tmp = start;
+	while (*tmp && !ft_strchr("\"'<>| ", *tmp))
+		printf("%c", *(tmp++));
+	if (*tmp && (*tmp == '\'' || *tmp == '"'))
+		if (tmp[1] && !ft_strchr("<>| ", tmp[1]))
+			return (set_tocken(tmp + 1, exec));
+	return (tmp);
 }
 
 t_exec	*tocken(char *str)
 {
-	int	redir;
-	int	cmd;
 	t_exec	exec;
+	int		redir;
+	int		cmd;
 
 	cmd = 0;
 	redir = 0;
@@ -92,8 +95,7 @@ t_exec	*tocken(char *str)
 		}
 		if (redir == 0 && (*str == '<' || *str == '>'))
 		{
-			redir = 1;
-			printf("REDIRECTION == ");
+			redir = 1; printf("REDIRECTION == ");
 			str++;
 			printf("\n");
 		}

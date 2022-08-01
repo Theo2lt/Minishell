@@ -6,7 +6,7 @@
 /*   By: engooh <erickngooh.1@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 11:41:22 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 17:14:49 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/01 22:03:17 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -32,7 +32,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	free(tmp);
 	return (c);
 }
-
+/*
 int	*ft_strjoin2(int *s1, int *s2)
 {
 	int	*c;
@@ -53,4 +53,4 @@ int	*ft_strjoin2(int *s1, int *s2)
 	*p = '\0';
 	free(tmp);
 	return (c);
-}
+}*/

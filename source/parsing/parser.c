@@ -6,7 +6,7 @@
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 17:55:48 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/01 07:11:29 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:51:01 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -107,6 +107,8 @@ void	ft_converte_str(char *str, int signe)
 {
 	int	c;	
 
+	if (!str)
+		return ;
 	while (str && *str)
 	{
 		if (*str == '\'' || *str == '"')
@@ -186,6 +188,8 @@ int	parser_chevron_pipe(char *str)
 {
 	int	espace;
 
+	if (!str)
+		return (0);
 	espace = 1;
 	while (str && *str)
 	{
@@ -207,7 +211,8 @@ int	parser_chevron_pipe(char *str)
 
 char	*parser(char *str, t_env *env)
 {
-	(void)env;
+	if (!str)
+		return (NULL);
 	if (!parser_quote(str))
 		return (NULL);
 	ft_converte_str(str, -1);
@@ -217,6 +222,7 @@ char	*parser(char *str, t_env *env)
 	str = parser_expende(str, env);
 	if (!str)
 		return (NULL);
+	tocken(str);
 	ft_converte_str(str, 1);
 	printf("str out == %s\n", str);
 	return (str);

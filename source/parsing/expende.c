@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 17:53:20 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/01 07:11:28 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:48:34 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -21,11 +21,11 @@ char	*ft_replace(char *str, char *node, int i, int j)
 	{
 		new = ft_strjoin(new, node);
 		new = ft_strjoin(new, str + j);
-		printf("replace1 %s  str[%c]\n", new, str[j]);
+		//printf("replace1 %s  str[%c]\n", new, str[j]);
 		return (new);
 	}
 	new = ft_strjoin(new, str + j);
-	printf("replace2 %s str[%c]\n", new, str[j]);
+	//printf("replace2 %s str[%c]\n", new, str[j]);
 	return (new);
 }
 
@@ -33,7 +33,7 @@ void	ft_converte_expende(char *str)
 {
 	while (str && *str)
 	{
-		if (ft_strchr("<>|\"\'", *str))
+		if (ft_strchr("<>|", *str))
 			*str *= -1;
 		str++;
 	}

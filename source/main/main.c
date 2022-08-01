@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 05:49:51 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/01 07:11:25 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int ac, char **av, char **envp)
 	while (42)
 	{
 		input = readline("minishell> ");
+		if (!input)
+			return (129);
 		add_history(input);
 		if (parser(input, env))
 			free(input);

@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 19:09:53 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/01 07:11:24 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,70 @@ int	set_outfile(char *str, t_exec *exec, int mode)
 		return (0);
 	return (1);
 }
+
 /*int	set_cmd(char *str, t_exec *exec)
 {
 
 }
+*/
 
-int	set_arg(char *str, t_exec *exec)
+char *set_arg(char *str, t_exec *exec)
 {
-
+	(void)exec;
+	if (*str == '\'' || *str == '"')
+		str++;
+	while (*str && !ft_strchr("\"'<>| ", *str))
+		printf("%c", *(str++));
+		//*str++;
+	if (*str && (*str == '\'' || *str == '"'))
+		if (str[1] && !ft_strchr("<>| ", str[1]))
+			return (set_arg(str + 1, exec));
+	return (str);
 }
 
 t_exec	*tocken(char *str)
 {
-	int	file;
 	int	redir;
 	int	cmd;
-	int	arg;
+	t_exec	exec;
 
-
+	cmd = 0;
+	redir = 0;
+	(void)exec;
+	ft_converte_str(str, -1);
 	while (*str)
 	{
-
+		if (cmd == 0 && redir == 0 && !ft_strchr(" <>|", *str))
+		{
+			cmd = 1;
+			printf("COMANDE == ");
+			while (*str && !ft_strchr(" <>|", *str))
+				printf("%c", *(str++));
+			printf("\n");
+		}
+		if (cmd == 1 && redir == 0 && !ft_strchr(" <>|", *str))
+		{
+			printf("ARGUMENTS == ");
+			str = set_arg(str, &exec);
+			printf("\n");
+		}
+		if (redir == 0 && (*str == '<' || *str == '>'))
+		{
+			redir = 1;
+			printf("REDIRECTION == ");
+			str++;
+			printf("\n");
+		}
+		if (redir == 1 && !ft_strchr(" <>|", *str))
+		{
+			redir = 0;
+			printf("FILE == ");
+			while (*str && *str != ' ')
+				printf("%c", *(str++));
+			printf("\n");
+		}
+		if (*str)
+			str++;
 	}
-}*/
+	return (NULL);
+}

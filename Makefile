@@ -6,7 +6,7 @@
 #    By: engooh <engooh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/07/27 20:23:59 by engooh           ###   ########.fr        #
+#    Updated: 2022/07/31 21:01:13 by engooh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ INC = -I ./include
 #                               SOURCE FILES                                   # 
 #                                                                              #
 ################################################################################
-SRC =	./source/parsing/parser.c \
-	./source/parsing/parser_utils.c\
-	./source/parsing/expende.c\
-	./source/parsing/env.c\
-	./source/main/main.c
-		
+SRC =	./source/main/main.c\
+		./source/parsing/env.c\
+		./source/parsing/parser.c\
+		./source/parsing/expende.c\
+		./source/parsing/parser_utils.c\
+		./source/parsing/tockenisation.c 
 ################################################################################
 #                                                                              #
 #                               OBJECT FILES                                   # 

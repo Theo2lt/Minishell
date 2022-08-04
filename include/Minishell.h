@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/01 03:58:27 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/04 10:58:45 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:48:33 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -21,24 +21,12 @@
 # include <readline/readline.h>
 # include <readline/history.h> 
 # include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "libft.h"
+# include <sys/stat.h>
+# include <fcntl.h>
+# include "libft.h"
+# include <wait.h>
 
 /// STRUCT GARBANGE COLECTORE// 
-
-/// STRUCT EXEC //// 
-typedef struct s_exec
-{
-	int				pid;
-	int				bultins;
-	int				infile;
-	int				outfile;
-	char			*args;
-	char			*path_cmd;
-	char			**tabs_exeve;
-	struct s_exec	*next;
-}	t_exec;
 
 //// STUCT ENV //////
 typedef struct s_env
@@ -48,6 +36,19 @@ typedef struct s_env
 	char						*variable_value;
 	struct s_env				*next;
 }	t_env;
+
+typedef struct s_exec
+{
+	int				pid;
+	int				bultins;
+	int				infile;
+	int				outfile;
+	char			*args;
+	char			*cmd_name;
+	char			**tabs_exeve;
+	struct s_exec	*next;
+	struct s_env	*env;
+}	t_exec;
 
 //// STRUCT DEFAULT //// 
 typedef struct s_def
@@ -60,7 +61,7 @@ typedef struct s_def
 }	t_def;
 
 //// FONCTION PARSING ////
-t_exec	*tocken(char *str);
+t_exec	*tocken(char *str, t_env *env);
 void	ft_converte_str(char *str, int signe);
 void	ft_converte_quotes(char *str, int signe);
 char	*ft_parser_pipe_utils(char *str, int stop);

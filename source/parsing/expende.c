@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/01 07:11:28 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/07 08:09:17 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:48:34 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -21,11 +21,9 @@ char	*ft_replace(char *str, char *node, int i, int j)
 	{
 		new = ft_strjoin(new, node);
 		new = ft_strjoin(new, str + j);
-		//printf("replace1 %s  str[%c]\n", new, str[j]);
 		return (new);
 	}
 	new = ft_strjoin(new, str + j);
-	//printf("replace2 %s str[%c]\n", new, str[j]);
 	return (new);
 }
 
@@ -50,19 +48,36 @@ char	*ft_expende(t_env *env, char *str, int start, int end)
 		tmp = ft_replace(str, content, start, end);
 	if (!content)
 		tmp = ft_replace(str, NULL, start, end);
+	if (str)
+		free(str);
 	return (tmp);
+}
+
+int	annule_exepend_heredoc(char *str, int i, int *heredoc)
+{
+	if (str[i] == '|' && *heredoc)
+		*heredoc = 0;
+	else if (str[i] == '<' && str[i + 1] && str[i + 1] == '<' && !*heredoc)
+		*heredoc = 1;
+	if (str[i] == '$' && *heredoc)
+	{
+		str[i] *= -1;
+		*heredoc = 0;
+	}
+	return (i);
 }
 
 char	*parser_expende(char *str, t_env *env)
 {
 	int	i;
 	int	j;
+	int	heredoc;
 
-	if (!str)
-		return (NULL);
 	i = -1;
-	while (str[++i])
+	heredoc = 0;
+	while (str && str[++i])
 	{
+		i = annule_exepend_heredoc(str, i, &heredoc);
 		if (str[i] == '$' && str[i + 1] && (str[i + 1] == '_'
 				|| ft_isalpha(str[i + 1])))
 		{

@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:51:40 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 17:47:22 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/07 08:09:18 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,13 @@ void	ft_converte_tab_list(char **tab, t_env **lst,
 	{
 		if (!*lst)
 			*lst = ft_lst_new();
-		ft_converte_tab_list(tab + 1, &((*lst)->next), f);
+		if (!tab)
+			ft_converte_tab_list(NULL, &((*lst)->next), f);
+		if (tab)
+			ft_converte_tab_list(tab + 1, &((*lst)->next), f);
 	}
-	f(*lst, *tab);
+	if (tab)
+		f(*lst, *tab);
+	if (!tab)
+		f(*lst, NULL);
 }

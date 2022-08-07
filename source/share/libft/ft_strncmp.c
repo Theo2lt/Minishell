@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 00:55:52 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/31 17:43:59 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/07 04:43:17 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -25,6 +25,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	p2 = (unsigned char *)s2;
 	while (p1[i] && p2[i] && p1[i] == p2[i] && i < n - 1)
 		i++;
+	if (i != (n - 1))
+		return (1);
 	return (p1[i] - p2[i]);
 }
 
@@ -44,21 +46,6 @@ int	ft_strncmp3(const char *str1, const char *str2, int n)
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }
 
-int	ft_strncmp2(const char *s1, int *s2, size_t n)
-{
-	unsigned int	i;
-	unsigned char	*p1;
-	unsigned char	*p2;
-
-	if (!n)
-		return (0);
-	i = 0;
-	p1 = (unsigned char *)s1;
-	p2 = (unsigned char *)s2;
-	while (p1[i] && p2[i] && p1[i] == p2[i] && i < n - 1)
-		i++;
-	return (p1[i] - p2[i]);
-}
 /*
 int	ft_strcmp(char *s1, char *s2)
 {

@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/04 10:58:45 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/07 06:58:48 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:48:33 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -44,7 +44,6 @@ typedef struct s_exec
 	int				infile;
 	int				outfile;
 	char			*args;
-	char			*cmd_name;
 	char			**tabs_exeve;
 	struct s_exec	*next;
 	struct s_env	*env;
@@ -61,14 +60,16 @@ typedef struct s_def
 }	t_def;
 
 //// FONCTION PARSING ////
-t_exec	*tocken(char *str, t_env *env);
 void	ft_converte_str(char *str, int signe);
 void	ft_converte_quotes(char *str, int signe);
 char	*ft_parser_pipe_utils(char *str, int stop);
 char	*ft_parser_chevron_utils(char *str, char c);
 char	*ft_parser_quote_chevron_pipe(char *str);
 char	*parser2(char *str, t_env *env);
-char	*parser(char *str, t_env *env);
+t_exec	*parser(char *str, t_exec **exec, t_env *env);
+
+//// FONCTION DE TOCKENISATION /// 
+t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd);
 
 /// FONCTION EXPANDE ////
 char	*parser_expende(char *str, t_env *env);

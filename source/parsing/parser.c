@@ -6,7 +6,7 @@
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/04 10:57:38 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/07 08:09:18 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:51:01 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -209,21 +209,20 @@ int	parser_chevron_pipe(char *str)
 	return (1);
 }
 
-char	*parser(char *str, t_env *env)
+t_exec	*parser(char *str, t_exec **exec, t_env *env)
 {
-	if (!str)
+	if (!str || !exec || !env)
 		return (NULL);
 	if (!parser_quote(str))
 		return (NULL);
 	ft_converte_str(str, -1);
-	printf("str in == %s\n", str);
 	if (!parser_chevron_pipe(str))
 		return (NULL);
 	str = parser_expende(str, env);
 	if (!str)
 		return (NULL);
-	tocken(str, env);
-	ft_converte_str(str, 1);
-	printf("str out == %s\n", str);
-	return (str);
+	*exec = tocken(str, *exec, env, 0);
+	if (str)
+		free(str);
+	return (*exec);
 }

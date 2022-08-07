@@ -6,34 +6,59 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/04 11:04:09 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/07 07:42:37 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-int	set_herdoc(char *str, t_exec *exec, int mode)
+void	ft_positive_negative(char *str, int signe)
 {
-	int	pid;
+	if (!str)
+		return ;
+	while (*str)
+	{
+		if (*str && signe > 0 && *str < 0)
+			*str *= -1;
+		if (*str && signe < 0 && *str > 0)
+			*str *= -1;
+		str++;
+	}
+}
+
+void	read_herdoc(char *limiter, t_exec *exec, int mode)
+{
 	char	*input;
+
+	printf("limiter %s", limiter);
+	input = readline(">");
+	if (!input || !ft_strncmp(limiter, input, ft_strlen(input)))
+	{
+		exit(0);
+		close(exec->infile);
+	}
+	if (mode == 4)
+	{
+		input = parser_expende(input, exec->env);
+		ft_positive_negative(input, 1);
+	}
+	ft_putstr_fd(input, exec->infile);
+	if (input)
+		free(input);
+}
+
+void	set_herdoc(char *str, t_exec *exec, int mode)
+{
+	int		pid;
 
 	exec->infile = open("/tmp/", __O_TMPFILE | O_RDWR, 0666);
 	if (exec->infile < 0)
-			ft_putstr_fd("ERROR HERDOC", 2);
+		ft_putstr_fd("ERROR HERDOC", 2);
 	pid = fork();
 	if (!pid)
 	{
 		while (42)
-		{
-			input = readline(">");
-			if (!input)
-				exit(0);
-			input = parser_expende(input, exec->env);
-			ft_putstr_fd(input, exec->infile);
-			if (input)
-				free(input);
-		}
-		close(exec->infile);
+			read_herdoc(str, exec, mode);
 		exit(0);
 	}
 	else if (pid)
@@ -46,9 +71,9 @@ int	set_infile(char *str, t_exec *exec, int mode)
 	{
 		exec->infile = open(str, O_RDONLY, 0666);
 		if (exec->infile < 0)
-			ft_putstr_fd("ERROR INFILE", 2);
+			ft_putstr_fd("ERROR INFILE\n", 2);
 	}
-	else if (mode == 5 || mode == 6)
+	else if (mode == 4 || mode == 5)
 		set_herdoc(str, exec, mode);
 	if (exec->infile < 0)
 		return (0);
@@ -56,18 +81,18 @@ int	set_infile(char *str, t_exec *exec, int mode)
 }
 
 int	set_outfile(char *str, t_exec *exec, int mode)
-{       
+{
 	if (mode == 3 && exec->infile >= 0 && exec->outfile >= 1)
 	{
 		exec->outfile = open(str, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (exec->outfile < 0)
-			ft_putstr_fd("ERROR OUFILE", 2);
+			ft_putstr_fd("ERROR OUFILE\n", 2);
 	}
 	else if (mode == 1 && exec->infile >= 0 && exec->outfile >= 1)
 	{
 		exec->outfile = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		if (exec->outfile < 0)
-			ft_putstr_fd("ERROR OUFILE", 2);
+			ft_putstr_fd("ERROR OUFILE\n", 2);
 	}
 	if (exec->outfile < 0)
 		return (0);
@@ -77,7 +102,13 @@ int	set_outfile(char *str, t_exec *exec, int mode)
 char	*set_redir(char *str, int *type_redir)
 {
 	if (*str == '<' && str[1] && str[1] == '<' && ++str && ++str)
+	{
 		*type_redir = 4;
+		while (*str && !ft_strchr(" <>|", *str))
+			str++;
+		if (*str == '\'' || *str == '"')
+			*type_redir = 5;
+	}
 	else if (*str == '>' && str[1] && str[1] == '>' && ++str && ++str)
 		*type_redir = 3;
 	else if (*str == '<' && ++str)
@@ -99,15 +130,18 @@ char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 		tmp++;
 	new = ft_substr(start, 0, tmp - start);
 	res = ft_strjoin(res, new);
-	if (!new)
+	if (new)
 		free(new);
 	if (*tmp && (*tmp == '\'' || *tmp == '"'))
 		if (tmp[1] && !ft_strchr("\"'<>| ", tmp[1]))
 			return (set_file(tmp + 1, res, exec, type_redir));
-	if (type_redir == 1 || type_redir == 2)
+	ft_positive_negative(res, 1);
+	if (type_redir == 1 || type_redir == 3)
 		set_outfile(res, exec, type_redir);
-	if (type_redir == 3 || type_redir == 4)
+	if (type_redir == 2 || type_redir >= 4)
 		set_infile(res, exec, type_redir);
+	if (res)
+		free(res);
 	return (tmp);
 }
 
@@ -115,8 +149,10 @@ char	*set_arg(char *start, char *res, t_exec *exec)
 {
 	char	*tmp;
 	char	*new;
-	char	charset[2] = {127, '\0'};
+	char	charset[2];
 
+	charset[0] = 127;
+	charset[1] = 0;
 	if (*start == '\'' || *start == '"')
 		start++;
 	tmp = start;
@@ -124,13 +160,16 @@ char	*set_arg(char *start, char *res, t_exec *exec)
 		tmp++;
 	new = ft_substr(start, 0, tmp - start);
 	res = ft_strjoin(res, new);
-	if (!new)
+	if (new)
 		free(new);
 	if (*tmp && (*tmp == '\'' || *tmp == '"'))
 		if (tmp[1] && !ft_strchr("\"'<>| ", tmp[1]))
 			return (set_arg(tmp + 1, res, exec));
+	ft_positive_negative(res, 1);
 	exec->args = ft_strjoin(exec->args, res);
 	exec->args = ft_strjoin(exec->args, charset);
+	if (res)
+		free(res);
 	return (tmp);
 }
 
@@ -138,7 +177,10 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 {
 	char	*tmp;
 	char	*new;
+	char	charset[2];
 
+	charset[0] = 127;
+	charset[1] = 0;
 	if (*start == '\'' || *start == '"')
 		start++;
 	tmp = start;
@@ -146,38 +188,60 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 		tmp++;
 	new = ft_substr(start, 0, tmp - start);
 	res = ft_strjoin(res, new);
-	if (!new)
+	if (new)
 		free(new);
 	if (*tmp && (*tmp == '\'' || *tmp == '"'))
 		if (tmp[1] && !ft_strchr("\"'<>| ", tmp[1]))
 			return (set_cmd(tmp + 1, res, exec));
-	exec->cmd_name = ft_strjoin(exec->cmd_name, res);
+	ft_positive_negative(res, 1);
+	exec->args = ft_strjoin(exec->args, res);
+	exec->args = ft_strjoin(exec->args, charset);
+	if (res)
+		free(res);
 	return (tmp);
 }
 
-t_exec	*tocken(char *str, t_env *env)
+
+t_exec	*set_tocken(t_exec *exec, t_env *env)
 {
-	t_exec	exec;
-	int		cmd;
+	if (!exec)
+	{
+		exec = malloc(sizeof(t_exec));
+		exec->env = env;
+		exec->infile = 0;
+		exec->outfile = 1;
+		exec->next = NULL;
+		exec->args = NULL;
+		exec->tabs_exeve = NULL;
+	}
+	return (exec);
+}
+
+t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd)
+{
 	int		redir;
 	int		type_redir;
 
-	cmd = 0;
+	if (!str || !*str)
+		return (exec);
 	redir = 0;
-	exec.env = env;
+	exec = set_tocken(exec, env);
 	ft_converte_str(str, -1);
-	while (*str)
+	while (*str && *str != '|')
 	{
-		if (cmd == 0 && redir == 0 && !ft_strchr(" <>|", *str) && cmd++)
-			str = set_cmd(str, NULL, &exec);
-		if (cmd == 1 && redir == 0 && !ft_strchr(" <>|", *str))
-			str = set_arg(str, NULL, &exec);
-		if (redir == 0 && (*str == '<' || *str == '>') && redir++)
+		if (cmd == 0 && redir == 0 && !ft_strchr(" <>|", *str) && ++cmd)
+			str = set_cmd(str, NULL, exec);
+		if (cmd >= 1 && redir == 0 && !ft_strchr(" <>|", *str))
+			str = set_arg(str, NULL, exec);
+		if (redir == 0 && (*str == '<' || *str == '>') && ++redir)
 			str = set_redir(str, &type_redir);
-		if (redir == 1 && !ft_strchr(" <>|", *str) && redir--)
-			str = set_file(str, NULL, &exec, type_redir);
-		if (*str)
+		if (redir == 1 && !ft_strchr(" <>|", *str) && !(--redir))
+			str = set_file(str, NULL, exec, type_redir);
+		if (*str && *str != '|')
 			str++;
 	}
-	return (NULL);
+	exec->tabs_exeve = ft_split(exec->args, 127);
+	if (*str && *str == '|')
+		exec->next = tocken(str + 1, exec->next, env, 0);
+	return (exec);
 }

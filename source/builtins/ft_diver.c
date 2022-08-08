@@ -1,45 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tabs.c                                     :+:      :+:    :+:   */
+/*   ft_diver.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/30 20:58:52 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/08 19:06:38 by tliot            ###   ########.fr       */
+/*   Created: 2022/07/30 06:55:49 by tliot             #+#    #+#             */
+/*   Updated: 2022/08/08 13:01:24 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include "Minishell.h"
 
-int	ft_free_tab(void **tabs)
+char *ft_joint_free_S1_S2(char *str1, char *str2)
 {
-	int	i;
+    char *str_join;
 
-	if (!tabs)
-		return (0);
-	i = -1;
-	while (tabs[++i])
-		if (tabs[i])
-			free(tabs[i]);
-	free(tabs);
-	return (1);
-}
+    str_join = NULL;
+    str_join = ft_strjoin(str1, str2);
+    if(str1)
+        free(str1);
+    if(str2)
+        free(str2);
 
-char   **ft_free_tab2(char **tab)
-{
-    int    i;
-
-    i = 0;
-	if (!tab || !tab[0])
-		return (NULL);
-    while (tab[i])
-    {
-		if (tab[i])
-        	free(tab[i]);
-        i++;
-    }
-    free(tab);
-    return (NULL);
+    return (str_join);
 }

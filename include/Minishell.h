@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/08 12:47:51 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/08 19:22:43 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # include <fcntl.h>
 # include "libft.h"
 # include <wait.h>
+# include <errno.h>
+
+
+
 
 //// STUCT ENV //////
 typedef struct s_env
@@ -57,6 +61,15 @@ typedef struct s_def
 	char				*contente;
 }	t_def;
 
+
+////// STRUC MINISHELL ////// 
+typedef struct		s_minishell
+{
+	struct s_env *env_lst;
+	struct s_exec *exec;
+}t_minishell;
+
+
 //// FONCTION PARSING ////
 void	ft_converte_str(char *str, int signe);
 void	ft_converte_quotes(char *str, int signe);
@@ -83,6 +96,7 @@ void	ft_exec_unset(char **name, t_env **lst);
 
 void	ft_parsing_setenv(char *cmd, t_env **lst);
 void	ft_unset(char *name, t_env **lst);
+void	ft_exit(t_minishell *minishell);
 
 /// FONCTION AFFICHAGE ///
 void	ft_putchar(char c, int fd);
@@ -105,7 +119,24 @@ void	ft_add_variable_env(char *name, char *value, int init_value,
 t_env	*ft_lst_env_new(char *name, char *value, int init_value);
 t_env	*ft_lst_env_last(t_env *lst);
 t_env	*ft_lst_getenv(char *str, t_env *lst);
+int		ft_lstsize_env(t_env *lst);
+t_env	*ft_init_env(char **env);
+
+
+char **ft_recreate_env(t_env *lst);
+////// EXECUTION /////
+void    ft_execution(t_minishell *minishell);
+void	ft_commande_not_found(char	**cmd);
+void	ft_childs(t_minishell *minishell, t_exec *cmd_lst);
+void	ft_exec(t_minishell *minishell, t_exec *cmd_lst);
+char	*ft_strjoin_path(char *s1, char *s2);
+char    *ft_return_path_value(t_env *lst);
+char	*ft_path_exec(t_env *lst, char **cmd_arg);
+char 	*ft_joint_3str(char *str, char *str2, char *str3);
+char 	**ft_recreate_env(t_env *lst);
+void	ft_wait_all_pid(t_exec *lst);
 
 ////// DEBUG /////
 void	ft_lst_env_BUG(t_env *lst);
+void 	ft_sim_exec_lst_BUG(t_exec *lst);
 #endif

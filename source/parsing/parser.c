@@ -6,7 +6,7 @@
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 08:09:18 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/08 02:40:47 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:51:01 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -200,8 +200,8 @@ int	parser_chevron_pipe(char *str)
 			if (*str == '|' && espace && printf("KO sytanxe\n"))
 				return (0);
 			str = parser_chevron_pipe_utils(str + 1, *str);
-			if (!str)
-				printf("KO syntaxe\n");
+			if (!str && printf("KO syntaxe\n"))
+				return (0);
 		}
 		if (str && *str)
 			str++;
@@ -209,9 +209,12 @@ int	parser_chevron_pipe(char *str)
 	return (1);
 }
 
-t_exec	*parser(char *str, t_exec **exec, t_env *env)
+t_exec	*parser(char *str, t_env *env)
 {
-	if (!str || !exec || !env)
+	t_exec	*exec;
+
+	exec = NULL;
+	if (!str || !env)
 		return (NULL);
 	if (!parser_quote(str))
 		return (NULL);
@@ -221,8 +224,8 @@ t_exec	*parser(char *str, t_exec **exec, t_env *env)
 	str = parser_expende(str, env);
 	if (!str)
 		return (NULL);
-	*exec = tocken(str, *exec, env, 0);
+	exec = tocken(str, NULL, env, 0);
 	if (str)
 		free(str);
-	return (*exec);
+	return (exec);
 }

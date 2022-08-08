@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 07:42:37 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/08 01:22:25 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 {
 	char	*input;
 
-	printf("limiter %s", limiter);
 	input = readline(">");
 	if (!input || !ft_strncmp(limiter, input, ft_strlen(input)))
 	{
@@ -104,7 +103,7 @@ char	*set_redir(char *str, int *type_redir)
 	if (*str == '<' && str[1] && str[1] == '<' && ++str && ++str)
 	{
 		*type_redir = 4;
-		while (*str && !ft_strchr(" <>|", *str))
+		while (*str && *str == ' ')
 			str++;
 		if (*str == '\'' || *str == '"')
 			*type_redir = 5;
@@ -200,7 +199,6 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 		free(res);
 	return (tmp);
 }
-
 
 t_exec	*set_tocken(t_exec *exec, t_env *env)
 {

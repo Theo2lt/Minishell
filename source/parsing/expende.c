@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 08:09:17 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/08 01:44:41 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:48:34 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -89,7 +89,7 @@ char	*parser_expende(char *str, t_env *env)
 		}
 		else if (str[i] == '$' && str[i + 1] && ft_isdigit(str[i + 1]))
 		{
-			str = ft_expende(env, str, i, i + 2);
+			str = ft_expende(env, str, i + 1, i + 2);
 			i--;
 		}
 	}

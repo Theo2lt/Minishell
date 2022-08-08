@@ -6,7 +6,7 @@
 /*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 06:58:48 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/08 01:11:44 by engooh           ###   ########.fr       */
 /*   Updated: 2022/07/29 22:48:33 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -66,7 +66,7 @@ char	*ft_parser_pipe_utils(char *str, int stop);
 char	*ft_parser_chevron_utils(char *str, char c);
 char	*ft_parser_quote_chevron_pipe(char *str);
 char	*parser2(char *str, t_env *env);
-t_exec	*parser(char *str, t_exec **exec, t_env *env);
+t_exec	*parser(char *str, t_env *env);
 
 //// FONCTION DE TOCKENISATION /// 
 t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd);

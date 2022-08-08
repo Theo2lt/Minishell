@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: engooh <engooh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tliot <tliot@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/07/31 21:01:13 by engooh           ###   ########.fr        #
+#    Updated: 2022/08/08 12:40:20 by tliot            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC =	./source/main/main.c\
 		./source/parsing/parser.c\
 		./source/parsing/expende.c\
 		./source/parsing/parser_utils.c\
-		./source/parsing/tockenisation.c 
+		./source/parsing/tockenisation.c\
+		
 ################################################################################
 #                                                                              #
 #                               OBJECT FILES                                   # 
@@ -54,7 +55,7 @@ DEPS = ${SRC:%.c=%.d}
 #                               COMPILATIONS FLAGS                             # 
 #                                                                              #
 ################################################################################
-CC = gcc
+CC = clang
 CFLAG = -g3 -Werror -Wall -Wextra 
 
 ################################################################################

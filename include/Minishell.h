@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/08 01:11:44 by engooh           ###   ########.fr       */
-/*   Updated: 2022/07/29 22:48:33 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/08 12:47:51 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef MINISHELL_H
-# define MINISHEL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -25,8 +25,6 @@
 # include <fcntl.h>
 # include "libft.h"
 # include <wait.h>
-
-/// STRUCT GARBANGE COLECTORE// 
 
 //// STUCT ENV //////
 typedef struct s_env

@@ -6,7 +6,7 @@
 #    By: tliot <tliot@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/08/08 12:53:56 by tliot            ###   ########.fr        #
+#    Updated: 2022/08/09 07:41:31 by tliot            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ PATH_LIBFT = ./source/share/libft/
 all: MAKE_LIBFT $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) -g3 $(CFLAG) $(OBJ) $(LIB) -lreadline -o $@ $(INC)
+	$(CC)  $(CFLAG) $(OBJ) $(LIB) -lreadline -o $@ $(INC)
 
 MAKE_LIBFT:
 	make -C $(PATH_LIBFT)

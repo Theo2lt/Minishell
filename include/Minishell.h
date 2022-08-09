@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/08 19:22:43 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/09 06:39:41 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ char **ft_recreate_env(t_env *lst);
 ////// EXECUTION /////
 void    ft_execution(t_minishell *minishell);
 void	ft_commande_not_found(char	**cmd);
-void	ft_childs(t_minishell *minishell, t_exec *cmd_lst);
-void	ft_exec(t_minishell *minishell, t_exec *cmd_lst);
+void	ft_childs(t_minishell *minishell);
+void	ft_exec(t_minishell *minishell);
 char	*ft_strjoin_path(char *s1, char *s2);
 char    *ft_return_path_value(t_env *lst);
 char	*ft_path_exec(t_env *lst, char **cmd_arg);

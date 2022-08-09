@@ -89,7 +89,7 @@ char *ft_joint_3str(char *str, char *str2, char *str3)
 	int i;
 	int j;
 	
-	len_dest = ft_strlen(str) + ft_strlen(str2) + ft_strlen(str3) + 1;
+	len_dest = ft_strlen3(str) + ft_strlen3(str2) + ft_strlen3(str3) + 1;
 	dest = malloc(sizeof(char) * (len_dest));
 	if(!dest)
 		return(NULL);
@@ -104,6 +104,7 @@ char *ft_joint_3str(char *str, char *str2, char *str3)
 	j = -1;
 	while(str3 && str3[++j])
 		dest[i+j] = str3[j];
+	printf("yoooooo\n");
 	return (dest);
 }
 
@@ -123,15 +124,30 @@ char **ft_recreate_env(t_env *lst)
 	if(!env)
 		return(NULL);
 	i = 0;
+	printf("1la\n");
 	while (lst)
 	{   
+		printf("i = %d\n",i);
+		printf("\n---------------------------------\n");
+        printf(" < &NOEUD > addr : %p \n",lst);
+        printf("---------------------------------\n");
+		printf("addr : %p | %s\n", lst->variable_name, lst->variable_name);
+		printf("addr : %p | %d\n", &lst->init_value, lst->init_value);
+		printf("addr : %p | %s\n", lst->variable_value, lst->variable_value);
+		printf("addr : %p | lst->next\n", lst->next);
+		printf("LEN : %d  \n",ft_lstsize_env(lst));
+		printf("---------------------------------\n");
 		if(lst->init_value == 1)
 		{
 			env[i] = ft_joint_3str(lst->variable_name, "=", lst->variable_value);
 			i++;
+			printf("3la\n");
 		}
 		lst = lst->next;
 	}
-	env[i][0] = '\0';
+	printf("i = %d\n",i);
+	printf("END\n");
+	env[i] = NULL;
+	printf("STOP\n");
 	return(env);
 }

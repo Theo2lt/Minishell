@@ -6,7 +6,7 @@
 #    By: tliot <tliot@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/08/09 07:41:31 by tliot            ###   ########.fr        #
+#    Updated: 2022/08/10 07:39:34 by tliot            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,12 @@ SRC =	./source/main/main.c\
 		./source/parsing/expende.c\
 		./source/parsing/parser_utils.c\
 		./source/parsing/tockenisation.c\
-		./source/builtins/ft_exec_cd.c\
-		./source/builtins/ft_exec_echo.c\
-		./source/builtins/ft_exec_env.c\
-		./source/builtins/ft_exec_export.c\
-		./source/builtins/ft_exec_pwd.c\
-		./source/builtins/ft_exec_unset.c\
+		./source/builtins/ft_builtins_cd.c\
+		./source/builtins/ft_builtins_echo.c\
+		./source/builtins/ft_builtins_env.c\
+		./source/builtins/ft_builtins_export.c\
+		./source/builtins/ft_builtins_pwd.c\
+		./source/builtins/ft_builtins_unset.c\
 		./source/builtins/ft_manage_builtins.c\
 		./source/builtins/ft_diver.c\
 		./source/excution/FT_BUG.c\

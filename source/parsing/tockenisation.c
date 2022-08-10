@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tockenisation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/08 01:22:25 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/09 14:04:24 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,25 @@ void	ft_positive_negative(char *str, int signe)
 
 void	read_herdoc(char *limiter, t_exec *exec, int mode)
 {
-	char	*input;
+	char		*input;
 
-	input = readline(">");
-	if (!input || !ft_strncmp(limiter, input, ft_strlen(input)))
+	while (42)
 	{
-		exit(0);
-		close(exec->infile);
+		input = readline("> ");
+		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
+		{
+			exit(0);
+			close(exec->infile);
+		}
+		if (mode == 4)
+		{
+			input = parser_expende(input, exec->env);
+			ft_positive_negative(input, 1);
+		}
+		ft_putstr_fd(input, exec->infile);
+		if (input)
+			free(input);
 	}
-	if (mode == 4)
-	{
-		input = parser_expende(input, exec->env);
-		ft_positive_negative(input, 1);
-	}
-	ft_putstr_fd(input, exec->infile);
-	if (input)
-		free(input);
 }
 
 void	set_herdoc(char *str, t_exec *exec, int mode)
@@ -56,8 +59,7 @@ void	set_herdoc(char *str, t_exec *exec, int mode)
 	pid = fork();
 	if (!pid)
 	{
-		while (42)
-			read_herdoc(str, exec, mode);
+		read_herdoc(str, exec, mode);
 		exit(0);
 	}
 	else if (pid)
@@ -117,13 +119,24 @@ char	*set_redir(char *str, int *type_redir)
 	return (str);
 }
 
+char	*set_begin(char	*str)
+{
+	if (!str)
+		return (NULL);
+	if (*str && *str == '$')
+		if (str[1] && (str[1] == '\'' || str[1] == '"'))
+			return (str + 2);
+	if (*str && (*str == '\'' && *str == '"'))
+		return (str + 1);
+	return (str);
+}
+
 char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 {
 	char	*tmp;
 	char	*new;
 
-	if (*start == '\'' || *start == '"')
-		start++;
+	start = set_begin(start);
 	tmp = start;
 	while (*tmp && !ft_strchr("\"'<>| ", *tmp))
 		tmp++;
@@ -132,7 +145,7 @@ char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 	if (new)
 		free(new);
 	if (*tmp && (*tmp == '\'' || *tmp == '"'))
-		if (tmp[1] && !ft_strchr("\"'<>| ", tmp[1]))
+		if (tmp[1] && !ft_strchr("<>| ", tmp[1]))
 			return (set_file(tmp + 1, res, exec, type_redir));
 	ft_positive_negative(res, 1);
 	if (type_redir == 1 || type_redir == 3)
@@ -152,8 +165,7 @@ char	*set_arg(char *start, char *res, t_exec *exec)
 
 	charset[0] = 127;
 	charset[1] = 0;
-	if (*start == '\'' || *start == '"')
-		start++;
+	start = set_begin(start);
 	tmp = start;
 	while (*tmp && !ft_strchr("\"'<>| ", *tmp))
 		tmp++;
@@ -162,7 +174,7 @@ char	*set_arg(char *start, char *res, t_exec *exec)
 	if (new)
 		free(new);
 	if (*tmp && (*tmp == '\'' || *tmp == '"'))
-		if (tmp[1] && !ft_strchr("\"'<>| ", tmp[1]))
+		if (tmp[1] && !ft_strchr("<>| ", tmp[1]))
 			return (set_arg(tmp + 1, res, exec));
 	ft_positive_negative(res, 1);
 	exec->args = ft_strjoin(exec->args, res);
@@ -180,8 +192,7 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 
 	charset[0] = 127;
 	charset[1] = 0;
-	if (*start == '\'' || *start == '"')
-		start++;
+	start = set_begin(start);
 	tmp = start;
 	while (*tmp && !ft_strchr("\"'<>| ", *tmp))
 		tmp++;
@@ -190,7 +201,7 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 	if (new)
 		free(new);
 	if (*tmp && (*tmp == '\'' || *tmp == '"'))
-		if (tmp[1] && !ft_strchr("\"'<>| ", tmp[1]))
+		if (tmp[1] && !ft_strchr("<>| ", tmp[1]))
 			return (set_cmd(tmp + 1, res, exec));
 	ft_positive_negative(res, 1);
 	exec->args = ft_strjoin(exec->args, res);

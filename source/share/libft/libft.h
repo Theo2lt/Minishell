@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 23:57:30 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/09 07:11:45 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/09 12:15:36 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int		ft_tablen(char **tab);
 char	*ft_strdup(const char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, char const *s2);
+char	*ft_strjoin2(char  *s1, char  *s2);
 char	*ft_strjoin_update(char *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));

@@ -44,6 +44,9 @@ char    *ft_return_path_value(t_env *lst)
 	return (NULL);
 }
 
+
+
+
 // PREND lst et **char en parametre
 // VERIFIE pour chaque path si la concatenation avec  cmd_arg[0] est acces
 // RETURN char* si OK sinon NULL
@@ -66,6 +69,7 @@ char	*ft_path_exec(t_env *lst, char **cmd_arg)
 			if (path && access(path, X_OK) == 0)
 			{   
 				paths = ft_free_tab2(paths);
+				printf("''[%s]''\n",path);
 				return (path);
 			}
 			free(path);
@@ -73,9 +77,7 @@ char	*ft_path_exec(t_env *lst, char **cmd_arg)
 		}
 	}
 	paths = ft_free_tab2(paths);
-	if (access(cmd_arg[0], X_OK) == 0)
-		return (ft_strjoin(cmd_arg[0],""));
-	return (ft_strjoin(cmd_arg[0],""));
+	return(ft_strjoin2(cmd_arg[0],""));
 }
 
 // PREND 3 str en parametre
@@ -104,7 +106,6 @@ char *ft_joint_3str(char *str, char *str2, char *str3)
 	j = -1;
 	while(str3 && str3[++j])
 		dest[i+j] = str3[j];
-	printf("yoooooo\n");
 	return (dest);
 }
 
@@ -124,30 +125,16 @@ char **ft_recreate_env(t_env *lst)
 	if(!env)
 		return(NULL);
 	i = 0;
-	printf("1la\n");
 	while (lst)
 	{   
-		printf("i = %d\n",i);
-		printf("\n---------------------------------\n");
-        printf(" < &NOEUD > addr : %p \n",lst);
-        printf("---------------------------------\n");
-		printf("addr : %p | %s\n", lst->variable_name, lst->variable_name);
-		printf("addr : %p | %d\n", &lst->init_value, lst->init_value);
-		printf("addr : %p | %s\n", lst->variable_value, lst->variable_value);
-		printf("addr : %p | lst->next\n", lst->next);
-		printf("LEN : %d  \n",ft_lstsize_env(lst));
-		printf("---------------------------------\n");
+
 		if(lst->init_value == 1)
 		{
 			env[i] = ft_joint_3str(lst->variable_name, "=", lst->variable_value);
 			i++;
-			printf("3la\n");
 		}
 		lst = lst->next;
 	}
-	printf("i = %d\n",i);
-	printf("END\n");
 	env[i] = NULL;
-	printf("STOP\n");
 	return(env);
 }

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/09 06:39:41 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/10 07:46:00 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int		ft_exec_export(char **cmd, t_env **lst);
 void	ft_exec_unset(char **name, t_env **lst);
 
 void	ft_parsing_setenv(char *cmd, t_env **lst);
+int		ft_is_builting(char *cmd);
+int		ft_manage_builting(char **cmd, t_minishell *minishell);
 void	ft_unset(char *name, t_env **lst);
 void	ft_exit(t_minishell *minishell);
 
@@ -127,8 +129,8 @@ char **ft_recreate_env(t_env *lst);
 ////// EXECUTION /////
 void    ft_execution(t_minishell *minishell);
 void	ft_commande_not_found(char	**cmd);
-void	ft_childs(t_minishell *minishell);
-void	ft_exec(t_minishell *minishell);
+void	ft_childs(t_minishell *minishell, t_exec *cmd_tmp);
+void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp);
 char	*ft_strjoin_path(char *s1, char *s2);
 char    *ft_return_path_value(t_env *lst);
 char	*ft_path_exec(t_env *lst, char **cmd_arg);

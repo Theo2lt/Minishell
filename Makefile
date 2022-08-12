@@ -6,7 +6,7 @@
 #    By: tliot <tliot@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/08/10 07:39:34 by tliot            ###   ########.fr        #
+#    Updated: 2022/08/11 20:44:57 by tliot            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC =	./source/main/main.c\
 		./source/excution/FT_BUG.c\
 		./source/excution/ft_path.c\
 		./source/excution/ft_exec.c\
+		./source/excution/ft_utils.c\
 		./source/environement/env.c\
 		./source/environement/ft_lst_env.c\
 		

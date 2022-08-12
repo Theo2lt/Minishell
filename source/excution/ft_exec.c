@@ -1,19 +1,67 @@
 
 #include "Minishell.h"
 
+
+void	ft_r_infile(t_exec *cmd_tmp, int fd_previous)
+{
+	if(cmd_tmp->infile > 0)
+	{
+		dup2(cmd_tmp->infile,STDIN_FILENO);
+		ft_putstr_fd("LA\n",2);
+		if (cmd_tmp->infile > 0)
+			close(cmd_tmp->infile);
+		if(fd_previous > 0)
+			close(fd_previous);
+	}
+	else if(cmd_tmp->num_cmd != 1)
+	{
+		dup2(fd_previous, STDIN_FILENO);
+		if(fd_previous > 0)
+			close(fd_previous);
+	}
+}
+
+
+void	ft_r_out(t_minishell *minishell,t_exec *cmd_tmp, int *fd)
+{
+	if(cmd_tmp->outfile > 1)
+		dup2(cmd_tmp->outfile,STDOUT_FILENO);
+	else if(cmd_tmp->num_cmd != ft_exec_lstsize(minishell->exec))
+		dup2(fd[1], STDOUT_FILENO);
+	if(ft_exec_lstsize(minishell->exec) > 1 && fd[1] > 0)
+		close(fd[1]);
+	if(fd[0] > 0)
+		close(fd[0]);
+}
+
+
 void    ft_execution(t_minishell *minishell)
 {
 	t_exec *cmd_tmp;
 	int fd[2];
-	int tmp;
-	
+	int fd_previous;
+
+	fd[0] = 0;
+	fd[1] = 1;
 	cmd_tmp = minishell->exec;
 	while(cmd_tmp)
 	{	
+		
+		fd_previous = fd[0];
+		if(ft_exec_lstsize(minishell->exec) > 1 && pipe(fd) < 0)
+		{
+			printf("erreur pipe");
+			ft_exit(minishell);
+		}
+
 		cmd_tmp->pid = fork();
 		if (cmd_tmp->pid == 0)
-			ft_childs(minishell,cmd_tmp);
+			ft_childs(minishell,cmd_tmp,fd_previous,fd);
 		cmd_tmp = cmd_tmp->next;
+		if(fd[1] > 1 && ft_exec_lstsize(minishell->exec) > 1)
+			close(fd[1]);
+		if(fd_previous > 0)
+			close(fd_previous);
 	}
 }
 
@@ -28,15 +76,10 @@ void	ft_commande_not_found(char	**cmd)
 
 
 
-void	ft_childs(t_minishell *minishell, t_exec *cmd_tmp)
+void	ft_childs(t_minishell *minishell, t_exec *cmd_tmp,int fd_previous,int *fd)
 {
-	if (cmd_tmp->infile == -1 || cmd_tmp->outfile == -1)
-		ft_exit(minishell);
-	if (cmd_tmp->infile != -1)
-		dup2(cmd_tmp->infile,0);
-	if (cmd_tmp->outfile > 2)
-		dup2(cmd_tmp->outfile,1);
-
+	ft_r_infile(cmd_tmp,fd_previous);
+	ft_r_out(minishell,cmd_tmp, fd);
 	if (ft_is_builting(cmd_tmp->tabs_exeve[0]))
 	{
 		ft_manage_builting(cmd_tmp->tabs_exeve,minishell);
@@ -48,15 +91,11 @@ void	ft_childs(t_minishell *minishell, t_exec *cmd_tmp)
 
 void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 {
-
 	char *path;
 	char **env;
 
-	//ft_sim_exec_lst_BUG(cmd_tmp);
-
 	path = ft_path_exec(minishell->env_lst,cmd_tmp->tabs_exeve);
 	env = ft_recreate_env(minishell->env_lst);
-	
 	if(!cmd_tmp->tabs_exeve || (!ft_char_set(path, '/') && ft_return_path_value(minishell->env_lst)))
 	{
 		ft_commande_not_found(cmd_tmp->tabs_exeve);
@@ -65,9 +104,6 @@ void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 			free(path);
 		ft_exit(minishell);
 	}
-
-
-	//ft_sim_exec_lst_BUG(cmd_tmp);
 	if(execve(path,cmd_tmp->tabs_exeve,env) == -1)
 	{
 		ft_putstr_fd("bash: ",2);
@@ -79,8 +115,7 @@ void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 		if(path)
 			free(path);
 		ft_exit(minishell);
-	}
-	
+	}	
 }
 
 void	ft_wait_all_pid(t_exec *lst)

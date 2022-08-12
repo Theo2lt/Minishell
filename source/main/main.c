@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/10 10:05:46 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/11 15:57:59 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,34 +99,34 @@ int main(int argc, char **argv, char **env)
 	ft_put_siganture();
 	while (42)
 	{
-		input = readline("minishell> ");
+		input = readline("bosh-5.0$ ");
 		add_history(input);
+		/*
 		if(ft_strcmp(input, "exit") == 0)
 		{
 				ft_exit(minishell);
 				exit(0);
-		}
+		}*/
 		if(ft_strcmp(input, "") != 1)
 		{
 			minishell->exec = parser(input, minishell->env_lst);
 			//ft_sim_exec_lst_BUG(minishell->exec);
 
 			if(!minishell->exec)
-			{
 				printf("Existe PAS\n");
-			}
-
-			if(ft_is_builting(minishell->exec->tabs_exeve[0]) && !minishell->exec->next)
-			{
-				ft_manage_builting(minishell->exec->tabs_exeve,minishell);
-			}
 			else
-			{
-				ft_execution(minishell);
-				ft_wait_all_pid(minishell->exec);
+			{	
+				ft_assigne_num_lstexec(minishell->exec);
+				if(ft_is_builting(minishell->exec->tabs_exeve[0]) && !minishell->exec->next)
+					ft_manage_builting(minishell->exec->tabs_exeve,minishell);
+				else
+				{
+					ft_execution(minishell);
+					ft_wait_all_pid(minishell->exec);
+				}
+				ft_delete_exec_lst_free(&minishell->exec);
+				minishell->exec = NULL;
 			}
-			ft_delete_exec_lst_free(&minishell->exec);
-			minishell->exec = NULL;
 		}
 	}
 	ft_put_siganture();

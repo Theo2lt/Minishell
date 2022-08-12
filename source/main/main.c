@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/11 15:57:59 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/12 10:38:01 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ void ft_exit(t_minishell *mini)
 		ft_lst_env_free(mini->env_lst);
 	if (mini->exec)
 		ft_delete_exec_lst_free(&mini->exec);
+	if (mini->fd[1] > 1 )
+		close(1);
+	if(mini->fd_previous > 0)
+		close(mini->fd_previous);
 	if (mini)
 		free(mini);
 	exit(0);

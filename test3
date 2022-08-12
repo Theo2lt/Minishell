@@ -1,9 +1,0 @@
-Makefile
-include
-minimal.supp
-readline_leaks.txt
-source
-test
-test.c
-test3
-valgrind.sh

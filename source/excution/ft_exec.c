@@ -38,17 +38,20 @@ void	ft_r_out(t_minishell *minishell,t_exec *cmd_tmp, int *fd)
 void    ft_execution(t_minishell *minishell)
 {
 	t_exec *cmd_tmp;
-	int fd[2];
-	int fd_previous;
+	//int fd[2];
+	//int fd_previous;
 
-	fd[0] = 0;
-	fd[1] = 1;
+	//fd[0] = 0;
+	//fd[1] = 1;
+	minishell->fd[0] = 0;
+	minishell->fd[1] = 1;
+
 	cmd_tmp = minishell->exec;
 	while(cmd_tmp)
 	{	
 		
-		fd_previous = fd[0];
-		if(ft_exec_lstsize(minishell->exec) > 1 && pipe(fd) < 0)
+		minishell->fd_previous = minishell->fd[0];
+		if(ft_exec_lstsize(minishell->exec) > 1 && pipe(minishell->fd) < 0)
 		{
 			printf("erreur pipe");
 			ft_exit(minishell);
@@ -56,12 +59,12 @@ void    ft_execution(t_minishell *minishell)
 
 		cmd_tmp->pid = fork();
 		if (cmd_tmp->pid == 0)
-			ft_childs(minishell,cmd_tmp,fd_previous,fd);
+			ft_childs(minishell,cmd_tmp,minishell->fd_previous,minishell->fd);
 		cmd_tmp = cmd_tmp->next;
-		if(fd[1] > 1 && ft_exec_lstsize(minishell->exec) > 1)
-			close(fd[1]);
-		if(fd_previous > 0)
-			close(fd_previous);
+		if(minishell->fd[1] > 1 && ft_exec_lstsize(minishell->exec) > 1)
+			close(minishell->fd[1]);
+		if(minishell->fd_previous > 0)
+			close(minishell->fd_previous);
 	}
 }
 

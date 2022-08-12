@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/12 08:26:42 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/12 10:33:41 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@
 
 
 
+////// STRUC MINISHELL ////// 
+typedef struct		s_minishell
+{
+	struct s_env *env_lst;
+	struct s_exec *exec;
+	int fd[2];
+	int fd_previous;
+}t_minishell;
 
 //// STUCT ENV //////
 typedef struct s_env
@@ -63,12 +71,7 @@ typedef struct s_def
 }	t_def;
 
 
-////// STRUC MINISHELL ////// 
-typedef struct		s_minishell
-{
-	struct s_env *env_lst;
-	struct s_exec *exec;
-}t_minishell;
+
 
 
 //// FONCTION PARSING ////

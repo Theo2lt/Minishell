@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_unset.c                                    :+:      :+:    :+:   */
+/*   ft_builtins_unset.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:45:51 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/28 01:03:33 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/13 11:59:27 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,16 @@ int	ft_parsing_unset(char *str)
 void	ft_exec_unset(char **name, t_env **lst)
 {
 	int	i;
-
+	char *tmp;
+	
 	i = 1;
 	while (name[i] && lst)
 	{
 		if (!ft_parsing_unset(name[i]))
 		{
-			ft_putstr_fd("bash: unset: ", 2);
-			ft_putstr_fd(name[i], 2);
-			ft_putstr_fd(" :invalid\n", 2);
+			tmp = ft_joint_3str("bash: unset: `",name[i],"' : not a valid identifier\n");
+			write(2, tmp, ft_strlen(tmp));
+			free(tmp);
 		}
 		else
 			ft_unset(name[i], lst);

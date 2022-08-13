@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_export.c                                   :+:      :+:    :+:   */
+/*   ft_builtins_export.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:44:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/28 01:02:47 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/13 13:41:03 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,21 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 {
 	int		init_value;
 	char	**split;
+	char	*tmp;
 
+	tmp = NULL;
 	init_value = 0;
 	if (!ft_parsing_export(cmd))
 	{
-		ft_putstr_fd("bash: export: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(" :invalid\n", 2);
+		tmp = ft_joint_3str("bash: export: `",cmd,"' : not a valid identifier\n");
+		write(2, tmp, ft_strlen(tmp));
+		free(tmp);
 	}
 	else
 	{
 		if (ft_char_set(cmd, '=') != 0)
 			init_value = 1;
-		split = ft_split(cmd, '=');
+		split = ft_split2_element(cmd, '=');
 		ft_lst_setenv(split[0], split[1], init_value, lst);
 		ft_free_tab2(split);
 	}

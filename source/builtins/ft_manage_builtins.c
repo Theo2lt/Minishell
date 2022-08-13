@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 23:31:17 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/11 15:27:56 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/12 15:10:00 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_manage_builting(char **cmd, t_minishell *minishell)
 		ft_exec_unset(cmd, &(minishell->env_lst));
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 	{
-		//cmd = ft_free_tab2(cmd);
 		rl_clear_history();
 		printf("exit\n");
 		ft_exit(minishell);

@@ -7,7 +7,6 @@ void	ft_r_infile(t_exec *cmd_tmp, int fd_previous)
 	if(cmd_tmp->infile > 0)
 	{
 		dup2(cmd_tmp->infile,STDIN_FILENO);
-		ft_putstr_fd("LA\n",2);
 		if (cmd_tmp->infile > 0)
 			close(cmd_tmp->infile);
 		if(fd_previous > 0)
@@ -34,17 +33,19 @@ void	ft_r_out(t_minishell *minishell,t_exec *cmd_tmp, int *fd)
 		close(fd[0]);
 }
 
+int ft_is_dir(char *fileName)
+{
+    struct stat path;
+
+    stat(fileName, &path);
+    if (S_ISDIR(path.st_mode))
+        return 1;
+    return 0;
+}
 
 void    ft_execution(t_minishell *minishell)
 {
 	t_exec *cmd_tmp;
-	//int fd[2];
-	//int fd_previous;
-
-	//fd[0] = 0;
-	//fd[1] = 1;
-	minishell->fd[0] = 0;
-	minishell->fd[1] = 1;
 
 	cmd_tmp = minishell->exec;
 	while(cmd_tmp)
@@ -53,7 +54,7 @@ void    ft_execution(t_minishell *minishell)
 		minishell->fd_previous = minishell->fd[0];
 		if(ft_exec_lstsize(minishell->exec) > 1 && pipe(minishell->fd) < 0)
 		{
-			printf("erreur pipe");
+			ft_putstr_fd("erreur pipe\n", 2);
 			ft_exit(minishell);
 		}
 
@@ -69,16 +70,6 @@ void    ft_execution(t_minishell *minishell)
 }
 
 
-void	ft_commande_not_found(char	**cmd)
-{
-	ft_putstr_fd("bash: ", 2);
-	if (cmd)
-		ft_putstr_fd(cmd[0], 2);
-	ft_putstr_fd(": command not found\n",2);
-}
-
-
-
 void	ft_childs(t_minishell *minishell, t_exec *cmd_tmp,int fd_previous,int *fd)
 {
 	ft_r_infile(cmd_tmp,fd_previous);
@@ -92,6 +83,42 @@ void	ft_childs(t_minishell *minishell, t_exec *cmd_tmp,int fd_previous,int *fd)
 		ft_exec(minishell,cmd_tmp);
 }
 
+
+void	ft_commande_not_found(char	**cmd)
+{
+	char *tmp;
+	
+	tmp = NULL;
+	if (cmd)
+		tmp = ft_joint_3str("bash: ", *cmd, ": command not found\n");
+	else
+		tmp = ft_joint_3str("bash: ", " ", ": command not found\n");
+	
+	write(2, tmp, ft_strlen(tmp));
+	free(tmp);
+}
+
+void	ft_commande_error(char	**cmd, char *str_error)
+{
+		char *tmp;
+		char *tmp2;
+
+		tmp = ft_joint_3str(": ", str_error, "\n");
+		tmp2 = ft_joint_3str("bash:",cmd[0],tmp);
+		
+		write(2, tmp2, ft_strlen(tmp2));
+		free(tmp);
+		free(tmp2);
+}
+
+void	ft_exec_exit(t_minishell *minishell, char **env, char *path)
+{
+		env = ft_free_tab2(env);
+		if(path)
+			free(path);
+		ft_exit(minishell);
+}
+
 void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 {
 	char *path;
@@ -102,22 +129,17 @@ void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 	if(!cmd_tmp->tabs_exeve || (!ft_char_set(path, '/') && ft_return_path_value(minishell->env_lst)))
 	{
 		ft_commande_not_found(cmd_tmp->tabs_exeve);
-		env = ft_free_tab2(env);
-		if(path)
-			free(path);
-		ft_exit(minishell);
+		ft_exec_exit(minishell, env, path);
 	}
-	if(execve(path,cmd_tmp->tabs_exeve,env) == -1)
+	if (ft_is_dir(cmd_tmp->tabs_exeve[0]))
 	{
-		ft_putstr_fd("bash: ",2);
-		ft_putstr_fd(cmd_tmp->tabs_exeve[0],2);
-		ft_putstr_fd(": ",2);
-		ft_putstr_fd(strerror(errno),2);
-		ft_putstr_fd("\n", 2);
-		env = ft_free_tab2(env);
-		if(path)
-			free(path);
-		ft_exit(minishell);
+		ft_commande_error(cmd_tmp->tabs_exeve, "Is a directory");
+		ft_exec_exit(minishell, env, path);
+	}
+	if (execve(path,cmd_tmp->tabs_exeve,env) == -1)
+	{
+		ft_commande_error(cmd_tmp->tabs_exeve, strerror(errno));
+		ft_exec_exit(minishell, env, path);
 	}	
 }
 

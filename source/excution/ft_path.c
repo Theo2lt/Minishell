@@ -69,7 +69,7 @@ char	*ft_path_exec(t_env *lst, char **cmd_arg)
 			if (path && access(path, X_OK) == 0)
 			{   
 				paths = ft_free_tab2(paths);
-				printf("''[%s]''\n",path);
+				//printf("''[%s]''\n",path);
 				return (path);
 			}
 			free(path);

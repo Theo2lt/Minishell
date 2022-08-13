@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/12 10:38:01 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/13 13:44:15 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,14 @@ t_minishell *ft_init_mini(char **env)
 	mini = malloc(sizeof(*mini));
 	mini->env_lst = ft_init_env(env);
 	mini->exec = NULL;
+	mini->fd[0] = 0;
+	mini->fd[1] = 1;
+	mini->fd_previous = 0;
 	return(mini);
 }
+
+
+
 
 int main(int argc, char **argv, char **env)
 {
@@ -99,25 +105,16 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	
 	minishell = ft_init_mini(env);
-	//ft_lst_env_BUG(minishell->env_lst);
 	ft_put_siganture();
 	while (42)
 	{
 		input = readline("bosh-5.0$ ");
 		add_history(input);
-		/*
-		if(ft_strcmp(input, "exit") == 0)
-		{
-				ft_exit(minishell);
-				exit(0);
-		}*/
 		if(ft_strcmp(input, "") != 1)
 		{
 			minishell->exec = parser(input, minishell->env_lst);
-			//ft_sim_exec_lst_BUG(minishell->exec);
-
 			if(!minishell->exec)
-				printf("Existe PAS\n");
+				printf("PARSING = NULL\n");
 			else
 			{	
 				ft_assigne_num_lstexec(minishell->exec);
@@ -133,7 +130,5 @@ int main(int argc, char **argv, char **env)
 			}
 		}
 	}
-	ft_put_siganture();
-	ft_exit(minishell);
 	return (0);
 }

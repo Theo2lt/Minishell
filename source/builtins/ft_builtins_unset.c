@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:45:51 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/13 11:59:27 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/14 20:04:11 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ int	ft_parsing_unset(char *str)
 		tmp++;
 		while (*tmp)
 		{
-			if (*tmp == '=')
-				break ;
-			if ((*tmp == '_' || ft_isalnum(*tmp)))
+			if ((*tmp == '/' || *tmp == '_' || ft_isalnum(*tmp)))
 				tmp++;
 			else
 				return (0);
@@ -51,9 +49,13 @@ void	ft_exec_unset(char **name, t_env **lst)
 			tmp = ft_joint_3str("bash: unset: `",name[i],"' : not a valid identifier\n");
 			write(2, tmp, ft_strlen(tmp));
 			free(tmp);
+			(*global)->exit_code = 1;
 		}
 		else
+		{
 			ft_unset(name[i], lst);
+			(*global)->exit_code = 0;
+		}
 		i++;
 	}
 }

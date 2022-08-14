@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/12 10:33:41 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/14 19:58:39 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <errno.h>
 
 
-
 ////// STRUC MINISHELL ////// 
 typedef struct		s_minishell
 {
@@ -36,6 +35,7 @@ typedef struct		s_minishell
 	struct s_exec *exec;
 	int fd[2];
 	int fd_previous;
+	int exit_code;
 }t_minishell;
 
 //// STUCT ENV //////
@@ -70,6 +70,9 @@ typedef struct s_def
 	char				*contente;
 }	t_def;
 
+/// GLOBAL ///
+t_minishell **global;
+
 
 
 
@@ -91,10 +94,10 @@ char	*parser_expende(char *str, t_env *env);
 
 /// FONCTION BUILTINS ///
 int		ft_exec_pwd(void);
-int		ft_exec_echo(char **cmd);
-int		ft_exec_cd(char **cmd, t_env **lst);
+void	ft_exec_echo(char **cmd);
+void	ft_exec_cd(char **cmd, t_env **lst);
 char	*ft_get_pwd(void);
-int		ft_exec_env(t_env *lst);
+void	ft_exec_env(t_env *lst);
 int		ft_exec_export(char **cmd, t_env **lst);
 void	ft_exec_unset(char **name, t_env **lst);
 

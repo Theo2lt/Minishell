@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:44:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/13 13:41:03 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/14 20:02:57 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ int	ft_parsing_export(char *str)
 	return (0);
 }
 
+
+
+
 ////// PARSING A FINIR !!! //////
 void	ft_parsing_setenv(char *cmd, t_env **lst)
 {
@@ -65,6 +68,7 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 		tmp = ft_joint_3str("bash: export: `",cmd,"' : not a valid identifier\n");
 		write(2, tmp, ft_strlen(tmp));
 		free(tmp);
+		(*global)->exit_code = 1;
 	}
 	else
 	{
@@ -73,5 +77,6 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 		split = ft_split2_element(cmd, '=');
 		ft_lst_setenv(split[0], split[1], init_value, lst);
 		ft_free_tab2(split);
+		(*global)->exit_code = 0;
 	}
 }

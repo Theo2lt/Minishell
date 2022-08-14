@@ -35,12 +35,15 @@ void	ft_r_out(t_minishell *minishell,t_exec *cmd_tmp, int *fd)
 
 int ft_is_dir(char *fileName)
 {
-    struct stat path;
-
-    stat(fileName, &path);
-    if (S_ISDIR(path.st_mode))
-        return 1;
-    return 0;
+	struct stat path;
+	int res;
+	
+	res = stat(fileName, &path);
+	if (res != 0)
+		return 0;
+	if (S_ISDIR(path.st_mode))
+		return 1;
+	return 0;
 }
 
 void    ft_execution(t_minishell *minishell)
@@ -94,7 +97,7 @@ void	ft_commande_not_found(char	**cmd)
 	else
 		tmp = ft_joint_3str("bash: ", " ", ": command not found\n");
 	
-	write(2, tmp, ft_strlen(tmp));
+	ft_putstr_fd(tmp,2);
 	free(tmp);
 }
 
@@ -104,7 +107,7 @@ void	ft_commande_error(char	**cmd, char *str_error)
 		char *tmp2;
 
 		tmp = ft_joint_3str(": ", str_error, "\n");
-		tmp2 = ft_joint_3str("bash:",cmd[0],tmp);
+		tmp2 = ft_joint_3str("bash: ",cmd[0],tmp);
 		
 		write(2, tmp2, ft_strlen(tmp2));
 		free(tmp);

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/13 13:44:15 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/14 16:17:27 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_minishell *ft_init_mini(char **env)
 	mini->fd[0] = 0;
 	mini->fd[1] = 1;
 	mini->fd_previous = 0;
+	mini->exit_code = 60;
 	return(mini);
 }
 
@@ -105,6 +106,7 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	
 	minishell = ft_init_mini(env);
+	global = &minishell;
 	ft_put_siganture();
 	while (42)
 	{
@@ -127,6 +129,7 @@ int main(int argc, char **argv, char **env)
 				}
 				ft_delete_exec_lst_free(&minishell->exec);
 				minishell->exec = NULL;
+				printf("%d\n",(*global)->exit_code);
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:38:20 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/13 10:06:19 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/14 19:54:15 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,9 @@
 /// AFFICHE les arguments en tenant compte du -n
 /// RETURN 0 si OK sinon 1
 
-	/// PARSING A FINIR /// avec multi -nnnnnn , voir comportement de bash.
-
-
 int ft_check_parsing_echo(char *cmd)
 {
 	int	i;
-	
 	i = 3;
 	if(!ft_strncmp(cmd,"-n",2))
 	{
@@ -37,25 +33,16 @@ int ft_check_parsing_echo(char *cmd)
 		return (1);
 	}
 	return (0);
-	
 }
 
-
-
-
-
-
-int ft_exec_echo(char **cmd)
+void ft_exec_echo(char **cmd)
 {
 	int	i;
 
 	i = 1;
 	if (!cmd || !cmd[i])
-	{
 		printf("\n");
-		return (1);
-	}
-	if (ft_check_parsing_echo(cmd[i]))
+	else if (ft_check_parsing_echo(cmd[i]))
 	{
 		if (cmd[++i])
 			printf("%s", cmd[i++]);
@@ -70,5 +57,5 @@ int ft_exec_echo(char **cmd)
 			printf(" %s", cmd[i++]);
 		printf("\n");
 	}
-	return (0);
+	(*global)->exit_code = 0;
 }

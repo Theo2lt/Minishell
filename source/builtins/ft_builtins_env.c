@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_env.c                                      :+:      :+:    :+:   */
+/*   ft_builtins_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:39:14 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/27 23:22:50 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/14 19:58:51 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// AFFICHE tout l'environement de lst
 /// RETURN 0 quand fini
 
-int	ft_exec_env(t_env *lst)
+void	ft_exec_env(t_env *lst)
 {
 	while (lst)
 	{
@@ -29,5 +29,5 @@ int	ft_exec_env(t_env *lst)
 		}
 		lst = lst->next;
 	}
-	return (0);
+	(*global)->exit_code = 0;
 }

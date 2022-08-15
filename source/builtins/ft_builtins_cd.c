@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:40:48 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/14 19:46:53 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:10:45 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,57 +26,55 @@ void	ft_put_err_cd(char *cmd, char *arg, char *strerrno)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerrno, 2);
 	ft_putstr_fd("\n", 2);
-	(*global)->exit_code = 1;
+	(*g_global)->exit_code = 1;
 }
 
-void ft_exec_cd_oldpwd(char **cmd, t_env **lst)
+void	ft_exec_cd_oldpwd(char **cmd, t_env **lst)
 {
 	if (!ft_lst_getenv("OLDPWD", *lst))
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
-		(*global)->exit_code = 1;
+		(*g_global)->exit_code = 1;
 	}
 	else if (chdir(ft_lst_getenv("OLDPWD", *lst)->variable_value) != 0)
 	{
 		ft_put_err_cd("cd", cmd[1], strerror(errno));
-		(*global)->exit_code = 1;
+		(*g_global)->exit_code = 1;
 	}
 	else
 	{
 		printf("%s\n", ft_lst_getenv("OLDPWD", *lst)->variable_value);
-		(*global)->exit_code = 0;
+		(*g_global)->exit_code = 0;
 	}
-
 }
 
 void	ft_exec_cd_home(char **cmd, t_env **lst)
 {
-	
 	if (!ft_lst_getenv("HOME", *lst))
 	{
 		ft_putstr_fd("cd: HOME not set\n", 2);
-		(*global)->exit_code = 1;
+		(*g_global)->exit_code = 1;
 	}
-	else if(chdir(ft_lst_getenv("HOME", *lst)->variable_value) != 0)
+	else if (chdir(ft_lst_getenv("HOME", *lst)->variable_value) != 0)
 	{
 		ft_put_err_cd("cd", cmd[1], strerror(errno));
-		(*global)->exit_code = 1;
+		(*g_global)->exit_code = 1;
 	}
 	else
-		(*global)->exit_code = 0;
+		(*g_global)->exit_code = 0;
 }
 
 void	ft_exec_cd_many_arg(char *cmd)
 {
-	char *tmp;
+	char	*tmp;
 
-	tmp = ft_joint_3str("bash: cd: too many arguments: ",cmd,"\n");
-	ft_putstr_fd(tmp,2);
+	tmp = ft_joint_3str("bash: cd: too many arguments: ", cmd, "\n");
+	ft_putstr_fd(tmp, 2);
 	free(tmp);
-	(*global)->exit_code = 1;
+	(*g_global)->exit_code = 1;
 }
 
-void	ft_exec_cd(char **cmd, t_env **lst)
+void	ft_builtin_cd(char **cmd, t_env **lst)
 {
 	char	*pwd;
 
@@ -89,14 +87,14 @@ void	ft_exec_cd(char **cmd, t_env **lst)
 	else if (chdir(cmd[1]) != 0)
 		ft_put_err_cd("cd", cmd[1], strerror(errno));
 	else
-		(*global)->exit_code = 0;
+		(*g_global)->exit_code = 0;
 	pwd = ft_get_pwd();
 	ft_lst_setenv("OLDPWD", ft_lst_getenv("PWD",*lst)->variable_value, 1, lst);
 	if (!pwd)
 	{
 		ft_lst_setenv("PWD", cmd[1], 1, lst);
-		ft_putstr_fd("chdir: error retrieving current directory: ",2);
-		ft_putstr_fd("getcwd: cannot access parent directories: No such file or directory\n",2);
+		ft_putstr_fd("chdir: error retrieving current directory: ", 2);
+		ft_putstr_fd("getcwd: cannot access parent directories: No such file or directory\n", 2);
 	}
 	else
 		ft_lst_setenv("PWD", pwd, 1, lst);

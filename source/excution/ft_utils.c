@@ -6,11 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 15:51:06 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/11 20:45:08 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:23:12 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "Minishell.h"
+#include "Minishell.h"
 
 int	ft_exec_lstsize(t_exec *lst)
 {

@@ -6,34 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/14 16:17:27 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 22:10:42 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
-
-
-t_exec	*ft_delete_exec(t_exec *exec)
-{
-	if (exec)
-	{
-		if (exec->infile > 0)
-			close(exec->infile);
-		if (exec->outfile > 1)
-			close(exec->outfile);
-		if (exec->args)
-			free(exec->args);
-		if (exec->tabs_exeve)
-			ft_free_tab2(exec->tabs_exeve);
-		if (exec->next)
-			ft_delete_exec(exec->next);
-		if (exec)
-			free(exec);
-		return (NULL);
-	}
-	return (NULL);
-}
-
 
 void	ft_delete_exec_lst_free(t_exec **lst)
 {
@@ -55,6 +32,7 @@ void	ft_delete_exec_lst_free(t_exec **lst)
 		lst2 = NULL;
 	}
 }
+
 void ft_put_siganture()
 {
 	ft_putstr_fd("\n\n       __  __   ___   _  _   ___   ___   _  _   ___   _      _     \n",2);
@@ -65,63 +43,45 @@ void ft_put_siganture()
 	ft_putstr_fd("                           by engooh & tliot                        \n\n\n",2);
 }
 
-void ft_exit(t_minishell *mini)
+t_minishell	*ft_init_mini(void)
 {
-	if (mini->env_lst)
-		ft_lst_env_free(mini->env_lst);
-	if (mini->exec)
-		ft_delete_exec_lst_free(&mini->exec);
-	if (mini->fd[1] > 1 )
-		close(1);
-	if(mini->fd_previous > 0)
-		close(mini->fd_previous);
-	if (mini)
-		free(mini);
-	exit(0);
-}
+	t_minishell	*mini;
 
-t_minishell *ft_init_mini(char **env)
-{
-	t_minishell *mini;
-	
 	mini = malloc(sizeof(*mini));
-	mini->env_lst = ft_init_env(env);
+	mini->env_lst = NULL;
 	mini->exec = NULL;
 	mini->fd[0] = 0;
 	mini->fd[1] = 1;
 	mini->fd_previous = 0;
 	mini->exit_code = 60;
-	return(mini);
+	ft_put_siganture();
+	return (mini);
 }
 
-
-
-
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-	t_minishell *minishell;
-	char *input;
+	t_minishell	*minishell;
+	char		*input;
 
 	(void)argc;
 	(void)argv;
-	
-	minishell = ft_init_mini(env);
-	global = &minishell;
-	ft_put_siganture();
+	minishell = ft_init_mini();
+	g_global = &minishell;
+	minishell->env_lst = ft_init_env(env);
 	while (42)
 	{
 		input = readline("bosh-5.0$ ");
 		add_history(input);
-		if(ft_strcmp(input, "") != 1)
+		if (ft_strcmp(input, "") != 1)
 		{
 			minishell->exec = parser(input, minishell->env_lst);
-			if(!minishell->exec)
+			if (!minishell->exec)
 				printf("PARSING = NULL\n");
 			else
 			{	
 				ft_assigne_num_lstexec(minishell->exec);
-				if(ft_is_builting(minishell->exec->tabs_exeve[0]) && !minishell->exec->next)
-					ft_manage_builting(minishell->exec->tabs_exeve,minishell);
+				if (minishell->exec->tabs_exeve && ft_is_builting(minishell->exec->tabs_exeve[0]) && !minishell->exec->next)
+					ft_manage_builting(minishell->exec->tabs_exeve, minishell);
 				else
 				{
 					ft_execution(minishell);
@@ -129,7 +89,6 @@ int main(int argc, char **argv, char **env)
 				}
 				ft_delete_exec_lst_free(&minishell->exec);
 				minishell->exec = NULL;
-				printf("%d\n",(*global)->exit_code);
 			}
 		}
 	}

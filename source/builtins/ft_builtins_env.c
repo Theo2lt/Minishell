@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:39:14 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/14 19:58:51 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:06:26 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// AFFICHE tout l'environement de lst
 /// RETURN 0 quand fini
 
-void	ft_exec_env(t_env *lst)
+void	ft_builtin_env(t_env *lst)
 {
 	while (lst)
 	{
@@ -29,5 +29,5 @@ void	ft_exec_env(t_env *lst)
 		}
 		lst = lst->next;
 	}
-	(*global)->exit_code = 0;
+	(*g_global)->exit_code = 0;
 }

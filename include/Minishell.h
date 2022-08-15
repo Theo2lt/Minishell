@@ -6,10 +6,9 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/14 19:58:39 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:58:32 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -27,15 +26,14 @@
 # include <wait.h>
 # include <errno.h>
 
-
 ////// STRUC MINISHELL ////// 
-typedef struct		s_minishell
+typedef struct s_minishell
 {
-	struct s_env *env_lst;
-	struct s_exec *exec;
-	int fd[2];
-	int fd_previous;
-	int exit_code;
+	struct s_env	*env_lst;
+	struct s_exec	*exec;
+	int				fd[2];
+	int				fd_previous;
+	int				exit_code;
 }t_minishell;
 
 //// STUCT ENV //////
@@ -71,11 +69,7 @@ typedef struct s_def
 }	t_def;
 
 /// GLOBAL ///
-t_minishell **global;
-
-
-
-
+t_minishell	**g_global;
 
 //// FONCTION PARSING ////
 void	ft_converte_str(char *str, int signe);
@@ -90,21 +84,22 @@ t_exec	*parser(char *str, t_env *env);
 t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd);
 
 /// FONCTION EXPANDE ////
-char	*parser_expende(char *str, t_env *env);
+char	*parser_expende(char *str, t_env *env, int heredoc);
 
 /// FONCTION BUILTINS ///
-int		ft_exec_pwd(void);
-void	ft_exec_echo(char **cmd);
-void	ft_exec_cd(char **cmd, t_env **lst);
+int		ft_builtin_pwd(void);
+void	ft_builtin_echo(char **cmd);
+void	ft_builtin_cd(char **cmd, t_env **lst);
 char	*ft_get_pwd(void);
-void	ft_exec_env(t_env *lst);
-int		ft_exec_export(char **cmd, t_env **lst);
-void	ft_exec_unset(char **name, t_env **lst);
+void	ft_builtin_env(t_env *lst);
+int		ft_builtin_export(char **cmd, t_env **lst);
+void	ft_builtin_unset(char **name, t_env **lst);
 
 void	ft_parsing_setenv(char *cmd, t_env **lst);
 int		ft_is_builting(char *cmd);
 int		ft_manage_builting(char **cmd, t_minishell *minishell);
 void	ft_unset(char *name, t_env **lst);
+void	ft_builting_exit(char **cmd, t_minishell *mini);
 void	ft_exit(t_minishell *minishell);
 
 /// FONCTION AFFICHAGE ///
@@ -118,36 +113,37 @@ void	ft_print_env(t_env *env, int i);
 void	ft_push_env(t_env *lst, char *str);
 void	ft_delete_env(t_env *lst, char *str);
 void	ft_converte_tab_list(char **tab, t_env **lst,
-		void (f)(t_env *lst, char *str));
+			void (f)(t_env *lst, char *str));
 void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst);
 void	ft_lst_env_add_back(t_env **alst, t_env *new);
 void	ft_lst_env_free(t_env *lst);
 char	*ft_init_variable_env(char *tmp);
 void	ft_add_variable_env(char *name, char *value, int init_value,
-		t_env **lst_env);
+			t_env **lst_env);
 t_env	*ft_lst_env_new(char *name, char *value, int init_value);
 t_env	*ft_lst_env_last(t_env *lst);
 t_env	*ft_lst_getenv(char *str, t_env *lst);
 int		ft_lstsize_env(t_env *lst);
 t_env	*ft_init_env(char **env);
+void	ft_delete_exec_lst_free(t_exec **lst);
+char	**ft_recreate_env(t_env *lst);
 
-
-char **ft_recreate_env(t_env *lst);
 ////// EXECUTION /////
-void    ft_execution(t_minishell *minishell);
+void	ft_execution(t_minishell *minishell);
 void	ft_commande_not_found(char	**cmd);
-void	ft_childs(t_minishell *minishell, t_exec *cmd_tmp, int fd_previous,int *fd);
+void	ft_childs(t_minishell *minishell,
+			t_exec *cmd_tmp, int fd_previous, int *fd);
 void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp);
 char	*ft_strjoin_path(char *s1, char *s2);
-char    *ft_return_path_value(t_env *lst);
+char	*ft_return_path_value(t_env *lst);
 char	*ft_path_exec(t_env *lst, char **cmd_arg);
-char 	*ft_joint_3str(char *str, char *str2, char *str3);
-char 	**ft_recreate_env(t_env *lst);
+char	*ft_joint_3str(char *str, char *str2, char *str3);
+char	**ft_recreate_env(t_env *lst);
 void	ft_wait_all_pid(t_exec *lst);
 int		ft_exec_lstsize(t_exec *lst);
 int		ft_assigne_num_lstexec(t_exec *lst);
 
 ////// DEBUG /////
 void	ft_lst_env_BUG(t_env *lst);
-void 	ft_sim_exec_lst_BUG(t_exec *lst);
+void	ft_sim_exec_lst_BUG(t_exec *lst);
 #endif

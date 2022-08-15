@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:44:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/14 20:02:57 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:13:00 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /// en compte l'etat de init values
 /// RETURN 0 si OK sinon 1
 
-int	ft_exec_export(char **cmd, t_env **lst)
+int	ft_builtin_export(char **cmd, t_env **lst)
 {
 	int	i;
 
@@ -51,9 +51,6 @@ int	ft_parsing_export(char *str)
 	return (0);
 }
 
-
-
-
 ////// PARSING A FINIR !!! //////
 void	ft_parsing_setenv(char *cmd, t_env **lst)
 {
@@ -65,10 +62,11 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 	init_value = 0;
 	if (!ft_parsing_export(cmd))
 	{
-		tmp = ft_joint_3str("bash: export: `",cmd,"' : not a valid identifier\n");
+		tmp = ft_joint_3str("bash: export: `", cmd,
+				"' : not a valid identifier\n");
 		write(2, tmp, ft_strlen(tmp));
 		free(tmp);
-		(*global)->exit_code = 1;
+		(*g_global)->exit_code = 1;
 	}
 	else
 	{
@@ -77,6 +75,6 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 		split = ft_split2_element(cmd, '=');
 		ft_lst_setenv(split[0], split[1], init_value, lst);
 		ft_free_tab2(split);
-		(*global)->exit_code = 0;
+		(*g_global)->exit_code = 0;
 	}
 }

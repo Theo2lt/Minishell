@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/08 02:40:47 by engooh           ###   ########.fr       */
-/*   Updated: 2022/07/29 22:51:01 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/15 21:59:05 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "Minishell.h"
 
 /*int	ft_parser_quote(char *str)
@@ -221,7 +221,7 @@ t_exec	*parser(char *str, t_env *env)
 	ft_converte_str(str, -1);
 	if (!parser_chevron_pipe(str))
 		return (NULL);
-	str = parser_expende(str, env);
+	str = parser_expende(str, env, 0);
 	if (!str)
 		return (NULL);
 	exec = tocken(str, NULL, env, 0);

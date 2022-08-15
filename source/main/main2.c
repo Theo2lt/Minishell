@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:35:58 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/08 12:58:31 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 12:44:11 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,22 @@ int main(int argc, char **argv, char **env)
 		if(cmd)
 		{
 			if (ft_strcmp(cmd[0], "echo") == 0)
-				ft_exec_echo(cmd);
+				ft_builtin_echo(cmd);
 	
 			if (ft_strcmp(cmd[0], "cd") == 0)
-				ft_exec_cd(cmd,&lst);
+				ft_builtin_cd(cmd,&lst);
 	
 			if (ft_strcmp(cmd[0], "pwd") == 0)
-				ft_exec_pwd();
+				ft_builtin_pwd();
 	
 			if (ft_strcmp(cmd[0], "export") == 0)
-				ft_exec_export(cmd,&lst);
+				ft_builtin_export(cmd,&lst);
 	
 			if (ft_strcmp(cmd[0], "env") == 0)
-				ft_exec_env(lst);
+				ft_builtin_env(lst);
 
 			if (ft_strcmp(cmd[0], "unset") == 0)
-				ft_exec_unset(cmd,&lst);
+				ft_builtin_unset(cmd,&lst);
 
 			if (ft_strcmp(cmd[0], "b") == 0)
 				ft_lst_env_BUG(lst);

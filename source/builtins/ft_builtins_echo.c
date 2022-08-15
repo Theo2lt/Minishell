@@ -6,27 +6,26 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:38:20 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/14 19:54:15 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:11:17 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "Minishell.h"
-
 
 /// PREND tableau de str
 /// AFFICHE les arguments en tenant compte du -n
 /// RETURN 0 si OK sinon 1
 
-int ft_check_parsing_echo(char *cmd)
+int	ft_check_parsing_echo(char *cmd)
 {
 	int	i;
+
 	i = 3;
-	if(!ft_strncmp(cmd,"-n",2))
+	if (!ft_strncmp(cmd, "-n", 2))
 	{
 		while (cmd[i])
 		{
-			if(cmd[i] != 'n')
+			if (cmd[i] != 'n')
 				return (0);
 			i++;
 		}
@@ -35,7 +34,7 @@ int ft_check_parsing_echo(char *cmd)
 	return (0);
 }
 
-void ft_exec_echo(char **cmd)
+void	ft_builtin_echo(char **cmd)
 {
 	int	i;
 
@@ -57,5 +56,5 @@ void ft_exec_echo(char **cmd)
 			printf(" %s", cmd[i++]);
 		printf("\n");
 	}
-	(*global)->exit_code = 0;
+	(*g_global)->exit_code = 0;
 }

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:51:40 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 08:09:18 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/15 21:35:06 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
+/*
 void	ft_print_env(t_env *env, int i)
 {
 	if (env)
@@ -20,11 +21,13 @@ void	ft_print_env(t_env *env, int i)
 		{
 			ft_print_env(env->next, i + 1);
 			printf(
-				"nbr node %d - curente node %p - next node %p\nname node %s - value node %s - \n\n",
+				"nbr node %d - curente node %p - next node 
+				%p\nname node %s - value node %s - \n\n",
 				i, env, env->next, env->variable_name, env->variable_value);
 		}
 	}
 }
+*/
 
 char	*ft_getenv(t_env *env, char *str, int len)
 {

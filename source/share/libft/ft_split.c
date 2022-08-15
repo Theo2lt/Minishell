@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:50:59 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/13 13:40:36 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:04:48 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,17 @@ char	**ft_split(char const *s, char c)
 
 char	**ft_split2_element(char *str, char c)
 {
-	char **split;
-	int i;
-	int y;
-	
+	char	**split;
+	int		i;
+	int		y;
+
 	i = 0;
 	split = NULL;
 	split = malloc(3 * sizeof(char *));
-	
 	while (str[i] && str[i] != c)
 		i++;
 	split[0] = ft_substr(str, 0, i);
-	if(i == ft_strlen3(str))
+	if (i == ft_strlen3(str))
 		split[1] = 0;
 	else
 	{

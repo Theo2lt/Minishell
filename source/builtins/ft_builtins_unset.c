@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:45:51 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/14 20:04:11 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/15 21:14:07 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,26 @@ int	ft_parsing_unset(char *str)
 /// SUPPRIME node dans lst si le nom correspond
 /// RETURN 0 quand fini
 
-void	ft_exec_unset(char **name, t_env **lst)
+void	ft_builtin_unset(char **name, t_env **lst)
 {
-	int	i;
-	char *tmp;
-	
+	int		i;
+	char	*tmp;
+
 	i = 1;
 	while (name[i] && lst)
 	{
 		if (!ft_parsing_unset(name[i]))
 		{
-			tmp = ft_joint_3str("bash: unset: `",name[i],"' : not a valid identifier\n");
+			tmp = ft_joint_3str("bash: unset: `",
+					name[i], "' : not a valid identifier\n");
 			write(2, tmp, ft_strlen(tmp));
 			free(tmp);
-			(*global)->exit_code = 1;
+			(*g_global)->exit_code = 1;
 		}
 		else
 		{
 			ft_unset(name[i], lst);
-			(*global)->exit_code = 0;
+			(*g_global)->exit_code = 0;
 		}
 		i++;
 	}
@@ -68,7 +69,7 @@ void	ft_unset(char *name, t_env **lst)
 {
 	t_env	*tmp;
 	t_env	*lst2;
-	
+
 	lst2 = *lst;
 	tmp = ft_lst_getenv(name, *lst);
 	while (tmp && lst2)

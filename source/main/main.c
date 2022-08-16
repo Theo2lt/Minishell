@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/15 22:10:42 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/16 12:11:40 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	main(int argc, char **argv, char **env)
 				minishell->exec = NULL;
 			}
 		}
+		printf("[%d]\n", (*g_global)->exit_code);
 	}
 	return (0);
 }

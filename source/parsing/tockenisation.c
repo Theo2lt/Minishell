@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/15 21:59:01 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/16 12:06:43 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 		input = readline("> ");
 		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
 		{
-			exit(0);
+			
 			close(exec->infile);
+			ft_exit((*g_global));
 		}
 		if (mode == 4)
 		{
@@ -60,7 +61,8 @@ void	set_herdoc(char *str, t_exec *exec, int mode)
 	if (!pid)
 	{
 		read_herdoc(str, exec, mode);
-		exit(0);
+		close(exec->infile);
+		ft_exit((*g_global));
 	}
 	else if (pid)
 		waitpid(pid, NULL, 0);

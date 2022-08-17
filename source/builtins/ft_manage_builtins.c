@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 23:31:17 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/17 13:54:25 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/17 14:48:39 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,26 @@ int	ft_is_builting(char *cmd)
 
 void	ft_redir_simple_bulting(t_minishell *minishell)
 {
-	/*
 	int		f_stdout;
 
-	f_stdout = dup(STDOUT_FILENO);
+	f_stdout = 1;
 	if (minishell->exec->outfile > 1)
 	{
+		f_stdout = dup(STDOUT_FILENO);
 		dup2(minishell->exec->outfile, STDOUT_FILENO);
 		ft_manage_builting(minishell->exec->tabs_exeve, minishell);
 		dup2(f_stdout, STDOUT_FILENO);
-		close(minishell->exec->outfile);
-	}
-	if (f_stdout > 1)
 		close(f_stdout);
+	}
+	else
+	{
+		ft_manage_builting(minishell->exec->tabs_exeve, minishell);
+	}
 	if (minishell->exec->infile > 0)
 		close(minishell->exec->infile);
-	if (minishell->exec->outfile > 0)
+	if (minishell->exec->outfile > 1)
 		close(minishell->exec->outfile);
-	*/
-	ft_manage_builting(minishell->exec->tabs_exeve, minishell);
+	//ft_manage_builting(minishell->exec->tabs_exeve, minishell);
 }
 
 int	ft_manage_builting(char **cmd, t_minishell *minishell)

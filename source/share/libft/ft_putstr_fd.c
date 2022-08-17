@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 20:46:52 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/14 16:32:44 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/17 22:45:23 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	ft_putstr_fd(char *s, int fd)
 {
 	if (s && fd >= 0)
-		write(2, s, ft_strlen(s));
+		write(fd, s, ft_strlen(s));
 }

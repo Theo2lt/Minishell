@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:38:20 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/16 14:23:24 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/17 22:52:36 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,27 @@ void	ft_builtin_echo(char **cmd)
 {
 	int	i;
 
-	i = 1;
 	i = ft_check_parsing_echo(cmd);
 	if (i != 1)
 	{
 		if (cmd[i])
-			printf("%s", cmd[i++]);
+			ft_putstr_fd(cmd[i++], 1);
 		while (cmd[i])
-			printf(" %s", cmd[i++]);
+		{
+			ft_putstr_fd(" ", 1);
+			ft_putstr_fd(cmd[i++], 1);
+		}
 	}
 	else
 	{
 		if (cmd[i])
-			printf("%s", cmd[i++]);
+			ft_putstr_fd(cmd[i++], 1);
 		while (cmd[i])
-			printf(" %s", cmd[i++]);
-		printf("\n");
+		{
+			ft_putstr_fd(" ", 1);
+			ft_putstr_fd(cmd[i++], 1);
+		}
+		ft_putstr_fd("\n", 1);
 	}
 	(*g_global)->exit_code = 0;
 }

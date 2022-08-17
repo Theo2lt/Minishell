@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:44:37 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/15 21:13:00 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/17 23:21:41 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	ft_parsing_setenv(char *cmd, t_env **lst)
 
 	tmp = NULL;
 	init_value = 0;
+	
 	if (!ft_parsing_export(cmd))
 	{
 		tmp = ft_joint_3str("bash: export: `", cmd,

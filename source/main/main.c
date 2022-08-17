@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/16 12:11:40 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/16 16:37:31 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_minishell	*ft_init_mini(void)
 	return (mini);
 }
 
+t_minishell	**g_global;
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
@@ -75,13 +76,14 @@ int	main(int argc, char **argv, char **env)
 		if (ft_strcmp(input, "") != 1)
 		{
 			minishell->exec = parser(input, minishell->env_lst);
+
 			if (!minishell->exec)
 				printf("PARSING = NULL\n");
 			else
 			{	
 				ft_assigne_num_lstexec(minishell->exec);
 				if (minishell->exec->tabs_exeve && ft_is_builting(minishell->exec->tabs_exeve[0]) && !minishell->exec->next)
-					ft_manage_builting(minishell->exec->tabs_exeve, minishell);
+					ft_redir_simple_bulting(minishell);
 				else
 				{
 					ft_execution(minishell);

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/15 21:58:32 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/16 16:37:18 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_def
 }	t_def;
 
 /// GLOBAL ///
-t_minishell	**g_global;
+extern t_minishell	**g_global;
 
 //// FONCTION PARSING ////
 void	ft_converte_str(char *str, int signe);
@@ -101,6 +101,7 @@ int		ft_manage_builting(char **cmd, t_minishell *minishell);
 void	ft_unset(char *name, t_env **lst);
 void	ft_builting_exit(char **cmd, t_minishell *mini);
 void	ft_exit(t_minishell *minishell);
+void	ft_redir_simple_bulting(t_minishell *minishell);
 
 /// FONCTION AFFICHAGE ///
 void	ft_putchar(char c, int fd);

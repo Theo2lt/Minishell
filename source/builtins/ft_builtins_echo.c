@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:38:20 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/15 21:11:17 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/16 14:23:24 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,30 @@
 /// AFFICHE les arguments en tenant compte du -n
 /// RETURN 0 si OK sinon 1
 
-int	ft_check_parsing_echo(char *cmd)
+int	ft_check_parsing_echo(char **cmd)
 {
 	int	i;
+	int	j;
 
-	i = 3;
-	if (!ft_strncmp(cmd, "-n", 2))
+	j = 1;
+	i = 1;
+	while (cmd[j])
 	{
-		while (cmd[i])
+		if (!ft_strncmp(cmd[j], "-n", 2))
 		{
-			if (cmd[i] != 'n')
-				return (0);
-			i++;
+			while (cmd[j][i])
+			{
+				if (cmd[j][i] != 'n')
+					return (j);
+				i++;
+			}
 		}
-		return (1);
+		else
+			break ;
+		i = 1;
+		j++;
 	}
-	return (0);
+	return (j);
 }
 
 void	ft_builtin_echo(char **cmd)
@@ -39,11 +47,10 @@ void	ft_builtin_echo(char **cmd)
 	int	i;
 
 	i = 1;
-	if (!cmd || !cmd[i])
-		printf("\n");
-	else if (ft_check_parsing_echo(cmd[i]))
+	i = ft_check_parsing_echo(cmd);
+	if (i != 1)
 	{
-		if (cmd[++i])
+		if (cmd[i])
 			printf("%s", cmd[i++]);
 		while (cmd[i])
 			printf(" %s", cmd[i++]);

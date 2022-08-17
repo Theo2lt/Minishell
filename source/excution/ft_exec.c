@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 21:15:49 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/15 22:32:45 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/16 15:35:24 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	ft_execution(t_minishell *minishell)
 			ft_exit(minishell);
 		}
 		cmd_tmp->pid = fork();
-		if (!cmd_tmp->tabs_exeve && cmd_tmp->pid == 0)
-			ft_exit(minishell);
 		if (cmd_tmp->pid == 0)
 			ft_childs(minishell, cmd_tmp,
 				minishell->fd_previous, minishell->fd);
@@ -85,6 +83,8 @@ void	ft_execution(t_minishell *minishell)
 void	ft_childs(t_minishell *minishell,
 				t_exec *cmd_tmp, int fd_previous, int *fd)
 {
+	if (!cmd_tmp->tabs_exeve || cmd_tmp->outfile == -1 || cmd_tmp->infile == -1)
+		ft_exit(minishell);
 	ft_r_infile(cmd_tmp, fd_previous);
 	ft_r_out(minishell, cmd_tmp, fd);
 	if (cmd_tmp->tabs_exeve && ft_is_builting(cmd_tmp->tabs_exeve[0]))
@@ -134,6 +134,7 @@ void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 	char	*path;
 	char	**env;
 
+	//ft_sim_exec_lst_BUG(cmd_tmp);
 	path = ft_path_exec(minishell->env_lst, cmd_tmp->tabs_exeve);
 	env = ft_recreate_env(minishell->env_lst);
 	if (!cmd_tmp->tabs_exeve || (!ft_char_set(path, '/')

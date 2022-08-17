@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 23:31:17 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/15 21:15:15 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/17 13:54:25 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,29 @@ int	ft_is_builting(char *cmd)
 		return (1);
 	else
 		return (0);
+}
+
+void	ft_redir_simple_bulting(t_minishell *minishell)
+{
+	/*
+	int		f_stdout;
+
+	f_stdout = dup(STDOUT_FILENO);
+	if (minishell->exec->outfile > 1)
+	{
+		dup2(minishell->exec->outfile, STDOUT_FILENO);
+		ft_manage_builting(minishell->exec->tabs_exeve, minishell);
+		dup2(f_stdout, STDOUT_FILENO);
+		close(minishell->exec->outfile);
+	}
+	if (f_stdout > 1)
+		close(f_stdout);
+	if (minishell->exec->infile > 0)
+		close(minishell->exec->infile);
+	if (minishell->exec->outfile > 0)
+		close(minishell->exec->outfile);
+	*/
+	ft_manage_builting(minishell->exec->tabs_exeve, minishell);
 }
 
 int	ft_manage_builting(char **cmd, t_minishell *minishell)

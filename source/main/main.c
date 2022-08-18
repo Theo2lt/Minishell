@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/16 16:37:31 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/18 14:40:14 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_minishell	*ft_init_mini(void)
 }
 
 t_minishell	**g_global;
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
@@ -76,7 +77,6 @@ int	main(int argc, char **argv, char **env)
 		if (ft_strcmp(input, "") != 1)
 		{
 			minishell->exec = parser(input, minishell->env_lst);
-
 			if (!minishell->exec)
 				printf("PARSING = NULL\n");
 			else
@@ -93,7 +93,6 @@ int	main(int argc, char **argv, char **env)
 				minishell->exec = NULL;
 			}
 		}
-		printf("[%d]\n", (*g_global)->exit_code);
 	}
 	return (0);
 }

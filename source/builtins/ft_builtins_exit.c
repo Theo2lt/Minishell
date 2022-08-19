@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 13:46:55 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 21:42:36 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/19 23:29:13 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,20 @@ int	ft_builting_exit_check_arg(char **cmd)
 	char	*tmp;
 
 	i = 0;
+	if (!ft_atoi_bool(cmd[1]))
+	{
+		tmp = ft_joint_3str("bash: exit: ",
+				cmd[1], ": numeric argument required\n");
+		ft_putstr_fd(tmp, 2);
+		free(tmp);
+		return (0);
+	}
 	while (cmd[1][i])
 	{
-		if (!ft_isdigit(cmd[1][i]))
+		if (!ft_isdigit(cmd[1][i]) && cmd[1][i] != '-' && cmd[1][i] != '+')
 		{
 			tmp = ft_joint_3str("bash: exit: ",
-					cmd[1], "numeric argument required\n");
+					cmd[1], ": numeric argument required\n");
 			ft_putstr_fd(tmp, 2);
 			free(tmp);
 			return (0);
@@ -43,6 +51,7 @@ void	ft_builting_exit(char **cmd, t_minishell *mini)
 	{
 		ft_putstr_fd("bash: exit: too many arguments\n", 2);
 		(*g_global)->exit_code = 1;
+		return ;
 	}
 	else
 		(*g_global)->exit_code = ft_atoi((const char *)cmd[1]);

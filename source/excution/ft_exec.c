@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 21:15:49 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 17:58:47 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/19 20:51:56 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,19 @@ void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 
 	path = ft_path_exec(minishell->env_lst, cmd_tmp->tabs_exeve, 0);
 	env = ft_recreate_env(minishell->env_lst);
+	(*g_global)->exit_code = 0;
 	if (!cmd_tmp->tabs_exeve || (!ft_char_set(path, '/')
 			&& ft_return_path_value(minishell->env_lst)))
 	{
 		ft_commande_not_found(cmd_tmp->tabs_exeve);
 		(*g_global)->exit_code = 127;
 	}
-	if (ft_is_dir(cmd_tmp->tabs_exeve[0]))
+	else if (ft_is_dir(cmd_tmp->tabs_exeve[0]))
 	{
 		ft_commande_error(cmd_tmp->tabs_exeve, "Is a directory");
 		(*g_global)->exit_code = 126;
 	}
-	(*g_global)->exit_code = 0;
-	if (execve(path, cmd_tmp->tabs_exeve, env) == -1)
+	else if (execve(path, cmd_tmp->tabs_exeve, env) == -1)
 	{
 		ft_commande_error(cmd_tmp->tabs_exeve, strerror(errno));
 		(*g_global)->exit_code = 126;

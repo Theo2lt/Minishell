@@ -6,13 +6,14 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 17:54:59 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/19 23:15:14 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdbool.h>  
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -25,6 +26,9 @@
 # include "libft.h"
 # include <wait.h>
 # include <errno.h>
+
+# define  LMAX = 9223372036854775807;
+# define  LMIN = 9223372036854775808;
 
 ////// STRUC MINISHELL ////// 
 typedef struct s_minishell
@@ -101,6 +105,7 @@ int		ft_manage_builting(char **cmd, t_minishell *minishell);
 void	ft_unset(char *name, t_env **lst);
 void	ft_builting_exit(char **cmd, t_minishell *mini);
 void	ft_exit(t_minishell *minishell);
+bool	ft_atoi_bool(const char *str);
 void	ft_redir_simple_bulting(t_minishell *minishell);
 
 /// FONCTION AFFICHAGE ///

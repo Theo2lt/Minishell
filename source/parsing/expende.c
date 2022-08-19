@@ -6,10 +6,9 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 14:55:05 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/19 21:34:35 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "Minishell.h"
 
@@ -44,7 +43,10 @@ char	*ft_expende(t_env *env, char *str, int start, int end)
 	char		*tmp;
 	char		*content;
 
-	content = ft_getenv(env, str + start, (end - start));
+	if (str[end] == '?' && ++end)
+		content = ft_itoa((*g_global)->exit_code);
+	else
+		content = ft_getenv(env, str + start, (end - start));
 	ft_converte_expende(content);
 	if (content)
 		tmp = ft_replace(str, content, start, end);

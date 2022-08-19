@@ -6,7 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/08/19 14:38:42 by engooh           ###   ########.fr       */
+=======
+/*   Updated: 2022/08/08 15:12:23 by engooh           ###   ########.fr       */
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +39,7 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 		input = readline("> ");
 		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
 		{
+<<<<<<< HEAD
 			//close(exec->infile);
 			//ft_exit((*g_global));
 			exit(0);
@@ -42,6 +47,14 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 		if (mode == 4)
 		{
 			input = parser_expende(input, exec->env, 0);
+=======
+			exit(0);
+			close(exec->infile);
+		}
+		if (mode == 4)
+		{
+			input = parser_expende(input, exec->env);
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 			ft_positive_negative(input, 1);
 		}
 		ft_putstr_fd(input, exec->infile);
@@ -61,8 +74,11 @@ void	set_herdoc(char *str, t_exec *exec, int mode)
 	if (!pid)
 	{
 		read_herdoc(str, exec, mode);
+<<<<<<< HEAD
 		close(exec->infile);
 		//ft_exit((*g_global));
+=======
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 		exit(0);
 	}
 	else if (pid)

@@ -6,7 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/08/19 12:37:22 by engooh           ###   ########.fr       */
+=======
+/*   Updated: 2022/08/08 01:12:03 by engooh           ###   ########.fr       */
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +75,23 @@ int	main(int argc, char **argv, char **env)
 	t_minishell	*minishell;
 	char		*input;
 
+<<<<<<< HEAD
 	(void)argc;
 	(void)argv;
 	minishell = ft_init_mini();
 	g_global = &minishell;
 	minishell->env_lst = ft_init_env(env);
+=======
+	(void)ac;
+	(void)av;
+	env = NULL;
+	ft_converte_tab_list(envp, &env, ft_push_env);
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 	while (42)
 	{
 		input = readline("bosh-5.0$ ");
 		add_history(input);
+<<<<<<< HEAD
 		if (ft_strcmp(input, "") != 1)
 		{
 			minishell->exec = parser(input, minishell->env_lst);
@@ -100,5 +112,12 @@ int	main(int argc, char **argv, char **env)
 			}
 		}
 	}
+=======
+		exec = parser(input, env);
+		ft_print_exec(exec, 1);
+		ft_delete_all(exec, NULL);
+	}
+	ft_delete_all(exec, env);
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 	return (0);
 }

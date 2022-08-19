@@ -6,7 +6,12 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/08/19 14:38:45 by engooh           ###   ########.fr       */
+=======
+/*   Updated: 2022/08/08 02:40:47 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/29 22:51:01 by engooh           ###   ########.fr       */
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +214,11 @@ int	parser_chevron_pipe(char *str)
 			if (*str == '|' && espace && !print_syntaxe_error('|'))
 				return (0);
 			str = parser_chevron_pipe_utils(str + 1, *str);
+<<<<<<< HEAD
 			if (!str)
+=======
+			if (!str && printf("KO syntaxe\n"))
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 				return (0);
 		}
 		if (str && *str)

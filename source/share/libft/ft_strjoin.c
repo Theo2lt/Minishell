@@ -6,7 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 11:41:22 by engooh            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/08/09 12:15:13 by tliot            ###   ########.fr       */
+=======
+/*   Updated: 2022/08/08 11:58:53 by engooh           ###   ########.fr       */
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +44,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 	free(tmp);
 	return (c);
 }
+<<<<<<< HEAD
 
 char	*ft_strjoin2(char  *s1, char  *s2)
 {
@@ -82,3 +87,5 @@ int	*ft_strjoin2(int *s1, int *s2)
 	free(tmp);
 	return (c);
 }*/
+=======
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634

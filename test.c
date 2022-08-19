@@ -3,6 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 14:24:16 by engooh            #+#    #+#             */
@@ -44,5 +45,33 @@ int	main(void)
 	//printf("error read %s\n", strerror(errno));
 	printf("resultat %s\n", buf);
 	//printf("after fd %d\n", fd);
+=======
+/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/08 12:38:35 by engooh            #+#    #+#             */
+/*   Updated: 2022/08/08 12:46:49 by engooh           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void *ft_function(void)
+{
+	int nbr;
+
+	nbr = 4;
+}
+
+int main(void)
+{
+	char	*content;
+	int	nbr;
+	int	nbr1;
+
+	nbr = 3;
+	nbr1 = 5;
+	printf("test %d, %d\n", nbr, nbr + (8 * 4));
+>>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
 	return (0);
 }

@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <erickngooh.1@gmail.com>            +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:50:59 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 04:08:27 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/15 21:04:48 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_cntword(char const *s, char c, int n)
@@ -63,4 +64,29 @@ char	**ft_split(char const *s, char c)
 	q = p;
 	p = ft_split_utils(p, (char *)s, c, l);
 	return (q);
+}
+
+char	**ft_split2_element(char *str, char c)
+{
+	char	**split;
+	int		i;
+	int		y;
+
+	i = 0;
+	split = NULL;
+	split = malloc(3 * sizeof(char *));
+	while (str[i] && str[i] != c)
+		i++;
+	split[0] = ft_substr(str, 0, i);
+	if (i == ft_strlen3(str))
+		split[1] = 0;
+	else
+	{
+		y = ++i;
+		while (str[i])
+			i++;
+		split[1] = ft_substr(str, y, i);
+	}
+	split[2] = 0;
+	return (split);
 }

@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   expende.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 08:09:17 by engooh           ###   ########.fr       */
-/*   Updated: 2022/07/29 22:48:34 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/19 14:38:40 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "Minishell.h"
 
 char	*ft_replace(char *str, char *node, int i, int j)
@@ -37,6 +37,7 @@ void	ft_converte_expende(char *str)
 	}
 }
 
+	/* modifier ici par theo */
 char	*ft_expende(t_env *env, char *str, int start, int end)
 {
 	char		*tmp;
@@ -50,6 +51,8 @@ char	*ft_expende(t_env *env, char *str, int start, int end)
 		tmp = ft_replace(str, NULL, start, end);
 	if (str)
 		free(str);
+	if (content)
+		free(content);
 	return (tmp);
 }
 
@@ -67,11 +70,10 @@ int	annule_exepend_heredoc(char *str, int i, int *heredoc)
 	return (i);
 }
 
-char	*parser_expende(char *str, t_env *env)
+char	*parser_expende(char *str, t_env *env, int heredoc)
 {
 	int	i;
 	int	j;
-	int	heredoc;
 
 	i = -1;
 	heredoc = 0;
@@ -79,7 +81,7 @@ char	*parser_expende(char *str, t_env *env)
 	{
 		i = annule_exepend_heredoc(str, i, &heredoc);
 		if (str[i] == '$' && str[i + 1] && (str[i + 1] == '_'
-				|| ft_isalpha(str[i + 1])))
+				|| ft_isalpha(str[i + 1]) || str[i + 1] == '?'))
 		{
 			j = i + 1;
 			while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
@@ -87,9 +89,10 @@ char	*parser_expende(char *str, t_env *env)
 			str = ft_expende(env, str, i + 1, j);
 			i--;
 		}
-		else if (str[i] == '$' && str[i + 1] && ft_isdigit(str[i + 1]))
+		else if (str[i] == '$' && str[i + 1]
+			&& ft_isdigit(str[i + 1]))
 		{
-			str = ft_expende(env, str, i, i + 2);
+			str = ft_expende(env, str, i + 1, i + 2);
 			i--;
 		}
 	}

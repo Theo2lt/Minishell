@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 08:09:18 by engooh           ###   ########.fr       */
-/*   Updated: 2022/07/29 22:51:01 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/19 14:38:45 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "Minishell.h"
 
 /*int	ft_parser_quote(char *str)
@@ -84,6 +84,15 @@ char	*parser(char *str, t_env *env)
 	return (str);
 }
 */
+
+char	*print_syntaxe_error(char c)
+{
+	if (c == '<' || c == '>' || c == '|')
+		printf("bosh: syntax error near unexpected token `%c'\n", c);
+	else
+		printf("bosh: syntax error near unexpected token `newline'\n");
+	return (NULL);
+}
 
 char	*check_expende(char *str, int mode)
 {
@@ -167,18 +176,18 @@ char	*parser_chevron_pipe_utils(char *str, int c)
 	while (*tmp && *tmp == ' ')
 		tmp++;
 	if (!*tmp)
-		return (NULL);
+		return (print_syntaxe_error(0));
 	if (c == '|' && *tmp == c)
-		return (NULL);
+		return (print_syntaxe_error(c));
 	if ((c == '<' || c == '>')
 		&& (*tmp == '<' || *tmp == '>' || *tmp == '|') && tmp - str)
-		return (NULL);
+		return (print_syntaxe_error(c));
 	if ((c == '<' || c == '>')
 		&& (*tmp == '<' || *tmp == '>' || *tmp == '|') && c != *tmp)
-		return (NULL);
+		return (print_syntaxe_error(c));
 	if ((c == '<' || c == '>') && (*tmp == '<' || *tmp == '>') && c == *tmp)
 		if (tmp[1] == '<' || tmp[1] == '>' || tmp[1] == '|')
-			return (NULL);
+			return (print_syntaxe_error(c));
 	if (*tmp == '<' || *tmp == '>')
 		return (parser_chevron_pipe_utils(tmp + 1, *tmp));
 	return (tmp);
@@ -197,11 +206,11 @@ int	parser_chevron_pipe(char *str)
 			espace = 0;
 		if (*str == '<' || *str == '>' || *str == '|')
 		{
-			if (*str == '|' && espace && printf("KO sytanxe\n"))
+			if (*str == '|' && espace && !print_syntaxe_error('|'))
 				return (0);
 			str = parser_chevron_pipe_utils(str + 1, *str);
 			if (!str)
-				printf("KO syntaxe\n");
+				return (0);
 		}
 		if (str && *str)
 			str++;
@@ -209,20 +218,23 @@ int	parser_chevron_pipe(char *str)
 	return (1);
 }
 
-t_exec	*parser(char *str, t_exec **exec, t_env *env)
+t_exec	*parser(char *str, t_env *env)
 {
-	if (!str || !exec || !env)
+	t_exec	*exec;
+
+	exec = NULL;
+	if (!str || !env)
 		return (NULL);
 	if (!parser_quote(str))
 		return (NULL);
 	ft_converte_str(str, -1);
 	if (!parser_chevron_pipe(str))
 		return (NULL);
-	str = parser_expende(str, env);
+	str = parser_expende(str, env, 0);
 	if (!str)
 		return (NULL);
-	*exec = tocken(str, *exec, env, 0);
+	exec = tocken(str, NULL, env, 0);
 	if (str)
 		free(str);
-	return (*exec);
+	return (exec);
 }

@@ -3,88 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/07 07:56:20 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/19 12:37:22 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-void	ft_print_exec(t_exec *exec, int i)
+void	ft_delete_exec_lst_free(t_exec **lst)
 {
-	int	j;
+	t_exec	*lst2;
 
-	j = -1;
-	if (exec)
+	while (*lst)
 	{
-		printf("NBR MALLION:	%d\n", i);
-		printf("INFILE		%d\n", exec->infile);
-		printf("OUTFILE		%d\n", exec->outfile);
-		if (exec->tabs_exeve)
-			printf("CMD		%s\n", exec->tabs_exeve[++j]);
-		printf("ARGUMENT	");
-		while (exec->tabs_exeve && exec->tabs_exeve[++j])
-			printf("%s ", exec->tabs_exeve[j]);
-		printf("\n\n_____________________________\n\n");
-		if (exec->next)
-			ft_print_exec(exec->next, i + 1);
+		lst2 = *lst;
+		*lst = (*lst)->next;
+		if (lst2->infile > 0)
+			close(lst2->infile);
+		if (lst2->outfile > 1)
+			close(lst2->outfile);
+		if (lst2->tabs_exeve)
+			lst2->tabs_exeve = ft_free_tab2(lst2->tabs_exeve);
+		if (lst2->args)
+			free(lst2->args);
+		free(lst2);
+		lst2 = NULL;
 	}
 }
 
-t_exec	*ft_delete_exec(t_exec *exec)
+void	ft_put_siganture(void)
 {
-	if (exec)
-	{
-		if (exec->infile > 0)
-			close(exec->infile);
-		if (exec->outfile > 1)
-			close(exec->outfile);
-		if (exec->args)
-			free(exec->args);
-		if (exec->tabs_exeve)
-			ft_free_tab2(exec->tabs_exeve);
-		if (exec->next)
-			ft_delete_exec(exec->next);
-		if (exec)
-			free(exec);
-		return (NULL);
-	}
-	return (NULL);
+	ft_putstr_fd("\n\n       __  __   ___   _  _   ___", 2);
+	ft_putstr_fd("   ___   _  _   ___   _      _     \n", 2);
+	ft_putstr_fd("      |  \\/  | |_ _| | \\| | | __| ", 2);
+	ft_putstr_fd("/ __| | || | | __| | |    | |    \n", 2);
+	ft_putstr_fd("      | |\\/| |  | |  | .` | | _|  \\", 2);
+	ft_putstr_fd("\\__\\ | __ | | _|  | |__  | |__  \n", 2);
+	ft_putstr_fd("      |_|  |_| |___| |_|\\_| |___| |", 2);
+	ft_putstr_fd("___/ |_||_| |___| |____| |____| \n", 2);
+	ft_putstr_fd("                                    ", 2);
+	ft_putstr_fd("                                \n", 2);
+	ft_putstr_fd("                           by engooh", 2);
+	ft_putstr_fd(" & tliot                        \n\n\n", 2);
 }
 
-void	ft_delete_all(t_exec *exec, t_env *env)
+t_minishell	*ft_init_mini(void)
 {
-	if (exec)
-			exec = ft_delete_exec(exec);
-	if (env)
-		ft_converte_tab_list(NULL, &env, ft_delete_env);
+	t_minishell	*mini;
+
+	mini = malloc(sizeof(*mini));
+	mini->env_lst = NULL;
+	mini->exec = NULL;
+	mini->fd[0] = 0;
+	mini->fd[1] = 1;
+	mini->fd_previous = 0;
+	mini->exit_code = 60;
+	ft_put_siganture();
+	return (mini);
 }
 
-int	main(int ac, char **av, char **envp)
-{
-	t_env	*env;
-	t_exec	*exec;
-	char	*input;
+t_minishell	**g_global;
 
-	(void)ac;
-	(void)av;
-	env = NULL;
-	exec = NULL;
-	ft_converte_tab_list(envp, &env, ft_push_env);
+int	main(int argc, char **argv, char **env)
+{
+	t_minishell	*minishell;
+	char		*input;
+
+	(void)argc;
+	(void)argv;
+	minishell = ft_init_mini();
+	g_global = &minishell;
+	minishell->env_lst = ft_init_env(env);
 	while (42)
 	{
-		input = readline("minishell> ");
-		if (!input)
-			return (129);
+		input = readline("bosh-5.0$ ");
 		add_history(input);
-		exec = parser(input, &exec, env);
-		ft_print_exec(exec, 1);
-		ft_delete_all(exec, env);
-		exit(0);
-		ft_delete_all(exec, NULL);
+		if (ft_strcmp(input, "") != 1)
+		{
+			minishell->exec = parser(input, minishell->env_lst);
+			//if (!minishell->exec)
+			//	printf("PARSING = NULL\n");
+			if (minishell->exec)
+			{	
+				ft_assigne_num_lstexec(minishell->exec);
+				if (minishell->exec->tabs_exeve && ft_is_builting(minishell->exec->tabs_exeve[0]) && !minishell->exec->next)
+					ft_redir_simple_bulting(minishell);
+				else
+				{
+					ft_execution(minishell);
+					ft_wait_all_pid(minishell->exec);
+				}
+				ft_delete_exec_lst_free(&minishell->exec);
+				minishell->exec = NULL;
+			}
+		}
 	}
-	exit(0);
 	return (0);
 }

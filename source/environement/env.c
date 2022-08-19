@@ -3,31 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 18:24:44 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/22 18:49:11 by engooh           ###   ########.fr       */
+/*   Updated: 2022/07/27 23:17:24 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
+/// Malloc str && copy la valeur de tmp && return str
 char	*ft_init_variable_env(char *tmp)
 {
-	char	*variable_name;
+	char	*str;
 
 	if (!tmp)
 		return (NULL);
-	variable_name = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + 1));
-	if (!variable_name)
+	str = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + 1));
+	if (!str)
 		return (NULL);
-	ft_memset(variable_name, '\0', ft_strlen(tmp) + 1);
-	variable_name = ft_strcpy(variable_name, tmp);
-	return (variable_name);
+	ft_memset(str, '\0', ft_strlen(tmp) + 1);
+	str = ft_strcpy(str, tmp);
+	return (str);
 }
 
-void	ft_add_variable_env(char *name, char *value, int init_value,
-	t_env **lst_env)
+/// Ajoute un nouveau node initialisé a la fin de lst. 
+void	ft_add_variable_env(char *name, char *value,
+			int init_value, t_env **lst_env)
 {
 	t_env	*new;
 
@@ -36,27 +38,18 @@ void	ft_add_variable_env(char *name, char *value, int init_value,
 		ft_lst_env_add_back(lst_env, new);
 }
 
-////// PARSING A FINIR !!! //////
-void	ft_parsing_setenv(char *cmd, t_env **lst)
-{
-	int	init_value;
-	char	**split;
-	
-	init_value = 0;
-	if(ft_char_set(cmd,'=') != 0)
-		init_value = 1;
-	split = ft_split(cmd,'=');
-	ft_lst_setenv(split[0],split[1],init_value,lst);
-	ft_free_tab((void **)split);	
-}
-
+/// initialise lst_env depuis l'environement d'origine ///
 t_env	*ft_init_env(char **env)
 {
 	t_env	*lst;
+	char	*pwd;
 	int		i;
 
-	i = 0;
 	lst = NULL;
+	i = 0;
+	pwd = ft_get_pwd();
+	ft_lst_setenv("PWD", pwd, 1, &lst);
+	free(pwd);
 	while (env && env[i])
 	{
 		ft_parsing_setenv(env[i], &lst);

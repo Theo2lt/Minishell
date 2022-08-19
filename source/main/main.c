@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/18 14:40:14 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/18 15:15:43 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,20 @@ void	ft_delete_exec_lst_free(t_exec **lst)
 	}
 }
 
-void ft_put_siganture()
+void	ft_put_siganture(void)
 {
-	ft_putstr_fd("\n\n       __  __   ___   _  _   ___   ___   _  _   ___   _      _     \n",2);
-	ft_putstr_fd("      |  \\/  | |_ _| | \\| | | __| / __| | || | | __| | |    | |    \n",2);
-	ft_putstr_fd("      | |\\/| |  | |  | .` | | _|  \\__ \\ | __ | | _|  | |__  | |__  \n",2);
-	ft_putstr_fd("      |_|  |_| |___| |_|\\_| |___| |___/ |_||_| |___| |____| |____| \n",2);
-	ft_putstr_fd("                                                                    \n",2);
-	ft_putstr_fd("                           by engooh & tliot                        \n\n\n",2);
+	ft_putstr_fd("\n\n       __  __   ___   _  _   ___", 2);
+	ft_putstr_fd("   ___   _  _   ___   _      _     \n", 2);
+	ft_putstr_fd("      |  \\/  | |_ _| | \\| | | __| ", 2);
+	ft_putstr_fd("/ __| | || | | __| | |    | |    \n", 2);
+	ft_putstr_fd("      | |\\/| |  | |  | .` | | _|  \\", 2);
+	ft_putstr_fd("\\__\\ | __ | | _|  | |__  | |__  \n", 2);
+	ft_putstr_fd("      |_|  |_| |___| |_|\\_| |___| |", 2);
+	ft_putstr_fd("___/ |_||_| |___| |____| |____| \n", 2);
+	ft_putstr_fd("                                    ", 2);
+	ft_putstr_fd("                                \n", 2);
+	ft_putstr_fd("                           by engooh", 2);
+	ft_putstr_fd(" & tliot                        \n\n\n", 2);
 }
 
 t_minishell	*ft_init_mini(void)

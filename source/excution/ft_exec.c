@@ -6,54 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 21:15:49 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/17 22:51:25 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/18 16:01:53 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
-
-void	ft_r_infile(t_exec *cmd_tmp, int fd_previous)
-{
-	if (cmd_tmp->infile > 0)
-	{
-		dup2(cmd_tmp->infile, STDIN_FILENO);
-		if (cmd_tmp->infile > 0)
-			close(cmd_tmp->infile);
-		if (fd_previous > 0)
-			close(fd_previous);
-	}
-	else if (cmd_tmp->num_cmd != 1)
-	{
-		dup2(fd_previous, STDIN_FILENO);
-		if (fd_previous > 0)
-			close(fd_previous);
-	}
-}
-
-void	ft_r_out(t_minishell *minishell, t_exec *cmd_tmp, int *fd)
-{
-	if (cmd_tmp->outfile > 1)
-		dup2(cmd_tmp->outfile, STDOUT_FILENO);
-	else if (cmd_tmp->num_cmd != ft_exec_lstsize(minishell->exec))
-		dup2(fd[1], STDOUT_FILENO);
-	if (ft_exec_lstsize(minishell->exec) > 1 && fd[1] > 0)
-		close(fd[1]);
-	if (fd[0] > 0)
-		close(fd[0]);
-}
-
-int	ft_is_dir(char *fileName)
-{
-	struct stat	path;
-	int			res;
-
-	res = stat(fileName, &path);
-	if (res != 0)
-		return (0);
-	if (S_ISDIR(path.st_mode))
-		return (1);
-	return (0);
-}
 
 void	ft_execution(t_minishell *minishell)
 {
@@ -96,31 +53,6 @@ void	ft_childs(t_minishell *minishell,
 		ft_exec(minishell, cmd_tmp);
 }
 
-void	ft_commande_not_found(char	**cmd)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	if (cmd)
-		tmp = ft_joint_3str("bash: ", *cmd, ": command not found\n");
-	else
-		tmp = ft_joint_3str("bash: ", " ", ": command not found\n");
-	ft_putstr_fd(tmp, 2);
-	free(tmp);
-}
-
-void	ft_commande_error(char	**cmd, char *str_error)
-{
-	char	*tmp;
-	char	*tmp2;
-
-	tmp = ft_joint_3str(": ", str_error, "\n");
-	tmp2 = ft_joint_3str("bash: ", cmd[0], tmp);
-	write(2, tmp2, ft_strlen(tmp2));
-	free(tmp);
-	free(tmp2);
-}
-
 void	ft_exec_exit(t_minishell *minishell, char **env, char *path)
 {
 	env = ft_free_tab2(env);
@@ -134,29 +66,26 @@ void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 	char	*path;
 	char	**env;
 
-	//ft_sim_exec_lst_BUG(cmd_tmp);
-	path = ft_path_exec(minishell->env_lst, cmd_tmp->tabs_exeve);
+	path = ft_path_exec(minishell->env_lst, cmd_tmp->tabs_exeve, 0);
 	env = ft_recreate_env(minishell->env_lst);
 	if (!cmd_tmp->tabs_exeve || (!ft_char_set(path, '/')
 			&& ft_return_path_value(minishell->env_lst)))
 	{
 		ft_commande_not_found(cmd_tmp->tabs_exeve);
 		(*g_global)->exit_code = 127;
-		ft_exec_exit(minishell, env, path);
 	}
 	if (ft_is_dir(cmd_tmp->tabs_exeve[0]))
 	{
 		ft_commande_error(cmd_tmp->tabs_exeve, "Is a directory");
 		(*g_global)->exit_code = 126;
-		ft_exec_exit(minishell, env, path);
 	}
 	(*g_global)->exit_code = 0;
 	if (execve(path, cmd_tmp->tabs_exeve, env) == -1)
 	{
 		ft_commande_error(cmd_tmp->tabs_exeve, strerror(errno));
 		(*g_global)->exit_code = 126;
-		ft_exec_exit(minishell, env, path);
-	}	
+	}
+	ft_exec_exit(minishell, env, path);
 }
 
 void	ft_wait_all_pid(t_exec *lst)
@@ -171,7 +100,7 @@ void	ft_wait_all_pid(t_exec *lst)
 		if (WIFEXITED(status))
 			(*g_global)->exit_code = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			(*g_global)->exit_code = WTERMSIG(status);
+			(*g_global)->exit_code = WTERMSIG(status) + 128;
 		lst2 = lst2->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/17 19:45:11 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/18 15:25:56 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,12 +137,17 @@ void	ft_childs(t_minishell *minishell,
 void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp);
 char	*ft_strjoin_path(char *s1, char *s2);
 char	*ft_return_path_value(t_env *lst);
-char	*ft_path_exec(t_env *lst, char **cmd_arg);
+char	*ft_path_exec(t_env *lst, char **cmd_arg, int i);
 char	*ft_joint_3str(char *str, char *str2, char *str3);
 char	**ft_recreate_env(t_env *lst);
 void	ft_wait_all_pid(t_exec *lst);
 int		ft_exec_lstsize(t_exec *lst);
 int		ft_assigne_num_lstexec(t_exec *lst);
+void	ft_r_infile(t_exec *cmd_tmp, int fd_previous);
+void	ft_r_out(t_minishell *minishell, t_exec *cmd_tmp, int *fd);
+int		ft_is_dir(char *fileName);
+void	ft_commande_not_found(char	**cmd);
+void	ft_commande_error(char	**cmd, char *str_error);
 
 ////// DEBUG /////
 void	ft_lst_env_BUG(t_env *lst);

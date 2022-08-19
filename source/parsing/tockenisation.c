@@ -6,11 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/08/19 14:38:42 by engooh           ###   ########.fr       */
-=======
-/*   Updated: 2022/08/08 15:12:23 by engooh           ###   ########.fr       */
->>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
+/*   Updated: 2022/08/19 18:05:11 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,51 +35,59 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 		input = readline("> ");
 		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
 		{
-<<<<<<< HEAD
-			//close(exec->infile);
-			//ft_exit((*g_global));
-			exit(0);
+			return ;
 		}
 		if (mode == 4)
-		{
 			input = parser_expende(input, exec->env, 0);
-=======
-			exit(0);
-			close(exec->infile);
-		}
-		if (mode == 4)
-		{
-			input = parser_expende(input, exec->env);
->>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
-			ft_positive_negative(input, 1);
-		}
 		ft_putstr_fd(input, exec->infile);
+		ft_putstr_fd("\n", exec->infile);
 		if (input)
 			free(input);
+	}
+}
+
+char	*ft_create_name(void)
+{
+	char			*str;
+	long long int	n;
+
+	n = 0;
+	while (1)
+	{
+		str = ft_joint_free_s2("/tmp/tmp_bosh_", ft_itoa2(n));
+		if (access(str, F_OK))
+			return (str);
+		free(str);
+		n++;
 	}
 }
 
 void	set_herdoc(char *str, t_exec *exec, int mode)
 {
 	int		pid;
+	char	*file_name;
 
-	exec->infile = open("/tmp", __O_TMPFILE | O_RDWR, 0666);
+	file_name = NULL;
+	file_name = ft_create_name();
+	exec->infile = open(file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 	if (exec->infile < 0)
 		ft_putstr_fd("ERROR HERDOC", 2);
 	pid = fork();
 	if (!pid)
 	{
 		read_herdoc(str, exec, mode);
-<<<<<<< HEAD
-		close(exec->infile);
-		//ft_exit((*g_global));
-=======
->>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
-		exit(0);
+		free(file_name);
+		free(str);
+		if (exec && exec->args)
+			free(exec->args);
+		if (exec)
+			free(exec);
+		ft_exit((*g_global));
 	}
-	else if (pid)
-		waitpid(pid, NULL, 0);
-	printf("heredoc debug %d\n", exec->infile);
+	waitpid(pid, NULL, 0);
+	close(exec->infile);
+	exec->infile = open(file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+	free(file_name);
 }
 
 int	set_infile(char *str, t_exec *exec, int mode)

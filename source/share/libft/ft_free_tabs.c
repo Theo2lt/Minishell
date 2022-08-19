@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 20:58:52 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/08 19:06:38 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/19 18:06:40 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,19 @@ int	ft_free_tab(void **tabs)
 	return (1);
 }
 
-char   **ft_free_tab2(char **tab)
+char	**ft_free_tab2(char **tab)
 {
-    int    i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	if (!tab || !tab[0])
 		return (NULL);
-    while (tab[i])
-    {
+	while (tab[i])
+	{
 		if (tab[i])
-        	free(tab[i]);
-        i++;
-    }
-    free(tab);
-    return (NULL);
+			free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return (NULL);
 }

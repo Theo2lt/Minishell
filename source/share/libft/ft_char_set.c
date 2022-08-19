@@ -6,24 +6,24 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 15:08:12 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/09 16:43:16 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/19 18:08:42 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int    ft_char_set(char *str, char c)
+int	ft_char_set(char *str, char c)
 {
-    int    i;
+	int	i;
 
-    i = 0;
-    if(!str[0])
-        return(0);
-    while (str[i])
-    {
-        if(str[i] == c)
-            return(1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	if (!str[0])
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }

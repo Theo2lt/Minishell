@@ -6,11 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 11:41:22 by engooh            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/08/09 12:15:13 by tliot            ###   ########.fr       */
-=======
-/*   Updated: 2022/08/08 11:58:53 by engooh           ###   ########.fr       */
->>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634
+/*   Updated: 2022/08/19 18:03:36 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +40,8 @@ char	*ft_strjoin(char *s1, char const *s2)
 	free(tmp);
 	return (c);
 }
-<<<<<<< HEAD
 
-char	*ft_strjoin2(char  *s1, char  *s2)
+char	*ft_strjoin2(char *s1, char *s2)
 {
 	char	*c;
 	char	*p;
@@ -65,6 +60,16 @@ char	*ft_strjoin2(char  *s1, char  *s2)
 	return (c);
 }
 
+char	*ft_joint_free_s2(char *str1, char *str2)
+{
+	char	*str_join;
+
+	str_join = NULL;
+	str_join = ft_strjoin2(str1, str2);
+	if (str2)
+		free(str2);
+	return (str_join);
+}
 /*
 int	*ft_strjoin2(int *s1, int *s2)
 {
@@ -87,5 +92,3 @@ int	*ft_strjoin2(int *s1, int *s2)
 	free(tmp);
 	return (c);
 }*/
-=======
->>>>>>> 09b6f6ff88e84cc7ac8e1ebbb102a06af2885634

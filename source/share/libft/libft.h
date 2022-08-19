@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 23:57:30 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/15 21:04:55 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/19 17:18:53 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*ft_strdup(const char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_strjoin2(char *s1, char *s2);
+char	*ft_joint_free_s2(char *str1, char *str2);
 char	*ft_strjoin_update(char *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
@@ -68,6 +69,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	**ft_split(char const *s, char c);
 char	**ft_split2_element(char *str, char c);
 char	*ft_itoa(int n);
+char	*ft_itoa2(long long int n);
 int		ft_atoi(const char *nptr);
 int		ft_char_set(char *str, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 19:31:07 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/13 05:34:07 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/19 18:11:16 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Minishell.h"
 
 t_list	*ft_lstnew(void *content)
 {
@@ -22,4 +23,3 @@ t_list	*ft_lstnew(void *content)
 	p->content = content;
 	return (p);
 }
-

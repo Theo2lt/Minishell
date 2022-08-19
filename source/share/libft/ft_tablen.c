@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/19 18:07:30 by tliot             #+#    #+#             */
+/*   Updated: 2022/08/19 18:07:48 by tliot            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
-int    ft_tablen(char **tab)
+int	ft_tablen(char **tab)
 {
-    int    i;
+	int	i;
 
-    i = 0;
-    if (!tab[i])
-        return (i);
-    while (tab[i])
-        i++;
-    return (i);
+	i = 0;
+	if (!tab[i])
+		return (i);
+	while (tab[i])
+		i++;
+	return (i);
 }

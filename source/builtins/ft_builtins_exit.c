@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 13:46:55 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/16 19:43:56 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/19 18:03:08 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ void	ft_builting_exit(char **cmd, t_minishell *mini)
 	ft_exit(mini);
 }
 
+void	ft_all_close_fd(void)
+{
+	int	i;
+
+	i = 0;
+	while (i <= 1024)
+	{
+		if (i != 2)
+			close(i);
+		i++;
+	}
+}
+
 void	ft_exit(t_minishell *mini)
 {
 	int	exit_code;
@@ -66,7 +79,6 @@ void	ft_exit(t_minishell *mini)
 		close(mini->fd_previous);
 	if (mini)
 		free(mini);
-	close(1);
-	close(0);
+	ft_all_close_fd();
 	exit(exit_code);
 }

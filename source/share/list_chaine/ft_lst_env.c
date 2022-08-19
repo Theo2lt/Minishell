@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/07/22 18:00:56 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/19 18:10:17 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 t_env	*ft_lst_env_new(char *name, char *value, int init_value)
 {
 	t_env	*new;
-	
-	if(!name)
-		return(NULL);
-	new = (t_env*)malloc(sizeof(*new));
+
+	if (!name)
+		return (NULL);
+	new = (t_env *) malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
 	new->variable_value = ft_init_variable_env(value);
@@ -62,7 +62,6 @@ void	ft_lst_env_add_back(t_env **alst, t_env *new)
 		*alst = new;
 }
 
-
 /// PREND lst environement en PARAMETRE 
 /// SUPPRIME ET FREE les différents maillon de la chaine
 
@@ -88,7 +87,7 @@ t_env	*ft_lst_getenv(char *name, t_env *lst)
 {
 	while (lst)
 	{
-		if(lst->init_value != 0)
+		if (lst->init_value != 0)
 			if (ft_strncmp(lst->variable_name, name, ft_strlen(lst->variable_name)) == 0)
 				return (lst);
 		lst = lst->next;
@@ -100,7 +99,7 @@ t_env	*ft_lst_getexport(char *name, t_env *lst)
 {
 	while (lst)
 	{
-		if(lst->init_value == 0)
+		if (lst->init_value == 0)
 			if (ft_strncmp(lst->variable_name, name, ft_strlen(lst->variable_name)) == 0)
 				return (lst);
 		lst = lst->next;
@@ -112,9 +111,9 @@ void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 {
 	t_env *tmp;
 	
-	if(ft_lst_getenv(name, *lst) )
-	{   
-		if(init_value == 1)
+	if (ft_lst_getenv(name, *lst) )
+	{
+		if (init_value == 1)
 		{
 			tmp = ft_lst_getenv(name, *lst);
 			free(tmp->variable_value);
@@ -124,12 +123,12 @@ void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 	else if (ft_lst_getexport(name, *lst))
 	{
 		tmp = ft_lst_getexport(name, *lst);
-		if(init_value == 1)
+		if (init_value == 1)
 			tmp->init_value = 1;
 		free(tmp->variable_name);
 		tmp->variable_name = ft_init_variable_env(name);
 		tmp->variable_value = ft_init_variable_env(value);
 	}
 	else
-		ft_add_variable_env(name,value,init_value,lst);
+		ft_add_variable_env(name, value, init_value, lst);
 }

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 21:15:49 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 14:38:44 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/19 17:58:47 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	ft_exec(t_minishell *minishell, t_exec *cmd_tmp)
 		(*g_global)->exit_code = 126;
 	}
 	(*g_global)->exit_code = 0;
-	printf("heredoc debug %d\n", cmd_tmp->infile);
 	if (execve(path, cmd_tmp->tabs_exeve, env) == -1)
 	{
 		ft_commande_error(cmd_tmp->tabs_exeve, strerror(errno));

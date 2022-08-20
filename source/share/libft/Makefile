@@ -13,7 +13,7 @@ OBJ_BONUS = ${BONUS:.c=.o}
 
 NAME = libft.a
 
-CC  = clang
+CC  = gcc
 
 RM  = rm -f
 
@@ -22,7 +22,7 @@ FLAG = -Wall -Werror -Wextra
 all: ${NAME}
 
 %.o: %.c
-	clang ${FLAG} -c $< -o $@
+	gcc ${FLAG} -c $< -o $@
 
 ${NAME}: ${OBJ}
 	ar r $@ $^

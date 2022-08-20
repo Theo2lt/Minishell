@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/20 14:09:14 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/20 17:32:28 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ char	*ft_replace(char *str, char *node, int i, int j)
 
 void	ft_converte_expende(char *str)
 {
-	while (str && *str)
+	if (!str)
+		return ;
+	while (*str)
 	{
 		if (ft_strchr("<>|", *str))
 			*str *= -1;

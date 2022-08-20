@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 18:07:13 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/20 17:36:32 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	main(int argc, char **argv, char **env)
 				ft_delete_exec_lst_free(&minishell->exec);
 				minishell->exec = NULL;
 			}
+			else
+				(*g_global)->exit_code = 2;
 		}
 	}
 	return (0);

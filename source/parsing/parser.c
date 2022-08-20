@@ -6,11 +6,9 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 14:52:23 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/20 17:25:05 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 #include "Minishell.h"
 
 /*int	ft_parser_quote(char *str)

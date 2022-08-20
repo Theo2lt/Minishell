@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 23:31:17 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 18:12:09 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/20 20:08:48 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_is_builting(char *cmd)
 
 void	ft_redir_simple_bulting(t_minishell *minishell)
 {
-	int		f_stdout;
+	int	f_stdout;
 
 	f_stdout = 1;
 	if (minishell->exec->outfile > 1)

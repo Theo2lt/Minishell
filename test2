@@ -1,0 +1,13 @@
+total 128
+drwxrwxr-x  5 ubuntu ubuntu  4096 Aug 20 13:11 .
+drwxr-xr-x 16 ubuntu ubuntu  4096 Aug 20 13:08 ..
+drwxrwxr-x  8 ubuntu ubuntu  4096 Aug 20 12:45 .git
+-rw-rw-r--  1 ubuntu ubuntu  5470 Aug 20 12:45 Makefile
+drwxrwxr-x  2 ubuntu ubuntu  4096 Aug 20 12:45 include
+-rw-rw-r--  1 ubuntu ubuntu   230 Aug 20 12:45 minimal.supp
+-rwxrwxr-x  1 ubuntu ubuntu 89472 Aug 20 13:05 minishell
+-rw-rw-r--  1 ubuntu ubuntu   113 Aug 20 12:45 readline_leaks.txt
+drwxrwxr-x  8 ubuntu ubuntu  4096 Aug 20 12:45 source
+-rw-rw-r--  1 ubuntu ubuntu     0 Aug 20 13:11 test
+-rw-rw-r--  1 ubuntu ubuntu     0 Aug 20 13:11 test2
+-rwxrwxr-x  1 ubuntu ubuntu   215 Aug 20 12:45 valgrind.sh

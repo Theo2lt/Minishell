@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 18:07:13 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/20 19:31:27 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_minishell	*ft_init_mini(void)
 	mini->fd[1] = 1;
 	mini->fd_previous = 0;
 	mini->exit_code = 60;
+	mini->pid = 0;
 	ft_put_siganture();
 	return (mini);
 }
@@ -78,7 +79,13 @@ int	main(int argc, char **argv, char **env)
 	minishell->env_lst = ft_init_env(env);
 	while (42)
 	{
+		minishell->pid = 0;
+		signal(SIGINT, get_signal);
+		signal(SIGQUIT, get_signal);
+		signal(SIGTSTP, SIG_IGN);
 		input = readline("bosh-5.0$ ");
+		if (!input)
+			exit_succes(minishell);
 		add_history(input);
 		if (ft_strcmp(input, "") != 1)
 		{

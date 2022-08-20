@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 21:15:49 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 20:51:56 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/20 20:08:34 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ void	ft_execution(t_minishell *minishell)
 		}
 		cmd_tmp->pid = fork();
 		if (cmd_tmp->pid == 0)
+		{
+			(*g_global)->pid = cmd_tmp->pid;
 			ft_childs(minishell, cmd_tmp,
 				minishell->fd_previous, minishell->fd);
+		}
+		(*g_global)->pid = 1;
 		cmd_tmp = cmd_tmp->next;
 		if (minishell->fd[1] > 1 && ft_exec_lstsize(minishell->exec) > 1)
 			close(minishell->fd[1]);

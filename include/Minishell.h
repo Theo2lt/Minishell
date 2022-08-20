@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 23:15:14 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/20 17:21:43 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "libft.h"
 # include <wait.h>
 # include <errno.h>
+# include <signal.h>
 
 # define  LMAX = 9223372036854775807;
 # define  LMIN = 9223372036854775808;
@@ -38,6 +39,7 @@ typedef struct s_minishell
 	int				fd[2];
 	int				fd_previous;
 	int				exit_code;
+	pid_t			pid;
 }t_minishell;
 
 //// STUCT ENV //////
@@ -157,4 +159,11 @@ void	ft_commande_error(char	**cmd, char *str_error);
 ////// DEBUG /////
 void	ft_lst_env_BUG(t_env *lst);
 void	ft_sim_exec_lst_BUG(t_exec *lst);
+
+/////	SIGNAUX	////
+void	get_signal(int sig);
+void	parent_signal(int sig);
+void	child_signal(int sig);
+void	exit_succes(t_minishell *minishell);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/21 04:48:32 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/21 05:44:56 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ t_minishell	*ft_init_mini(void)
 
 t_minishell	**g_global;
 
+void	sighandler(int sig)
+{
+	signal(sig, SIG_IGN);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
@@ -76,6 +81,7 @@ int	main(int argc, char **argv, char **env)
 	minishell = ft_init_mini();
 	g_global = &minishell;
 	minishell->env_lst = ft_init_env(env);
+	signal(SIGINT, sighandler);
 	while (42)
 	{
 		input = readline("bosh-5.0$ ");

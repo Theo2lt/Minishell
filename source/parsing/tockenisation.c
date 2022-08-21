@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/21 05:03:23 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/21 17:06:07 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,6 @@ void	*delete_exec(t_exec *exec)
 	return (NULL);
 }
 
-void	sighanler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		exit(2);
-	}
-}
-
-void	set_signal(int pid)
-{
-	//if (pid)
-		//signal(SIGINT, SIG_IGN);
-	if (!pid)
-		signal(SIGINT, sighanler);
-}
-
 void	set_herdoc(char *str, t_exec *exec, int mode)
 {
 	int		pid;
@@ -102,7 +85,6 @@ void	set_herdoc(char *str, t_exec *exec, int mode)
 	if (exec->infile < 0)
 		ft_putstr_fd("ERROR HERDOC", 2);
 	pid = fork();
-	set_signal(pid);
 	if (!pid)
 	{
 		read_herdoc(str, exec, mode);

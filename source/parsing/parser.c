@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/20 17:25:05 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/20 22:28:39 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Minishell.h"
@@ -221,8 +221,9 @@ t_exec	*parser(char *str, t_env *env)
 {
 	t_exec	*exec;
 
+	printf("HELLO LA TERRE\n");
 	exec = NULL;
-	if (!str || !env)
+	if ((!str || !env) && printf("debug\n"))
 		return (NULL);
 	if (!parser_quote(str))
 		return (NULL);

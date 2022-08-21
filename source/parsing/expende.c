@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/20 17:32:28 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/21 02:55:23 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,16 @@ char	*ft_expende(t_env *env, char *str, int start, int end)
 		content = ft_itoa((*g_global)->exit_code);
 	else
 		content = ft_getenv(env, str + start, (end - start));
-	ft_converte_expende(content);
+	if (content)
+		ft_converte_expende(content);
 	if (content)
 		tmp = ft_replace(str, content, start, end);
 	if (!content)
 		tmp = ft_replace(str, NULL, start, end);
+	if (content && str[start] == '?')
+		free(content);
 	if (str)
 		free(str);
-	if (content)
-		free(content);
 	return (tmp);
 }
 

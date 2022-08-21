@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/20 12:12:25 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 17:00:37 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ char	*ft_create_name(void)
 		n++;
 	}
 }
+void	ft_print_error_file(char *str, char *sterr)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(sterr, 2);
+	ft_putstr_fd("\n", 2);
+}
 
 void	set_herdoc(char *str, t_exec *exec, int mode)
 {
@@ -96,7 +104,10 @@ int	set_infile(char *str, t_exec *exec, int mode)
 	{
 		exec->infile = open(str, O_RDONLY, 0666);
 		if (exec->infile < 0)
-			ft_putstr_fd("ERROR INFILE\n", 2);
+		{
+			ft_print_error_file(str, strerror(errno));
+			(*g_global)->exit_code = 1;
+		}
 	}
 	else if (mode == 4 || mode == 5)
 		set_herdoc(str, exec, mode);
@@ -111,13 +122,19 @@ int	set_outfile(char *str, t_exec *exec, int mode)
 	{
 		exec->outfile = open(str, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (exec->outfile < 0)
-			ft_putstr_fd("ERROR OUFILE\n", 2);
+		{
+			ft_print_error_file(str, strerror(errno));
+			(*g_global)->exit_code = 1;
+		}
 	}
 	else if (mode == 1 && exec->infile >= 0 && exec->outfile >= 1)
 	{
 		exec->outfile = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		if (exec->outfile < 0)
-			ft_putstr_fd("ERROR OUFILE\n", 2);
+		{
+			ft_print_error_file(str, strerror(errno));
+			(*g_global)->exit_code = 1;
+		}
 	}
 	if (exec->outfile < 0)
 		return (0);

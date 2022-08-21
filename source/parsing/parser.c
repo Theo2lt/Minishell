@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 14:52:23 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 17:06:01 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ char	*print_syntaxe_error(char c)
 		printf("bosh: syntax error near unexpected token `%c'\n", c);
 	else
 		printf("bosh: syntax error near unexpected token `newline'\n");
+	(*g_global)->exit_code = 2;
 	return (NULL);
 }
 

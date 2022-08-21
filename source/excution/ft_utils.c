@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 15:51:06 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/18 15:18:56 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 17:26:16 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	ft_commande_not_found(char	**cmd)
 	char	*tmp;
 
 	tmp = NULL;
-	if (cmd)
+	if (cmd && *cmd)
 		tmp = ft_joint_3str("bash: ", *cmd, ": command not found\n");
 	else
-		tmp = ft_joint_3str("bash: ", " ", ": command not found\n");
+		tmp = ft_joint_3str("bash: ", "", ": command not found\n");
 	ft_putstr_fd(tmp, 2);
 	free(tmp);
 }

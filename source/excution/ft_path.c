@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 21:20:02 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/18 15:26:01 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 17:22:26 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ char	*ft_path_exec(t_env *lst, char **cmd_arg, int i)
 	char	*path;
 	char	**paths;
 
-	if (!cmd_arg)
-		return (NULL);
+	if (!cmd_arg || !cmd_arg[0] || !cmd_arg[0][0])
+		return (ft_strjoin2("", ""));
 	if (!ft_strncmp("./", cmd_arg[0], 2))
 		return (ft_strjoin2(cmd_arg[0], ""));
 	paths = ft_split(ft_return_path_value(lst), ':');

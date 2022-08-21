@@ -6,47 +6,47 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/20 19:31:27 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 13:58:21 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-void	ft_delete_exec_lst_free(t_exec **lst)
-{
-	t_exec	*lst2;
+t_minishell	**g_global;
 
-	while (*lst)
-	{
-		lst2 = *lst;
-		*lst = (*lst)->next;
-		if (lst2->infile > 0)
-			close(lst2->infile);
-		if (lst2->outfile > 1)
-			close(lst2->outfile);
-		if (lst2->tabs_exeve)
-			lst2->tabs_exeve = ft_free_tab2(lst2->tabs_exeve);
-		if (lst2->args)
-			free(lst2->args);
-		free(lst2);
-		lst2 = NULL;
+void	ft_start(t_minishell	*minishell, char *input)
+{
+	minishell->exec = parser(input, minishell->env_lst);
+	if (minishell->exec)
+	{	
+		ft_assigne_num_lstexec(minishell->exec);
+		if (minishell->exec->tabs_exeve
+			&& ft_is_builting(minishell->exec->tabs_exeve[0])
+			&& !minishell->exec->next)
+			ft_redir_simple_bulting(minishell);
+		else
+		{
+			ft_execution(minishell);
+			ft_wait_all_pid(minishell->exec);
+		}
+		ft_delete_exec_lst_free(&minishell->exec);
+		minishell->exec = NULL;
 	}
 }
 
-void	ft_put_siganture(void)
+void	ft_launcher(t_minishell	*minishell, char *input)
 {
-	ft_putstr_fd("\n\n       __  __   ___   _  _   ___", 2);
-	ft_putstr_fd("   ___   _  _   ___   _      _     \n", 2);
-	ft_putstr_fd("      |  \\/  | |_ _| | \\| | | __| ", 2);
-	ft_putstr_fd("/ __| | || | | __| | |    | |    \n", 2);
-	ft_putstr_fd("      | |\\/| |  | |  | .` | | _|  \\", 2);
-	ft_putstr_fd("\\__\\ | __ | | _|  | |__  | |__  \n", 2);
-	ft_putstr_fd("      |_|  |_| |___| |_|\\_| |___| |", 2);
-	ft_putstr_fd("___/ |_||_| |___| |____| |____| \n", 2);
-	ft_putstr_fd("                                    ", 2);
-	ft_putstr_fd("                                \n", 2);
-	ft_putstr_fd("                           by engooh", 2);
-	ft_putstr_fd(" & tliot                        \n\n\n", 2);
+	while (42)
+	{
+		minishell->pid = 0;
+		ft_signal();
+		input = readline("Minibosh-22.0$ ");
+		if (!input)
+			exit_succes(minishell);
+		add_history(input);
+		if (ft_strcmp(input, "") != 1)
+			ft_start(minishell, input);
+	}
 }
 
 t_minishell	*ft_init_mini(void)
@@ -59,13 +59,11 @@ t_minishell	*ft_init_mini(void)
 	mini->fd[0] = 0;
 	mini->fd[1] = 1;
 	mini->fd_previous = 0;
-	mini->exit_code = 60;
+	mini->exit_code = 0;
 	mini->pid = 0;
 	ft_put_siganture();
 	return (mini);
 }
-
-t_minishell	**g_global;
 
 int	main(int argc, char **argv, char **env)
 {
@@ -77,33 +75,7 @@ int	main(int argc, char **argv, char **env)
 	minishell = ft_init_mini();
 	g_global = &minishell;
 	minishell->env_lst = ft_init_env(env);
-	while (42)
-	{
-		minishell->pid = 0;
-		signal(SIGINT, get_signal);
-		signal(SIGQUIT, get_signal);
-		signal(SIGTSTP, SIG_IGN);
-		input = readline("bosh-5.0$ ");
-		if (!input)
-			exit_succes(minishell);
-		add_history(input);
-		if (ft_strcmp(input, "") != 1)
-		{
-			minishell->exec = parser(input, minishell->env_lst);
-			if (minishell->exec)
-			{	
-				ft_assigne_num_lstexec(minishell->exec);
-				if (minishell->exec->tabs_exeve && ft_is_builting(minishell->exec->tabs_exeve[0]) && !minishell->exec->next)
-					ft_redir_simple_bulting(minishell);
-				else
-				{
-					ft_execution(minishell);
-					ft_wait_all_pid(minishell->exec);
-				}
-				ft_delete_exec_lst_free(&minishell->exec);
-				minishell->exec = NULL;
-			}
-		}
-	}
+	input = NULL;
+	ft_launcher(minishell, input);
 	return (0);
 }

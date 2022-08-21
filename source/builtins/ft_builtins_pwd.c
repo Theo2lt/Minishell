@@ -25,11 +25,16 @@ char	*ft_get_pwd(void)
 int	ft_builtin_pwd(void)
 {
 	char	*pwd;
+	char	*tmp;
 
 	pwd = ft_get_pwd();
 	if (!pwd)
 	{
-		ft_putstr_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n",2);
+		tmp = ft_joint_3str("pwd: error retrieving current directory: ",
+				"getcwd: cannot access parent directories: ",
+				"No such file or directory\n");
+		ft_putstr_fd(tmp, 2);
+		free(tmp);
 		(*g_global)->exit_code = 1;
 	}
 	else

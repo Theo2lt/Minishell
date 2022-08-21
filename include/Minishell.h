@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/20 17:21:43 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 13:50:10 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	ft_redir_simple_bulting(t_minishell *minishell);
 /// FONCTION AFFICHAGE ///
 void	ft_putchar(char c, int fd);
 void	ft_putstr(char *s, int fd);
+void	ft_put_siganture(void);
 
 // FONCTION LST_ENV ///
 char	*ft_get_env(t_env *env, int *str, int len);
@@ -157,8 +158,8 @@ void	ft_commande_not_found(char	**cmd);
 void	ft_commande_error(char	**cmd, char *str_error);
 
 ////// DEBUG /////
-void	ft_lst_env_BUG(t_env *lst);
-void	ft_sim_exec_lst_BUG(t_exec *lst);
+void	ft_lst_env_bug(t_env *lst);
+void	ft_sim_exec_lst_bug(t_exec *lst);
 
 /////	SIGNAUX	////
 void	get_signal(int sig);
@@ -166,4 +167,9 @@ void	parent_signal(int sig);
 void	child_signal(int sig);
 void	exit_succes(t_minishell *minishell);
 
+//// MAIN ///
+void	ft_start(t_minishell	*minishell, char *input);
+void	ft_launcher(t_minishell	*minishell, char *input);
+void	ft_delete_exec_lst_free(t_exec **lst);
+void	ft_signal(void);
 #endif

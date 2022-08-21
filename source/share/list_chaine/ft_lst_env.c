@@ -6,12 +6,11 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 18:10:17 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 12:55:09 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
-
 
 /// PREND *name, char *value, int init_value en PARAMETRE 
 /// CREER une nouvelle node
@@ -88,7 +87,8 @@ t_env	*ft_lst_getenv(char *name, t_env *lst)
 	while (lst)
 	{
 		if (lst->init_value != 0)
-			if (ft_strncmp(lst->variable_name, name, ft_strlen(lst->variable_name)) == 0)
+			if (ft_strncmp(lst->variable_name, name
+					, ft_strlen(lst->variable_name)) == 0)
 				return (lst);
 		lst = lst->next;
 	}
@@ -100,7 +100,8 @@ t_env	*ft_lst_getexport(char *name, t_env *lst)
 	while (lst)
 	{
 		if (lst->init_value == 0)
-			if (ft_strncmp(lst->variable_name, name, ft_strlen(lst->variable_name)) == 0)
+			if (ft_strncmp(lst->variable_name, name
+					, ft_strlen(lst->variable_name)) == 0)
 				return (lst);
 		lst = lst->next;
 	}
@@ -109,9 +110,9 @@ t_env	*ft_lst_getexport(char *name, t_env *lst)
 
 void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 {
-	t_env *tmp;
-	
-	if (ft_lst_getenv(name, *lst) )
+	t_env	*tmp;
+
+	if (ft_lst_getenv(name, *lst))
 	{
 		if (init_value == 1)
 		{

@@ -6,7 +6,7 @@
 #    By: tliot <tliot@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 02:02:45 by engooh            #+#    #+#              #
-#    Updated: 2022/08/20 16:56:13 by tliot            ###   ########.fr        #
+#    Updated: 2022/08/21 13:46:44 by tliot            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ INC = -I ./include
 #                                                                              #
 ################################################################################
 SRC =	./source/main/main.c\
+		./source/main/ft_signature.c\
+		./source/main/ft_utils.c\
 		./source/parsing/env.c\
 		./source/parsing/parser.c\
 		./source/parsing/expende.c\
@@ -44,6 +46,7 @@ SRC =	./source/main/main.c\
 		./source/excution/ft_utils.c\
 		./source/environement/env.c\
 		./source/environement/ft_lst_env.c\
+		./source/environement/ft_lst_env2.c\
 		./source/environement/ft_signal.c
 		
 ################################################################################

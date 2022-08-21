@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:40:48 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/15 21:10:45 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/21 12:02:32 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void	ft_builtin_cd(char **cmd, t_env **lst)
 	{
 		ft_lst_setenv("PWD", cmd[1], 1, lst);
 		ft_putstr_fd("chdir: error retrieving current directory: ", 2);
-		ft_putstr_fd("getcwd: cannot access parent directories: No such file or directory\n", 2);
+		ft_putstr_fd("getcwd: cannot access parent directories: ", 2);
+		ft_putstr_fd("No such file or directory\n", 2);
 	}
 	else
 		ft_lst_setenv("PWD", pwd, 1, lst);

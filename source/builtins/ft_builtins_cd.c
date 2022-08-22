@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 03:40:48 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/21 12:02:32 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 14:12:28 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,10 @@
 // CRÉER $PWD et $OLDPWD si il n'existe pas.
 // RETURN 0 si OK sinon 1 
 
-void	ft_put_err_cd(char *cmd, char *arg, char *strerrno)
-{
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerrno, 2);
-	ft_putstr_fd("\n", 2);
-	(*g_global)->exit_code = 1;
-}
-
 void	ft_exec_cd_oldpwd(char **cmd, t_env **lst)
 {
-	if (!ft_lst_getenv("OLDPWD", *lst))
+	if (!ft_lst_getenv("OLDPWD", *lst)
+		|| !ft_lst_getenv("OLDPWD", *lst)->variable_value)
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
 		(*g_global)->exit_code = 1;
@@ -50,7 +39,8 @@ void	ft_exec_cd_oldpwd(char **cmd, t_env **lst)
 
 void	ft_exec_cd_home(char **cmd, t_env **lst)
 {
-	if (!ft_lst_getenv("HOME", *lst))
+	if (!ft_lst_getenv("HOME", *lst)
+		|| !ft_lst_getenv("HOME", *lst)->variable_value)
 	{
 		ft_putstr_fd("cd: HOME not set\n", 2);
 		(*g_global)->exit_code = 1;
@@ -74,6 +64,15 @@ void	ft_exec_cd_many_arg(char *cmd)
 	(*g_global)->exit_code = 1;
 }
 
+void	ft_change_oldpwd(t_env **lst)
+{
+	if (ft_lst_getenv("PWD",*lst))
+		ft_lst_setenv("OLDPWD",
+			ft_lst_getenv("PWD",*lst)->variable_value, 1, lst);
+	else
+		ft_lst_setenv("OLDPWD", NULL, 1, lst);
+}
+
 void	ft_builtin_cd(char **cmd, t_env **lst)
 {
 	char	*pwd;
@@ -89,7 +88,7 @@ void	ft_builtin_cd(char **cmd, t_env **lst)
 	else
 		(*g_global)->exit_code = 0;
 	pwd = ft_get_pwd();
-	ft_lst_setenv("OLDPWD", ft_lst_getenv("PWD",*lst)->variable_value, 1, lst);
+	ft_change_oldpwd(lst);
 	if (!pwd)
 	{
 		ft_lst_setenv("PWD", cmd[1], 1, lst);

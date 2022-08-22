@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:55:49 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 23:52:51 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 14:03:16 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,16 @@ char	*ft_joint_free_s1_s2(char *str1, char *str2)
 	if (str2)
 		free(str2);
 	return (str_join);
+}
+
+void	ft_put_err_cd(char *cmd, char *arg, char *strerrno)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerrno, 2);
+	ft_putstr_fd("\n", 2);
+	(*g_global)->exit_code = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 15:26:14 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:03:44 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*ft_get_pwd(void);
 void	ft_builtin_env(t_env *lst);
 int		ft_builtin_export(char **cmd, t_env **lst);
 void	ft_builtin_unset(char **name, t_env **lst);
-
+void	ft_put_err_cd(char *cmd, char *arg, char *strerrno);
 void	ft_parsing_setenv(char *cmd, t_env **lst);
 int		ft_is_builting(char *cmd);
 int		ft_manage_builting(char **cmd, t_minishell *minishell);

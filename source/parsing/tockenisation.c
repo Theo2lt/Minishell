@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 16:27:36 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/22 18:26:50 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Minishell.h"
@@ -23,6 +23,10 @@ void	*ft_delete_exec(t_exec *exec)
 			close(exec->infile);
 		if (exec->outfile)
 			close(exec->outfile);
+		if (exec->file_name)
+			free(exec->file_name);
+		if (exec->limiter)
+			free(exec->limiter);
 		free(exec);
 		exec = NULL;
 	}
@@ -35,6 +39,25 @@ void	*ft_delete_execs(t_exec *exec)
 		if (exec->next)
 			ft_delete_execs(exec->next);
 	return (ft_delete_exec(exec));
+}
+
+void	ft_exit_child(t_minishell *mini, int exit_code, int free_env)
+{
+	ft_delete_execs(mini->begin);
+	mini->exec = NULL;
+	if (mini->env_lst && free_env)
+		ft_lst_env_free(mini->env_lst);
+	if (mini->fd[1] > 1)
+		close(mini->fd[1]);
+	if (mini->fd[0] > 0)
+		close(mini->fd[0]);
+	if (mini->fd_previous > 0)
+		close(mini->fd_previous);
+	if (mini)
+		free(mini);
+	ft_all_close_fd();
+	if (exit_code >= 0)
+		exit(exit_code);
 }
 
 void	ft_positive_negative(char *str, int signe)
@@ -63,7 +86,7 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 			ft_putstr_fd("bosh: warning: here-document ", 2);
 			ft_putstr_fd("at line 1 delimited by end-of-file", 2);
 			ft_putstr_fd(" (wanted `end')\n", 2);
-			exit(0);
+			ft_exit_child((*g_global), 0, 1);
 		}
 		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
 			return ;
@@ -71,9 +94,10 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 			input = parser_expende(input, exec->env, 0);
 		ft_putstr_fd(input, exec->infile);
 		ft_putstr_fd("\n", exec->infile);
-		if (input)
+		if (input && mode == 4)
 			free(input);
 	}
+	ft_exit_child((*g_global), 0, 1);
 }
 
 char	*ft_create_name(void)
@@ -101,52 +125,26 @@ void	ft_print_error_file(char *str, char *sterr)
 	ft_putstr_fd("\n", 2);
 }
 
-void	ft_exit_child(t_minishell *mini, int exit_code)
-{
-	ft_delete_execs(mini->begin);
-	if (mini->env_lst)
-		ft_lst_env_free(mini->env_lst);
-	if (mini->exec)
-		ft_delete_exec_lst_free(&mini->exec);
-	if (mini->fd[1] > 1)
-		close(mini->fd[1]);
-	if (mini->fd[0] > 0)
-		close(mini->fd[0]);
-	if (mini->fd_previous > 0)
-		close(mini->fd_previous);
-	if (mini)
-		free(mini);
-	ft_all_close_fd();
-	exit(exit_code);
-}
-
 void sighandler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 2);
-		ft_exit_child((*g_global), 130);
+		ft_exit_child((*g_global), 130, 1);
 	}
 }
 
-int	signal_heardoc(int pid, char *file_name)
+int	wait_heredoc(int pid)
 {
 	int	status;
 
-	if (pid)
-	{
-		signal(SIGINT, SIG_IGN);
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			(*g_global)->exit_code = WEXITSTATUS(status);
-		signal(SIGINT, get_signal);
-		printf("debug %d\n", (*g_global)->exit_code);
-		if ((*g_global)->exit_code == 130 && printf("ICI4\n"))
-			return (0);
-		return (1);
-	}
-	free(file_name);
-	signal(SIGINT, sighandler);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		(*g_global)->exit_code = WEXITSTATUS(status);
+	signal(SIGINT, get_signal);
+	printf("debug %d\n", (*g_global)->exit_code);
+	if ((*g_global)->exit_code == 130)
+		return (0);
 	return (1);
 }
 
@@ -157,27 +155,24 @@ int	set_herdoc(char *str, t_exec *exec, int mode)
 
 	file_name = NULL;
 	file_name = ft_create_name();
+	exec->limiter = str;
+	exec->file_name = file_name;
 	exec->infile = open(file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 	if (exec->infile < 0)
 		ft_putstr_fd("ERROR HERDOC", 2);
 	pid = fork();
-	if (!signal_heardoc(pid, file_name) && printf("ICI3\n"))
-	{
-		if (file_name)
-			free(file_name);
-		return (0);
-	}
+	if (pid && printf("debug parents %p\n", (*g_global)->begin))
+		signal(SIGINT, SIG_IGN);
 	if (!pid)
 	{
+		printf("debug child %p\n", (*g_global)->begin);
+		signal(SIGINT, sighandler);
 		read_herdoc(str, exec, mode);
-		free(str);
-		free(file_name);
-		ft_delete_execs(exec);
-		ft_exit((*g_global));
 	}
+	if (!wait_heredoc(pid))
+		return (0);
 	close(exec->infile);
 	exec->infile = open(file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-	free(file_name);
 	return (1);
 }
 
@@ -193,7 +188,7 @@ int	set_infile(char *str, t_exec *exec, int mode)
 		}
 	}
 	else if (mode == 4 || mode == 5)
-		if (!set_herdoc(str, exec, mode) && printf("ICI2\n"))
+		if (!set_herdoc(str, exec, mode))
 			return (0);
 	if (exec->infile < 0)
 		return (0);
@@ -283,8 +278,8 @@ char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 	if (type_redir == 1 || type_redir == 3)
 		set_outfile(res, exec, type_redir);
 	if (type_redir == 2 || type_redir >= 4)
-		if (printf("debug %s\n", res) && !set_infile(res, exec, type_redir) && printf("ICI1\n"))
-				return (ft_free2(res));
+		if (!set_infile(res, exec, type_redir))
+			return (NULL);
 	if (res)
 		free(res);
 	return (tmp);
@@ -362,6 +357,8 @@ t_exec	*set_tocken(char *str, t_exec *exec, t_env *env, int *redir)
 		exec->outfile = 1;
 		exec->next = NULL;
 		exec->args = NULL;
+		exec->limiter = NULL;
+		exec->file_name = NULL;
 		exec->tabs_exeve = NULL;
 		if (!(*g_global)->begin)
 			(*g_global)->begin = exec;
@@ -392,7 +389,7 @@ t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd)
 			str = set_redir(str, &type_redir);
 		if (redir == 1 && !ft_strchr(" <>|", *str) && !(--redir))
 			str = set_file(str, NULL, exec, type_redir);
-		if (!str && printf("ICI\n"))
+		if (!str)
 			return (exec);
 		if (*str && *str != '|')
 			str++;

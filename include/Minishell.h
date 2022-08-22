@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 14:03:44 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 17:08:13 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_exec
 	int				bultins;
 	int				infile;
 	int				outfile;
+	char			*limiter;
+	char			*file_name;
 	char			*args;
 	char			**tabs_exeve;
 	struct s_exec	*next;

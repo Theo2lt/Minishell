@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 12:15:15 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/21 12:33:05 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 19:09:02 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 void	ft_put_siganture(void)
 {
-	ft_putstr_fd("\n\n       __  __   ___   _  _   ___", 2);
-	ft_putstr_fd("   ___   _  _   ___   _      _     \n", 2);
-	ft_putstr_fd("      |  \\/  | |_ _| | \\| | | __| ", 2);
-	ft_putstr_fd("/ __| | || | | __| | |    | |    \n", 2);
-	ft_putstr_fd("      | |\\/| |  | |  | .` | | _|  \\", 2);
-	ft_putstr_fd("\\__\\ | __ | | _|  | |__  | |__  \n", 2);
-	ft_putstr_fd("      |_|  |_| |___| |_|\\_| |___| |", 2);
-	ft_putstr_fd("___/ |_||_| |___| |____| |____| \n", 2);
-	ft_putstr_fd("                                    ", 2);
-	ft_putstr_fd("                                \n", 2);
+	ft_putstr_fd("\n\n         __  __   ___   _   _   __", 2);
+	ft_putstr_fd("_   ____     ___    ____    _   _  \n", 2);
+	ft_putstr_fd("        |  \\/  | |_ _| | \\ | | |_ _|", 2);
+	ft_putstr_fd(" | __ )   / _ \\  / ___|  | | | | \n", 2);
+	ft_putstr_fd("        | |\\/| |  | |  |  \\| |  | | ", 2);
+	ft_putstr_fd(" |  _ \\  | | | | \\___ \\  | |_| | \n", 2);
+	ft_putstr_fd("        | |  | |  | |  | |\\  |  | |  ", 2);
+	ft_putstr_fd("| |_) | | |_| |  ___) | |  _  | \n", 2);
+	ft_putstr_fd("        |_|  |_| |___| |_| \\_| |___| ", 2);
+	ft_putstr_fd("|____/   \\___/  |____/  |_| |_| \n", 2);
+	ft_putstr_fd("                                      ", 2);
+	ft_putstr_fd("                               \n", 2);
 	ft_putstr_fd("                           by engooh", 2);
 	ft_putstr_fd(" & tliot                        \n\n\n", 2);
 }

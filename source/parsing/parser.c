@@ -6,15 +6,14 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 23:44:03 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/21 17:06:01 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 19:05:10 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "Minishell.h"
 
-/*int	ft_parser_quote(char *str)
-{
+/*int	ft_parser_quote(char *str
 	int	single_quote;
 	int	double_quote;
 

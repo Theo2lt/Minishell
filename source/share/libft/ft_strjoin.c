@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 11:41:22 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 18:03:36 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 16:11:33 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*ft_joint_free_s2(char *str1, char *str2)
 		free(str2);
 	return (str_join);
 }
+
 /*
 int	*ft_strjoin2(int *s1, int *s2)
 {

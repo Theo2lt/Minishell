@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 15:27:37 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/22 16:27:36 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Minishell.h"
@@ -36,7 +36,6 @@ void	*ft_delete_execs(t_exec *exec)
 			ft_delete_execs(exec->next);
 	return (ft_delete_exec(exec));
 }
-
 
 void	ft_positive_negative(char *str, int signe)
 {
@@ -130,7 +129,7 @@ void sighandler(int sig)
 	}
 }
 
-int	signal_heardoc(int pid)
+int	signal_heardoc(int pid, char *file_name)
 {
 	int	status;
 
@@ -146,6 +145,7 @@ int	signal_heardoc(int pid)
 			return (0);
 		return (1);
 	}
+	free(file_name);
 	signal(SIGINT, sighandler);
 	return (1);
 }
@@ -161,8 +161,12 @@ int	set_herdoc(char *str, t_exec *exec, int mode)
 	if (exec->infile < 0)
 		ft_putstr_fd("ERROR HERDOC", 2);
 	pid = fork();
-	if (!signal_heardoc(pid) && printf("ICI3\n"))
+	if (!signal_heardoc(pid, file_name) && printf("ICI3\n"))
+	{
+		if (file_name)
+			free(file_name);
 		return (0);
+	}
 	if (!pid)
 	{
 		read_herdoc(str, exec, mode);
@@ -279,8 +283,8 @@ char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 	if (type_redir == 1 || type_redir == 3)
 		set_outfile(res, exec, type_redir);
 	if (type_redir == 2 || type_redir >= 4)
-		if (!set_infile(res, exec, type_redir) && printf("ICI1\n"))
-			return (ft_free2(res));
+		if (printf("debug %s\n", res) && !set_infile(res, exec, type_redir) && printf("ICI1\n"))
+				return (ft_free2(res));
 	if (res)
 		free(res);
 	return (tmp);

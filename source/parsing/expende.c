@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 21:34:35 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:44:22 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_expende(t_env *env, char *str, int start, int end)
 	char		*tmp;
 	char		*content;
 
-	if (str[end] == '?' && ++end)
+	if (str[start] == '?' && ++end)
 		content = ft_itoa((*g_global)->exit_code);
 	else
 		content = ft_getenv(env, str + start, (end - start));
@@ -52,10 +52,10 @@ char	*ft_expende(t_env *env, char *str, int start, int end)
 		tmp = ft_replace(str, content, start, end);
 	if (!content)
 		tmp = ft_replace(str, NULL, start, end);
+	if (content && str[start] == '?')
+		free(content);
 	if (str)
 		free(str);
-	if (content)
-		free(content);
 	return (tmp);
 }
 

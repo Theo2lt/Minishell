@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 06:15:43 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/22 15:26:14 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,4 +173,7 @@ void	ft_start(t_minishell	*minishell, char *input);
 void	ft_launcher(t_minishell	*minishell, char *input);
 void	ft_delete_exec_lst_free(t_exec **lst);
 void	ft_signal(void);
+
+// EXIT AND CLOSE
+void	ft_all_close_fd(void);
 #endif

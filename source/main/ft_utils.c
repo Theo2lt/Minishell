@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:46:04 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/21 13:49:16 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 15:08:55 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_delete_exec_lst_free(t_exec **lst)
 {
 	t_exec	*lst2;
 
+	if (!*lst)
+		return ;
 	while (*lst)
 	{
 		lst2 = *lst;
@@ -31,6 +33,7 @@ void	ft_delete_exec_lst_free(t_exec **lst)
 		free(lst2);
 		lst2 = NULL;
 	}
+	(*g_global)->begin = NULL;
 }
 
 void	ft_signal(void)

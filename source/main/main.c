@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 07:11:43 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/22 15:09:46 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	ft_start(t_minishell	*minishell, char *input)
 			ft_execution(minishell);
 			ft_wait_all_pid(minishell->exec);
 		}
+		//ft_sim_exec_lst_bug(minishell->begin);
 		ft_delete_exec_lst_free(&minishell->exec);
+		ft_sim_exec_lst_bug(minishell->begin);
 		minishell->exec = NULL;
 	}
 }

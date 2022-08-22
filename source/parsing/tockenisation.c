@@ -6,10 +6,9 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 07:19:10 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/22 15:27:37 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "Minishell.h"
 
 void	*ft_delete_exec(t_exec *exec)
@@ -25,6 +24,7 @@ void	*ft_delete_exec(t_exec *exec)
 		if (exec->outfile)
 			close(exec->outfile);
 		free(exec);
+		exec = NULL;
 	}
 	return (NULL);
 }
@@ -102,14 +102,31 @@ void	ft_print_error_file(char *str, char *sterr)
 	ft_putstr_fd("\n", 2);
 }
 
+void	ft_exit_child(t_minishell *mini, int exit_code)
+{
+	ft_delete_execs(mini->begin);
+	if (mini->env_lst)
+		ft_lst_env_free(mini->env_lst);
+	if (mini->exec)
+		ft_delete_exec_lst_free(&mini->exec);
+	if (mini->fd[1] > 1)
+		close(mini->fd[1]);
+	if (mini->fd[0] > 0)
+		close(mini->fd[0]);
+	if (mini->fd_previous > 0)
+		close(mini->fd_previous);
+	if (mini)
+		free(mini);
+	ft_all_close_fd();
+	exit(exit_code);
+}
+
 void sighandler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 2);
-		ft_delete_execs((*g_global)->begin);
-		ft_exit((*g_global));
-		exit(130);
+		ft_exit_child((*g_global), 130);
 	}
 }
 
@@ -121,10 +138,11 @@ int	signal_heardoc(int pid)
 	{
 		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
-		signal(SIGINT, get_signal);
 		if (WIFEXITED(status))
 			(*g_global)->exit_code = WEXITSTATUS(status);
-		if (WEXITSTATUS(status) == 130)
+		signal(SIGINT, get_signal);
+		printf("debug %d\n", (*g_global)->exit_code);
+		if ((*g_global)->exit_code == 130 && printf("ICI4\n"))
 			return (0);
 		return (1);
 	}
@@ -143,7 +161,7 @@ int	set_herdoc(char *str, t_exec *exec, int mode)
 	if (exec->infile < 0)
 		ft_putstr_fd("ERROR HERDOC", 2);
 	pid = fork();
-	if (!signal_heardoc(pid))
+	if (!signal_heardoc(pid) && printf("ICI3\n"))
 		return (0);
 	if (!pid)
 	{
@@ -171,7 +189,7 @@ int	set_infile(char *str, t_exec *exec, int mode)
 		}
 	}
 	else if (mode == 4 || mode == 5)
-		if (!set_herdoc(str, exec, mode))
+		if (!set_herdoc(str, exec, mode) && printf("ICI2\n"))
 			return (0);
 	if (exec->infile < 0)
 		return (0);
@@ -261,7 +279,7 @@ char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 	if (type_redir == 1 || type_redir == 3)
 		set_outfile(res, exec, type_redir);
 	if (type_redir == 2 || type_redir >= 4)
-		if (!set_infile(res, exec, type_redir))
+		if (!set_infile(res, exec, type_redir) && printf("ICI1\n"))
 			return (ft_free2(res));
 	if (res)
 		free(res);
@@ -324,7 +342,7 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 
 void	add_exec(t_exec **exec, t_exec *new)
 {
-	if (*exec)
+	if (exec && *exec)
 		add_exec(&((*exec)->next), new);
 	*exec = new;
 	(*exec)->next = NULL;
@@ -345,6 +363,7 @@ t_exec	*set_tocken(char *str, t_exec *exec, t_env *env, int *redir)
 			(*g_global)->begin = exec;
 		if ((*g_global)->begin)
 			add_exec(&((*g_global)->begin), exec);
+		//ft_sim_exec_lst_bug((*g_global)->begin);
 	}
 	*redir = 0;
 	ft_converte_str(str, -1);
@@ -369,7 +388,7 @@ t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd)
 			str = set_redir(str, &type_redir);
 		if (redir == 1 && !ft_strchr(" <>|", *str) && !(--redir))
 			str = set_file(str, NULL, exec, type_redir);
-		if (!str)
+		if (!str && printf("ICI\n"))
 			return (exec);
 		if (*str && *str != '|')
 			str++;

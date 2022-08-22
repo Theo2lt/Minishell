@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/21 13:50:10 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 06:15:43 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_minishell
 {
 	struct s_env	*env_lst;
 	struct s_exec	*exec;
+	struct s_exec	*begin;
 	int				fd[2];
 	int				fd_previous;
 	int				exit_code;

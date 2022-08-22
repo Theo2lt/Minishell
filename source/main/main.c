@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/21 13:58:21 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 07:11:43 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_minishell	*ft_init_mini(void)
 	mini->fd_previous = 0;
 	mini->exit_code = 0;
 	mini->pid = 0;
+	mini->begin = NULL;
 	ft_put_siganture();
 	return (mini);
 }

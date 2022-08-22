@@ -6,11 +6,37 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/21 17:00:37 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/22 07:19:10 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
+
+void	*ft_delete_exec(t_exec *exec)
+{
+	if (exec)
+	{
+		if (exec->tabs_exeve)
+			ft_free_tab2(exec->tabs_exeve);
+		if (exec->args)
+			free(exec->args);
+		if (exec->infile)
+			close(exec->infile);
+		if (exec->outfile)
+			close(exec->outfile);
+		free(exec);
+	}
+	return (NULL);
+}
+
+void	*ft_delete_execs(t_exec *exec)
+{
+	if (exec)
+		if (exec->next)
+			ft_delete_execs(exec->next);
+	return (ft_delete_exec(exec));
+}
+
 
 void	ft_positive_negative(char *str, int signe)
 {
@@ -33,10 +59,15 @@ void	read_herdoc(char *limiter, t_exec *exec, int mode)
 	while (42)
 	{
 		input = readline("> ");
-		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
+		if (!input)
 		{
-			return ;
+			ft_putstr_fd("bosh: warning: here-document ", 2);
+			ft_putstr_fd("at line 1 delimited by end-of-file", 2);
+			ft_putstr_fd(" (wanted `end')\n", 2);
+			exit(0);
 		}
+		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
+			return ;
 		if (mode == 4)
 			input = parser_expende(input, exec->env, 0);
 		ft_putstr_fd(input, exec->infile);
@@ -61,6 +92,7 @@ char	*ft_create_name(void)
 		n++;
 	}
 }
+
 void	ft_print_error_file(char *str, char *sterr)
 {
 	ft_putstr_fd("bash: ", 2);
@@ -70,7 +102,37 @@ void	ft_print_error_file(char *str, char *sterr)
 	ft_putstr_fd("\n", 2);
 }
 
-void	set_herdoc(char *str, t_exec *exec, int mode)
+void sighandler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", 2);
+		ft_delete_execs((*g_global)->begin);
+		ft_exit((*g_global));
+		exit(130);
+	}
+}
+
+int	signal_heardoc(int pid)
+{
+	int	status;
+
+	if (pid)
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(pid, &status, 0);
+		signal(SIGINT, get_signal);
+		if (WIFEXITED(status))
+			(*g_global)->exit_code = WEXITSTATUS(status);
+		if (WEXITSTATUS(status) == 130)
+			return (0);
+		return (1);
+	}
+	signal(SIGINT, sighandler);
+	return (1);
+}
+
+int	set_herdoc(char *str, t_exec *exec, int mode)
 {
 	int		pid;
 	char	*file_name;
@@ -81,21 +143,20 @@ void	set_herdoc(char *str, t_exec *exec, int mode)
 	if (exec->infile < 0)
 		ft_putstr_fd("ERROR HERDOC", 2);
 	pid = fork();
+	if (!signal_heardoc(pid))
+		return (0);
 	if (!pid)
 	{
 		read_herdoc(str, exec, mode);
-		free(file_name);
 		free(str);
-		if (exec && exec->args)
-			free(exec->args);
-		if (exec)
-			free(exec);
+		free(file_name);
+		ft_delete_execs(exec);
 		ft_exit((*g_global));
 	}
-	waitpid(pid, NULL, 0);
 	close(exec->infile);
 	exec->infile = open(file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 	free(file_name);
+	return (1);
 }
 
 int	set_infile(char *str, t_exec *exec, int mode)
@@ -110,7 +171,8 @@ int	set_infile(char *str, t_exec *exec, int mode)
 		}
 	}
 	else if (mode == 4 || mode == 5)
-		set_herdoc(str, exec, mode);
+		if (!set_herdoc(str, exec, mode))
+			return (0);
 	if (exec->infile < 0)
 		return (0);
 	return (1);
@@ -172,6 +234,13 @@ char	*set_begin(char	*str)
 	return (str);
 }
 
+void	*ft_free2(void *str)
+{
+	if (str)
+		free(str);
+	return (NULL);
+}
+
 char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 {
 	char	*tmp;
@@ -192,7 +261,8 @@ char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 	if (type_redir == 1 || type_redir == 3)
 		set_outfile(res, exec, type_redir);
 	if (type_redir == 2 || type_redir >= 4)
-		set_infile(res, exec, type_redir);
+		if (!set_infile(res, exec, type_redir))
+			return (ft_free2(res));
 	if (res)
 		free(res);
 	return (tmp);
@@ -252,7 +322,15 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 	return (tmp);
 }
 
-t_exec	*set_tocken(t_exec *exec, t_env *env)
+void	add_exec(t_exec **exec, t_exec *new)
+{
+	if (*exec)
+		add_exec(&((*exec)->next), new);
+	*exec = new;
+	(*exec)->next = NULL;
+}
+
+t_exec	*set_tocken(char *str, t_exec *exec, t_env *env, int *redir)
 {
 	if (!exec)
 	{
@@ -263,7 +341,13 @@ t_exec	*set_tocken(t_exec *exec, t_env *env)
 		exec->next = NULL;
 		exec->args = NULL;
 		exec->tabs_exeve = NULL;
+		if (!(*g_global)->begin)
+			(*g_global)->begin = exec;
+		if ((*g_global)->begin)
+			add_exec(&((*g_global)->begin), exec);
 	}
+	*redir = 0;
+	ft_converte_str(str, -1);
 	return (exec);
 }
 
@@ -274,9 +358,7 @@ t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd)
 
 	if (!str || !*str)
 		return (exec);
-	redir = 0;
-	exec = set_tocken(exec, env);
-	ft_converte_str(str, -1);
+	exec = set_tocken(str, exec, env, &redir);
 	while (*str && *str != '|')
 	{
 		if (cmd == 0 && redir == 0 && !ft_strchr(" <>|", *str) && ++cmd)
@@ -287,6 +369,8 @@ t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd)
 			str = set_redir(str, &type_redir);
 		if (redir == 1 && !ft_strchr(" <>|", *str) && !(--redir))
 			str = set_file(str, NULL, exec, type_redir);
+		if (!str)
+			return (exec);
 		if (*str && *str != '|')
 			str++;
 	}

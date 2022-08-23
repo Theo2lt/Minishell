@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/23 15:26:09 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 16:26:58 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_start(t_minishell	*minishell, char *input)
 
 void	ft_launcher(t_minishell	*minishell, char *input)
 {
-	
 	while (42)
 	{
 		minishell->pid = 0;

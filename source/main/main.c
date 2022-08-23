@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
+/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 14:02:24 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 15:00:13 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ t_minishell	**g_global;
 void	ft_start(t_minishell	*minishell, char *input)
 {
 	minishell->exec = parser(input, minishell->env_lst);
+	//ft_sim_exec_lst_bug(minishell->exec);
 	if (minishell->exec)
 	{	
 		ft_assigne_num_lstexec(minishell->exec);
+		//ft_sim_exec_lst_bug(minishell->exec);
+		//printf("debug3 %s\n", minishell->exec->tabs_exeve[0]);
 		if (minishell->exec->tabs_exeve
 			&& ft_is_builting(minishell->exec->tabs_exeve[0])
 			&& !minishell->exec->next)
@@ -29,9 +32,7 @@ void	ft_start(t_minishell	*minishell, char *input)
 			ft_execution(minishell);
 			ft_wait_all_pid(minishell->exec);
 		}
-		//ft_sim_exec_lst_bug(minishell->begin);
 		ft_delete_exec_lst_free(&minishell->exec);
-		ft_sim_exec_lst_bug(minishell->begin);
 		minishell->exec = NULL;
 	}
 }
@@ -40,8 +41,8 @@ void	ft_launcher(t_minishell	*minishell, char *input)
 {
 	while (42)
 	{
-		minishell->pid = 0;
 		ft_signal();
+		minishell->pid = 0;
 		input = readline("Minibosh-22.0$ ");
 		if (!input)
 			exit_succes(minishell);

@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 14:03:44 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 08:59:50 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 ////// STRUC MINISHELL ////// 
 typedef struct s_minishell
 {
+//	struct s_token	*tkn;
 	struct s_env	*env_lst;
 	struct s_exec	*exec;
 	struct s_exec	*begin;
@@ -41,7 +42,7 @@ typedef struct s_minishell
 	int				fd_previous;
 	int				exit_code;
 	pid_t			pid;
-}t_minishell;
+}	t_minishell;
 
 //// STUCT ENV //////
 typedef struct s_env
@@ -54,8 +55,8 @@ typedef struct s_env
 
 typedef struct s_exec
 {
-	int				num_cmd;
 	int				pid;
+	int				num_cmd;
 	int				bultins;
 	int				infile;
 	int				outfile;
@@ -75,6 +76,21 @@ typedef struct s_def
 	char				*contente;
 }	t_def;
 
+typedef struct s_token
+{
+	struct s_env		*env;
+	struct s_exec		*exec;
+	struct s_exec		*begin;
+	struct s_tocken		*next;
+	char				*limiter;
+	char				*file_name;
+	int					type_redir;
+	int					redir;
+	int					cmd;
+	pid_t				pid;
+	int					status;
+}	t_token;
+
 /// GLOBAL ///
 extern t_minishell	**g_global;
 
@@ -88,7 +104,7 @@ char	*parser2(char *str, t_env *env);
 t_exec	*parser(char *str, t_env *env);
 
 //// FONCTION DE TOCKENISATION /// 
-t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd);
+t_exec	*tocken(char *str, t_token *tkn, t_exec *exec);
 
 /// FONCTION EXPANDE ////
 char	*parser_expende(char *str, t_env *env, int heredoc);
@@ -176,4 +192,7 @@ void	ft_signal(void);
 
 // EXIT AND CLOSE
 void	ft_all_close_fd(void);
+
+// SIGNAL
+void	parent_signal(int sig);
 #endif

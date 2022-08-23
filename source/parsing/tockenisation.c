@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tockenisation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
+/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:57:49 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 16:27:36 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/23 15:11:44 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "Minishell.h"
+
+# include "Minishell.h"
 
 void	*ft_delete_exec(t_exec *exec)
 {
@@ -51,47 +52,6 @@ void	ft_positive_negative(char *str, int signe)
 	}
 }
 
-void	read_herdoc(char *limiter, t_exec *exec, int mode)
-{
-	char		*input;
-
-	while (42)
-	{
-		input = readline("> ");
-		if (!input)
-		{
-			ft_putstr_fd("bosh: warning: here-document ", 2);
-			ft_putstr_fd("at line 1 delimited by end-of-file", 2);
-			ft_putstr_fd(" (wanted `end')\n", 2);
-			exit(0);
-		}
-		if (!input || !ft_strncmp(limiter, input, ft_strlen(limiter) + 1))
-			return ;
-		if (mode == 4)
-			input = parser_expende(input, exec->env, 0);
-		ft_putstr_fd(input, exec->infile);
-		ft_putstr_fd("\n", exec->infile);
-		if (input)
-			free(input);
-	}
-}
-
-char	*ft_create_name(void)
-{
-	char			*str;
-	long long int	n;
-
-	n = 0;
-	while (1)
-	{
-		str = ft_joint_free_s2("/tmp/tmp_bosh_", ft_itoa2(n));
-		if (access(str, F_OK))
-			return (str);
-		free(str);
-		n++;
-	}
-}
-
 void	ft_print_error_file(char *str, char *sterr)
 {
 	ft_putstr_fd("bash: ", 2);
@@ -120,70 +80,126 @@ void	ft_exit_child(t_minishell *mini, int exit_code)
 	exit(exit_code);
 }
 
-void sighandler(int sig)
+char	*ft_create_name(void)
+{
+	char			*str;
+	long long int	n;
+
+	n = 0;
+	while (1)
+	{
+		str = ft_joint_free_s2("/tmp/tmp_bosh_", ft_itoa2(n));
+		if (access(str, F_OK))
+			return (str);
+		free(str);
+		n++;
+	}
+}
+
+void	*ft_free2(char *str)
+{
+	if (str)
+		free(str);
+	str = NULL;
+	return (str);
+}
+
+void	exit_heredoc(t_token *tkn, int exit_code)
+{
+	ft_free2(tkn->limiter);
+	ft_free2(tkn->file_name);
+	ft_delete_exec(tkn->exec);
+	ft_converte_tab_list(NULL, &tkn->env, ft_delete_env);
+	exit(exit_code);
+}
+
+void	open_heredoc(t_token *tkn)
+{
+	tkn->exec->infile = open(tkn->file_name, O_CREAT
+			| O_RDWR, S_IRUSR | S_IWUSR);
+	if (tkn->exec->infile < 0)
+		ft_putstr_fd("ERROR HERDOC", 2);
+}
+
+int	read_heredoc(t_token *tkn)
+{
+	char		*input;
+
+	while (42)
+	{
+		input = readline("> ");
+		if (!input)
+		{
+			ft_putstr_fd("bosh: warning: here-document ", 2);
+			ft_putstr_fd("at line 1 delimited by end-of-file", 2);
+			ft_putstr_fd(" (wanted `end')\n", 2);
+			exit_heredoc(tkn, 0);
+		}
+		if (!input || !ft_strncmp(tkn->limiter, input,
+				ft_strlen(tkn->limiter) + 1))
+			exit_heredoc(tkn, 0);
+		if (tkn->type_redir == 4)
+			input = parser_expende(input, tkn->exec->env, 0);
+		ft_putstr_fd(input, tkn->exec->infile);
+		ft_putstr_fd("\n", tkn->exec->infile);
+		if (input && tkn->type_redir == 4)
+			free(input);
+	}
+}
+
+void	handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putstr_fd("\n", 2);
-		ft_exit_child((*g_global), 130);
+		ft_putstr_fd("\n", 1);
+		exit(130);
 	}
 }
 
-int	signal_heardoc(int pid, char *file_name)
+int	signal_heredoc(t_token *tkn, int mode)
 {
-	int	status;
-
-	if (pid)
+	if (!tkn->pid)
+		signal(SIGINT, handler);
+	if (tkn->pid)
 	{
-		signal(SIGINT, SIG_IGN);
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			(*g_global)->exit_code = WEXITSTATUS(status);
-		signal(SIGINT, get_signal);
-		printf("debug %d\n", (*g_global)->exit_code);
-		if ((*g_global)->exit_code == 130 && printf("ICI4\n"))
+		if (mode)
+			signal(SIGINT, SIG_IGN);
+		if (!mode)
+			signal(SIGINT, get_signal);
+	}
+	return (1);
+}
+
+int	set_heredoc(t_token *tkn, char *str)
+{
+	tkn->limiter = str;
+	tkn->file_name = ft_create_name();
+	open_heredoc(tkn);
+	tkn->pid = fork();
+	if (!tkn->pid)
+	{
+		signal_heredoc(tkn, 0);
+		read_heredoc(tkn);
+	}
+	if (tkn->pid)
+	{
+		signal_heredoc(tkn, 1);
+		waitpid(tkn->pid, &tkn->status, 0);
+		if (WIFEXITED(tkn->status))
+			(*g_global)->exit_code = WEXITSTATUS(tkn->status);
+		signal_heredoc(tkn, 1);
+		open_heredoc(tkn);
+		ft_free2(tkn->limiter);
+		ft_free2(tkn->file_name);
+		if ((*g_global)->exit_code == 130)
 			return (0);
-		return (1);
 	}
-	free(file_name);
-	signal(SIGINT, sighandler);
 	return (1);
 }
 
-int	set_herdoc(char *str, t_exec *exec, int mode)
+int	set_infile(t_token *tkn, char *str, t_exec *exec)
 {
-	int		pid;
-	char	*file_name;
-
-	file_name = NULL;
-	file_name = ft_create_name();
-	exec->infile = open(file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-	if (exec->infile < 0)
-		ft_putstr_fd("ERROR HERDOC", 2);
-	pid = fork();
-	if (!signal_heardoc(pid, file_name) && printf("ICI3\n"))
-	{
-		if (file_name)
-			free(file_name);
-		return (0);
-	}
-	if (!pid)
-	{
-		read_herdoc(str, exec, mode);
-		free(str);
-		free(file_name);
-		ft_delete_execs(exec);
-		ft_exit((*g_global));
-	}
-	close(exec->infile);
-	exec->infile = open(file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-	free(file_name);
-	return (1);
-}
-
-int	set_infile(char *str, t_exec *exec, int mode)
-{
-	if (mode == 2 && exec->infile >= 0 && exec->outfile >= 1)
+	if (tkn->type_redir == 2 && exec->infile >= 0 && exec->outfile >= 1)
 	{
 		exec->infile = open(str, O_RDONLY, 0666);
 		if (exec->infile < 0)
@@ -192,8 +208,8 @@ int	set_infile(char *str, t_exec *exec, int mode)
 			(*g_global)->exit_code = 1;
 		}
 	}
-	else if (mode == 4 || mode == 5)
-		if (!set_herdoc(str, exec, mode) && printf("ICI2\n"))
+	else if (tkn->type_redir == 4 || tkn->type_redir == 5)
+		if (!set_heredoc(tkn, str))
 			return (0);
 	if (exec->infile < 0)
 		return (0);
@@ -256,14 +272,20 @@ char	*set_begin(char	*str)
 	return (str);
 }
 
-void	*ft_free2(void *str)
+int	if_expende_heredoc(char *str, t_token *tkn)
 {
-	if (str)
-		free(str);
-	return (NULL);
+	if (!str)
+		return (1);
+	while (*str && *str != '"' && *str != '\'' && *str != ' ')
+		str++;
+	if (*str == '"' || *str == '\'')
+		tkn->type_redir = 5;
+	else
+		tkn->type_redir = 4;
+	return (1);
 }
 
-char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
+char	*set_file(char *start, char *res, t_token *tkn)
 {
 	char	*tmp;
 	char	*new;
@@ -278,14 +300,14 @@ char	*set_file(char *start, char *res, t_exec *exec, int type_redir)
 		free(new);
 	if (*tmp && (*tmp == '\'' || *tmp == '"'))
 		if (tmp[1] && !ft_strchr("<>| ", tmp[1]))
-			return (set_file(tmp + 1, res, exec, type_redir));
+			return (set_file(tmp + 1, res, tkn));
 	ft_positive_negative(res, 1);
-	if (type_redir == 1 || type_redir == 3)
-		set_outfile(res, exec, type_redir);
-	if (type_redir == 2 || type_redir >= 4)
-		if (printf("debug %s\n", res) && !set_infile(res, exec, type_redir) && printf("ICI1\n"))
-				return (ft_free2(res));
-	if (res)
+	if (tkn->type_redir == 1 || tkn->type_redir == 3)
+		set_outfile(res, tkn->exec, tkn->type_redir);
+	if (tkn->type_redir == 2 || tkn->type_redir >= 4)
+		if (!set_infile(tkn, res, tkn->exec))
+			return (NULL);
+	if (tkn->type_redir == 2 && res)
 		free(res);
 	return (tmp);
 }
@@ -344,61 +366,65 @@ char	*set_cmd(char *start, char *res, t_exec *exec)
 	return (tmp);
 }
 
-void	add_exec(t_exec **exec, t_exec *new)
+t_exec	*add_exec(t_exec **exec, t_exec *new)
 {
 	if (exec && *exec)
 		add_exec(&((*exec)->next), new);
 	*exec = new;
 	(*exec)->next = NULL;
+	return (*exec);
 }
 
-t_exec	*set_tocken(char *str, t_exec *exec, t_env *env, int *redir)
+t_exec	*set_tocken(t_token *tkn, t_exec *exec, char *str)
 {
 	if (!exec)
 	{
 		exec = malloc(sizeof(t_exec));
-		exec->env = env;
-		exec->infile = 0;
-		exec->outfile = 1;
+		if (!exec)
+			return (NULL);
+		exec->tabs_exeve = NULL;
+		exec->env = tkn->env;
+		tkn->type_redir = 0;
 		exec->next = NULL;
 		exec->args = NULL;
-		exec->tabs_exeve = NULL;
-		if (!(*g_global)->begin)
-			(*g_global)->begin = exec;
-		if ((*g_global)->begin)
-			add_exec(&((*g_global)->begin), exec);
-		//ft_sim_exec_lst_bug((*g_global)->begin);
+		exec->outfile = 1;
+		exec->infile = 0;
+		tkn->exec = exec;
+		tkn->redir = 0;
+		tkn->cmd = 0;
+		if (!tkn->begin)
+			tkn->begin = exec;
+		if (tkn->begin)
+			tkn->begin = add_exec(&tkn->begin, exec);
 	}
-	*redir = 0;
 	ft_converte_str(str, -1);
 	return (exec);
 }
 
-t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd)
+t_exec	*tocken(char *str, t_token *tkn, t_exec *exec)
 {
-	int		redir;
-	int		type_redir;
-
 	if (!str || !*str)
 		return (exec);
-	exec = set_tocken(str, exec, env, &redir);
+	exec = set_tocken(tkn, exec, str);
 	while (*str && *str != '|')
 	{
-		if (cmd == 0 && redir == 0 && !ft_strchr(" <>|", *str) && ++cmd)
-			str = set_cmd(str, NULL, exec);
-		if (cmd >= 1 && redir == 0 && !ft_strchr(" <>|", *str))
-			str = set_arg(str, NULL, exec);
-		if (redir == 0 && (*str == '<' || *str == '>') && ++redir)
-			str = set_redir(str, &type_redir);
-		if (redir == 1 && !ft_strchr(" <>|", *str) && !(--redir))
-			str = set_file(str, NULL, exec, type_redir);
-		if (!str && printf("ICI\n"))
+		if (tkn->cmd == 0 && tkn->redir == 0
+			&& !ft_strchr(" <>|", *str) && ++tkn->cmd)
+			str = set_cmd(str, NULL, tkn->exec);
+		if (tkn->cmd >= 1 && tkn->redir == 0 && !ft_strchr(" <>|", *str))
+			str = set_arg(str, NULL, tkn->exec);
+		if (tkn->redir == 0 && (*str == '<' || *str == '>') && ++tkn->redir)
+			str = set_redir(str, &tkn->type_redir);
+		if (tkn->redir == 1 && !ft_strchr(" <>|", *str) && !(--tkn->redir)
+				&& if_expende_heredoc(str, tkn))
+			str = set_file(str, NULL, tkn);
+		if (!str)
 			return (exec);
 		if (*str && *str != '|')
 			str++;
 	}
 	exec->tabs_exeve = ft_split(exec->args, 127);
 	if (*str && *str == '|')
-		exec->next = tocken(str + 1, exec->next, env, 0);
+		exec->next = tocken(str + 1, tkn, exec->next);
 	return (exec);
 }

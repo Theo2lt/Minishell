@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:52:00 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/22 14:44:22 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/23 00:21:04 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_converte_expende(char *str)
 {
 	while (str && *str)
 	{
-		if (ft_strchr("<>|", *str))
+		if (ft_strchr("<>|\"'", *str))
 			*str *= -1;
 		str++;
 	}

@@ -32,11 +32,12 @@ PATH_LIBFT	Makefile	/^PATH_LIBFT = .\/source\/share\/libft\/$/;"	m
 RM	source/share/libft/Makefile	/^RM  = rm -f$/;"	m
 SRC	Makefile	/^SRC =	.\/source\/main\/main.c\\$/;"	m
 SRC	source/share/libft/Makefile	/^SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_is/;"	m
-add_exec	source/parsing/tockenisation.c	/^void	add_exec(t_exec **exec, t_exec *new)$/;"	f	typeref:typename:void
+add_exec	source/parsing/tockenisation.c	/^t_exec	*add_exec(t_exec **exec, t_exec *new)$/;"	f	typeref:typename:t_exec *
 all	Makefile	/^all: MAKE_LIBFT $(NAME)$/;"	t
 all	source/share/libft/Makefile	/^all: ${NAME}$/;"	t
 annule_exepend_heredoc	source/parsing/expende.c	/^int	annule_exepend_heredoc(char *str, int i, int *heredoc)$/;"	f	typeref:typename:int
 args	include/Minishell.h	/^	char			*args;$/;"	m	struct:s_exec	typeref:typename:char *
+begin	include/Minishell.h	/^	struct s_exec		*begin;$/;"	m	struct:s_token	typeref:struct:s_exec *
 begin	include/Minishell.h	/^	struct s_exec	*begin;$/;"	m	struct:s_minishell	typeref:struct:s_exec *
 bonus	source/share/libft/Makefile	/^bonus: ${OBJ_BONUS}$/;"	t
 bultins	include/Minishell.h	/^	int				bultins;$/;"	m	struct:s_exec	typeref:typename:int
@@ -44,6 +45,7 @@ check_expende	source/parsing/parser.c	/^char	*check_expende(char *str, int mode)
 child_signal	source/environement/ft_signal.c	/^void	child_signal(int sig)$/;"	f	typeref:typename:void
 clean	Makefile	/^clean:$/;"	t
 clean	source/share/libft/Makefile	/^clean:$/;"	t
+cmd	include/Minishell.h	/^	int					cmd;$/;"	m	struct:s_token	typeref:typename:int
 content	include/Minishell.h	/^	char				*content;$/;"	m	struct:s_def	typeref:typename:char *
 content	include/libft.h	/^	void			*content;$/;"	m	struct:s_list	typeref:typename:void *
 content	source/share/libft/libft.h	/^	void			*content;$/;"	m	struct:s_list	typeref:typename:void *
@@ -55,15 +57,19 @@ def_lstdelone	source/parsing/list.c	/^void	def_lstdelone(t_def *lst, void (*del)
 def_lstiter	source/parsing/list.c	/^void	def_lstiter(t_def *lst, void (*f)(void *))$/;"	f	typeref:typename:void
 def_lstlast	source/parsing/list.c	/^t_def	*def_lstlast(t_def *lst)$/;"	f	typeref:typename:t_def *
 def_lstnew	source/parsing/list.c	/^t_def	*def_lstnew(void *content)$/;"	f	typeref:typename:t_def *
+env	include/Minishell.h	/^	struct s_env		*env;$/;"	m	struct:s_token	typeref:struct:s_env *
 env	include/Minishell.h	/^	struct s_env	*env;$/;"	m	struct:s_exec	typeref:struct:s_env *
 env_lst	include/Minishell.h	/^	struct s_env	*env_lst;$/;"	m	struct:s_minishell	typeref:struct:s_env *
+exec	include/Minishell.h	/^	struct s_exec		*exec;$/;"	m	struct:s_token	typeref:struct:s_exec *
 exec	include/Minishell.h	/^	struct s_exec	*exec;$/;"	m	struct:s_minishell	typeref:struct:s_exec *
 exit_code	include/Minishell.h	/^	int				exit_code;$/;"	m	struct:s_minishell	typeref:typename:int
+exit_heredoc	source/parsing/tockenisation.c	/^void	exit_heredoc(t_token *tkn, int exit_code)$/;"	f	typeref:typename:void
 exit_succes	source/environement/ft_signal.c	/^void	exit_succes(t_minishell *minishell)$/;"	f	typeref:typename:void
 fclean	Makefile	/^fclean : clean$/;"	t
 fclean	source/share/libft/Makefile	/^fclean: clean$/;"	t
 fd	include/Minishell.h	/^	int				fd[2];$/;"	m	struct:s_minishell	typeref:typename:int[2]
 fd_previous	include/Minishell.h	/^	int				fd_previous;$/;"	m	struct:s_minishell	typeref:typename:int
+file_name	include/Minishell.h	/^	char				*file_name;$/;"	m	struct:s_token	typeref:typename:char *
 ft_add_variable_env	source/environement/env.c	/^void	ft_add_variable_env(char *name, char *value,$/;"	f	typeref:typename:void
 ft_all_close_fd	source/builtins/ft_builtins_exit.c	/^void	ft_all_close_fd(void)$/;"	f	typeref:typename:void
 ft_assigne_num_lstexec	source/excution/ft_utils.c	/^int	ft_assigne_num_lstexec(t_exec *lst)$/;"	f	typeref:typename:int
@@ -79,6 +85,7 @@ ft_builting_exit	source/builtins/ft_builtins_exit.c	/^void	ft_builting_exit(char
 ft_builting_exit_check_arg	source/builtins/ft_builtins_exit.c	/^int	ft_builting_exit_check_arg(char **cmd)$/;"	f	typeref:typename:int
 ft_bzero	source/share/libft/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void
 ft_calloc	source/share/libft/ft_calloc.c	/^void	*ft_calloc(size_t nmemb, size_t size)$/;"	f	typeref:typename:void *
+ft_change_oldpwd	source/builtins/ft_builtins_cd.c	/^void	ft_change_oldpwd(t_env **lst)$/;"	f	typeref:typename:void
 ft_char_set	source/share/libft/ft_char_set.c	/^int	ft_char_set(char *str, char c)$/;"	f	typeref:typename:int
 ft_check_expend	source/parsing/parser_utils.c	/^char	*ft_check_expend(char *str, char c)$/;"	f	typeref:typename:char *
 ft_check_parsing_echo	source/builtins/ft_builtins_echo.c	/^int	ft_check_parsing_echo(char **cmd)$/;"	f	typeref:typename:int
@@ -104,9 +111,10 @@ ft_exec_exit	source/excution/ft_exec.c	/^void	ft_exec_exit(t_minishell *minishel
 ft_exec_lstsize	source/excution/ft_utils.c	/^int	ft_exec_lstsize(t_exec *lst)$/;"	f	typeref:typename:int
 ft_execution	source/excution/ft_exec.c	/^void	ft_execution(t_minishell *minishell)$/;"	f	typeref:typename:void
 ft_exit	source/builtins/ft_builtins_exit.c	/^void	ft_exit(t_minishell *mini)$/;"	f	typeref:typename:void
+ft_exit_child	source/parsing/tockenisation.c	/^void	ft_exit_child(t_minishell *mini, int exit_code)$/;"	f	typeref:typename:void
 ft_expende	source/parsing/expende.c	/^char	*ft_expende(t_env *env, char *str, int start, int end)$/;"	f	typeref:typename:char *
 ft_free	source/share/libft/ft_free.c	/^void	ft_free(void *p)$/;"	f	typeref:typename:void
-ft_free2	source/parsing/tockenisation.c	/^void	*ft_free2(void *str)$/;"	f	typeref:typename:void *
+ft_free2	source/parsing/tockenisation.c	/^void	*ft_free2(char *str)$/;"	f	typeref:typename:void *
 ft_free_tab	source/share/libft/ft_free_tabs.c	/^int	ft_free_tab(void **tabs)$/;"	f	typeref:typename:int
 ft_free_tab2	source/share/libft/ft_free_tabs.c	/^char	**ft_free_tab2(char **tab)$/;"	f	typeref:typename:char **
 ft_get_pwd	source/builtins/ft_builtins_pwd.c	/^char	*ft_get_pwd(void)$/;"	f	typeref:typename:char *
@@ -178,7 +186,7 @@ ft_path_exec	source/excution/ft_path.c	/^char	*ft_path_exec(t_env *lst, char **c
 ft_positive_negative	source/parsing/tockenisation.c	/^void	ft_positive_negative(char *str, int signe)$/;"	f	typeref:typename:void
 ft_print_error_file	source/parsing/tockenisation.c	/^void	ft_print_error_file(char *str, char *sterr)$/;"	f	typeref:typename:void
 ft_push_env	source/parsing/env.c	/^void	ft_push_env(t_env *lst, char *str)$/;"	f	typeref:typename:void
-ft_put_err_cd	source/builtins/ft_builtins_cd.c	/^void	ft_put_err_cd(char *cmd, char *arg, char *strerrno)$/;"	f	typeref:typename:void
+ft_put_err_cd	source/builtins/ft_diver.c	/^void	ft_put_err_cd(char *cmd, char *arg, char *strerrno)$/;"	f	typeref:typename:void
 ft_put_siganture	source/main/ft_signature.c	/^void	ft_put_siganture(void)$/;"	f	typeref:typename:void
 ft_putchar_fd	source/share/libft/ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f	typeref:typename:void
 ft_putendl_fd	source/share/libft/ft_putendl_fd.c	/^void	ft_putendl_fd(char *s, int fd)$/;"	f	typeref:typename:void
@@ -226,57 +234,67 @@ ft_unset	source/builtins/ft_builtins_unset.c	/^void	ft_unset(char *name, t_env *
 ft_wait_all_pid	source/excution/ft_exec.c	/^void	ft_wait_all_pid(t_exec *lst)$/;"	f	typeref:typename:void
 g_global	source/main/main.c	/^t_minishell	**g_global;$/;"	v	typeref:typename:t_minishell **
 get_signal	source/environement/ft_signal.c	/^void	get_signal(int sig)$/;"	f	typeref:typename:void
+handler	source/parsing/tockenisation.c	/^void	handler(int sig)$/;"	f	typeref:typename:void
+if_expende_heredoc	source/parsing/tockenisation.c	/^void	if_expende_heredoc(char *str, t_token *tkn)$/;"	f	typeref:typename:void
 infile	include/Minishell.h	/^	int				infile;$/;"	m	struct:s_exec	typeref:typename:int
 init_value	include/Minishell.h	/^	int							init_value;$/;"	m	struct:s_env	typeref:typename:int
+limiter	include/Minishell.h	/^	char				*limiter;$/;"	m	struct:s_token	typeref:typename:char *
 main	source/main/main.c	/^int	main(int argc, char **argv, char **env)$/;"	f	typeref:typename:int
 next	include/Minishell.h	/^	struct s_def		*next;$/;"	m	struct:s_def	typeref:struct:s_def *
 next	include/Minishell.h	/^	struct s_env				*next;$/;"	m	struct:s_env	typeref:struct:s_env *
 next	include/Minishell.h	/^	struct s_exec	*next;$/;"	m	struct:s_exec	typeref:struct:s_exec *
+next	include/Minishell.h	/^	struct s_tocken		*next;$/;"	m	struct:s_token	typeref:struct:s_tocken *
 next	include/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
 next	source/share/libft/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
 num_cmd	include/Minishell.h	/^	int				num_cmd;$/;"	m	struct:s_exec	typeref:typename:int
+open_heredoc	source/parsing/tockenisation.c	/^void	open_heredoc(t_token *tkn)$/;"	f	typeref:typename:void
 outfile	include/Minishell.h	/^	int				outfile;$/;"	m	struct:s_exec	typeref:typename:int
 parent_signal	source/environement/ft_signal.c	/^void	parent_signal(int sig)$/;"	f	typeref:typename:void
 parser	source/parsing/parser.c	/^t_exec	*parser(char *str, t_env *env)$/;"	f	typeref:typename:t_exec *
 parser_chevron_pipe	source/parsing/parser.c	/^int	parser_chevron_pipe(char *str)$/;"	f	typeref:typename:int
-parser_chevron_pipe_utils	source/parsing/parser.c	/^char	*parser_chevron_pipe_utils(char *str, int c)$/;"	f	typeref:typename:char *
+parser_chevron_pipe_utils	source/parsing/parser.c	/^char	*parser_chevron_pipe_utils(char *str, int c, int *espace)$/;"	f	typeref:typename:char *
 parser_expende	source/parsing/expende.c	/^char	*parser_expende(char *str, t_env *env, int heredoc)$/;"	f	typeref:typename:char *
 parser_quote	source/parsing/parser.c	/^int	parser_quote(char *str)$/;"	f	typeref:typename:int
 pid	include/Minishell.h	/^	int				pid;$/;"	m	struct:s_exec	typeref:typename:int
+pid	include/Minishell.h	/^	pid_t				pid;$/;"	m	struct:s_token	typeref:typename:pid_t
 pid	include/Minishell.h	/^	pid_t			pid;$/;"	m	struct:s_minishell	typeref:typename:pid_t
 print_syntaxe_error	source/parsing/parser.c	/^char	*print_syntaxe_error(char c)$/;"	f	typeref:typename:char *
 puterror	source/parsing/parser_utils.c	/^char	*puterror(char *str)$/;"	f	typeref:typename:char *
 re	Makefile	/^re: fclean$/;"	t
 re	source/share/libft/Makefile	/^re: fclean all$/;"	t
-read_herdoc	source/parsing/tockenisation.c	/^void	read_herdoc(char *limiter, t_exec *exec, int mode)$/;"	f	typeref:typename:void
+read_heredoc	source/parsing/tockenisation.c	/^int	read_heredoc(t_token *tkn)$/;"	f	typeref:typename:int
 recursion	source/parsing/list.c	/^static void	recursion(t_def *lst, void (*del)(void *))$/;"	f	typeref:typename:void	file:
 recursion	source/share/libft/ft_lstclear.c	/^static void	recursion(t_list *lst, void (*del)(void *))$/;"	f	typeref:typename:void	file:
 recursion	source/share/list_chaine/ft_lstclear.c	/^static void	recursion(t_list *lst, void (*del)(void *))$/;"	f	typeref:typename:void	file:
+redir	include/Minishell.h	/^	int					redir;$/;"	m	struct:s_token	typeref:typename:int
 s_def	include/Minishell.h	/^typedef struct s_def$/;"	s
 s_env	include/Minishell.h	/^typedef struct s_env$/;"	s
 s_exec	include/Minishell.h	/^typedef struct s_exec$/;"	s
 s_list	include/libft.h	/^typedef struct s_list$/;"	s
 s_list	source/share/libft/libft.h	/^typedef struct s_list$/;"	s
 s_minishell	include/Minishell.h	/^typedef struct s_minishell$/;"	s
+s_token	include/Minishell.h	/^typedef struct s_token$/;"	s
 set_arg	source/parsing/tockenisation.c	/^char	*set_arg(char *start, char *res, t_exec *exec)$/;"	f	typeref:typename:char *
 set_begin	source/parsing/tockenisation.c	/^char	*set_begin(char	*str)$/;"	f	typeref:typename:char *
 set_cmd	source/parsing/tockenisation.c	/^char	*set_cmd(char *start, char *res, t_exec *exec)$/;"	f	typeref:typename:char *
-set_file	source/parsing/tockenisation.c	/^char	*set_file(char *start, char *res, t_exec *exec, int type_redir)$/;"	f	typeref:typename:char *
-set_herdoc	source/parsing/tockenisation.c	/^int	set_herdoc(char *str, t_exec *exec, int mode)$/;"	f	typeref:typename:int
-set_infile	source/parsing/tockenisation.c	/^int	set_infile(char *str, t_exec *exec, int mode)$/;"	f	typeref:typename:int
+set_file	source/parsing/tockenisation.c	/^char	*set_file(char *start, char *res, t_token *tkn)$/;"	f	typeref:typename:char *
+set_heredoc	source/parsing/tockenisation.c	/^int	set_heredoc(t_token *tkn, char *str)$/;"	f	typeref:typename:int
+set_infile	source/parsing/tockenisation.c	/^int	set_infile(t_token *tkn, char *str, t_exec *exec)$/;"	f	typeref:typename:int
 set_outfile	source/parsing/tockenisation.c	/^int	set_outfile(char *str, t_exec *exec, int mode)$/;"	f	typeref:typename:int
 set_redir	source/parsing/tockenisation.c	/^char	*set_redir(char *str, int *type_redir)$/;"	f	typeref:typename:char *
-set_tocken	source/parsing/tockenisation.c	/^t_exec	*set_tocken(char *str, t_exec *exec, t_env *env, int *redir)$/;"	f	typeref:typename:t_exec *
-sighandler	source/parsing/tockenisation.c	/^void sighandler(int sig)$/;"	f	typeref:typename:void
-signal_heardoc	source/parsing/tockenisation.c	/^int	signal_heardoc(int pid)$/;"	f	typeref:typename:int
+set_tocken	source/parsing/tockenisation.c	/^t_exec	*set_tocken(t_token *tkn, t_exec *exec, char *str)$/;"	f	typeref:typename:t_exec *
+signal_heredoc	source/parsing/tockenisation.c	/^int	signal_heredoc(t_token *tkn, int mode)$/;"	f	typeref:typename:int
+status	include/Minishell.h	/^	int					status;$/;"	m	struct:s_token	typeref:typename:int
 t_def	include/Minishell.h	/^}	t_def;$/;"	t	typeref:struct:s_def
 t_env	include/Minishell.h	/^}	t_env;$/;"	t	typeref:struct:s_env
 t_exec	include/Minishell.h	/^}	t_exec;$/;"	t	typeref:struct:s_exec
 t_list	include/libft.h	/^}	t_list;$/;"	t	typeref:struct:s_list
 t_list	source/share/libft/libft.h	/^}	t_list;$/;"	t	typeref:struct:s_list
-t_minishell	include/Minishell.h	/^}t_minishell;$/;"	t	typeref:struct:s_minishell
+t_minishell	include/Minishell.h	/^}	t_minishell;$/;"	t	typeref:struct:s_minishell
+t_token	include/Minishell.h	/^}	t_token;$/;"	t	typeref:struct:s_token
 tabs_exeve	include/Minishell.h	/^	char			**tabs_exeve;$/;"	m	struct:s_exec	typeref:typename:char **
-tocken	source/parsing/tockenisation.c	/^t_exec	*tocken(char *str, t_exec *exec, t_env *env, int cmd)$/;"	f	typeref:typename:t_exec *
+tocken	source/parsing/tockenisation.c	/^t_exec	*tocken(char *str, t_token *tkn, t_exec *exec)$/;"	f	typeref:typename:t_exec *
+type_redir	include/Minishell.h	/^	int					type_redir;$/;"	m	struct:s_token	typeref:typename:int
 value	include/Minishell.h	/^	int					value;$/;"	m	struct:s_def	typeref:typename:int
 variable_name	include/Minishell.h	/^	char						*variable_name;$/;"	m	struct:s_env	typeref:typename:char *
 variable_value	include/Minishell.h	/^	char						*variable_value;$/;"	m	struct:s_env	typeref:typename:char *

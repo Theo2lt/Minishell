@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_tabs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
+/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 20:58:52 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/19 18:06:40 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 14:48:43 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**ft_free_tab2(char **tab)
 	int	i;
 
 	i = 0;
-	if (!tab || !tab[0])
+	if (!tab)
 		return (NULL);
 	while (tab[i])
 	{

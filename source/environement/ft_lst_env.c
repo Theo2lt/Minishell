@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/21 12:09:43 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 15:06:45 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ t_env	*ft_lst_getenv(char *name, t_env *lst)
 	while (lst)
 	{
 		if (lst->init_value == 1)
-			if (ft_strncmp(lst->variable_name, name,
-					ft_strlen(lst->variable_name)) == 0)
+			if (ft_strcmp(lst->variable_name, name) == 0)
 				return (lst);
 		lst = lst->next;
 	}

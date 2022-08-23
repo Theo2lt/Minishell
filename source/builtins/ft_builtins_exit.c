@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 13:46:55 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/19 23:29:13 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 15:31:15 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_builting_exit_check_arg(char **cmd)
 void	ft_builting_exit(char **cmd, t_minishell *mini)
 {	
 	if (!cmd[1])
-		(*g_global)->exit_code = 0;
+		ft_exit(mini);
 	else if (!ft_builting_exit_check_arg(cmd))
 		(*g_global)->exit_code = 2;
 	else if (cmd[1] && cmd[2])

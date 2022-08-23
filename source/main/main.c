@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/23 16:26:58 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 17:49:21 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void	ft_launcher(t_minishell	*minishell, char *input)
 		input = readline("Minibosh-22.0$ ");
 		if (!input)
 			exit_succes(minishell);
-		add_history(input);
 		if (ft_strcmp(input, "") != 1)
+		{
+			add_history(input);
 			ft_start(minishell, input);
+		}
 	}
 }
 

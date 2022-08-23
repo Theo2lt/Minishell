@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 21:20:02 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/21 17:22:26 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 17:48:32 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*ft_joint_3str(char *str, char *str2, char *str3)
 	len_dest = ft_strlen3(str) + ft_strlen3(str2) + ft_strlen3(str3) + 1;
 	dest = malloc(sizeof(char) * (len_dest));
 	if (!dest)
-		return (NULL);
+		ft_exit((*g_global));
 	ft_memset(dest, '\0', len_dest);
 	i = -1;
 	while (str && str[++i])

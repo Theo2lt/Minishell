@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 13:44:30 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/23 13:45:10 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 18:22:34 by engooh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,17 @@ char	*set_begin(char	*str)
 
 int	if_expende_heredoc(char *str, t_token *tkn)
 {
-	if (!str)
-		return (1);
-	while (*str && *str != '"' && *str != '\'' && *str != ' ')
-		str++;
-	if (*str == '"' || *str == '\'')
-		tkn->type_redir = 5;
-	else
-		tkn->type_redir = 4;
+	if (tkn->type_redir >= 4)
+	{
+		if (!str)
+			return (1);
+		while (*str && *str != '"' && *str != '\'' && *str != ' ')
+			str++;
+		if (*str == '"' || *str == '\'')
+			tkn->type_redir = 5;
+		else
+			tkn->type_redir = 4;
+	}
 	return (1);
 }
 

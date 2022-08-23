@@ -6,7 +6,7 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:57:17 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/23 08:59:50 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/23 13:41:56 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 ////// STRUC MINISHELL ////// 
 typedef struct s_minishell
 {
-//	struct s_token	*tkn;
 	struct s_env	*env_lst;
 	struct s_exec	*exec;
 	struct s_exec	*begin;

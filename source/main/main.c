@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 04:43:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/08/23 15:00:13 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/23 13:41:25 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ t_minishell	**g_global;
 void	ft_start(t_minishell	*minishell, char *input)
 {
 	minishell->exec = parser(input, minishell->env_lst);
-	//ft_sim_exec_lst_bug(minishell->exec);
 	if (minishell->exec)
 	{	
 		ft_assigne_num_lstexec(minishell->exec);
-		//ft_sim_exec_lst_bug(minishell->exec);
-		//printf("debug3 %s\n", minishell->exec->tabs_exeve[0]);
 		if (minishell->exec->tabs_exeve
 			&& ft_is_builting(minishell->exec->tabs_exeve[0])
 			&& !minishell->exec->next)

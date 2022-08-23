@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engooh <engooh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 17:09:37 by engooh            #+#    #+#             */
-/*   Updated: 2022/07/23 18:08:20 by engooh           ###   ########.fr       */
+/*   Updated: 2022/08/23 13:52:41 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,4 @@ void	def_lstdelone(t_def *lst, void (*del)(void *))
 		return ;
 	del(lst);
 	free(lst);
-}
-
-static void	recursion(t_def *lst, void (*del)(void *))
-{
-	if (lst)
-		recursion(lst->next, (*del));
-	def_lstdelone(lst, (*del));
-}
-
-void	def_lstclear(t_def **lst, void (*del)(void *))
-{
-	if (!lst || !*lst)
-		return ;
-	recursion(*lst, (*del));
-	*lst = NULL;
 }

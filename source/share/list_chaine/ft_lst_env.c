@@ -6,12 +6,13 @@
 /*   By: tliot <tliot@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 02:25:09 by tliot             #+#    #+#             */
-/*   Updated: 2022/08/21 12:55:09 by tliot            ###   ########.fr       */
+/*   Updated: 2022/08/23 13:53:56 by tliot            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
+/*
 /// PREND *name, char *value, int init_value en PARAMETRE 
 /// CREER une nouvelle node
 /// RETURN node si ok sinon NULL
@@ -133,3 +134,4 @@ void	ft_lst_setenv(char *name, char *value, int init_value, t_env **lst)
 	else
 		ft_add_variable_env(name, value, init_value, lst);
 }
+*/
